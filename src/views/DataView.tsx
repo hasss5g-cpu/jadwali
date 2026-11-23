@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import { useStore } from '../store';
 import type { SchoolData } from '../types';
 import { DAY_SHORT } from '../lib/model';
-import { download, numberAr, uid } from '../lib/utils';
+import { download, numberAr, sha256, uid } from '../lib/utils';
 import { Card, Field } from '../components/ui';
 import { Icon } from '../components/Icon';
 import { normalizeData } from '../lib/model';
@@ -12,10 +12,27 @@ type Tab = 'general' | 'teachers' | 'classes' | 'subjects';
 export function DataView() {
   const { data, update, replace, reset, toast } = useStore();
   const [tab, setTab] = useState<Tab>('general');
+  const [idInputs, setIdInputs] = useState<Record<string, string>>({});
   const fileRef = useRef<HTMLInputElement>(null);
 
   const setField = <K extends keyof SchoolData>(key: K, value: SchoolData[K]) =>
     update((prev) => ({ ...prev, [key]: value }));
+
+  /** يفعّل استعلام المعلم بسجله المدني (أو أي رمز) ويحفظ بصمة SHA-256 فقط. */
+  const activateCode = async (teacherId: string) => {
+    const value = (idInputs[teacherId] ?? '').trim();
+    if (value.length < 4) {
+      toast('أدخل السجل المدني (٤ أرقام على الأقل).', 'warn');
+      return;
+    }
+    const codeHash = await sha256(value);
+    update((prev) => ({
+      ...prev,
+      teachers: prev.teachers.map((t) => (t.id === teacherId ? { ...t, codeHash } : t)),
+    }));
+    setIdInputs((prev) => ({ ...prev, [teacherId]: '' }));
+    toast('فُعّل استعلام المعلم — حُفظت البصمة فقط.', 'ok');
+  };
 
   const exportJson = () => {
     download(`jadwali-${new Date().toISOString().slice(0, 10)}.json`, JSON.stringify(data, null, 2));
@@ -122,6 +139,7 @@ export function DataView() {
                     <th>المادة</th>
                     <th>النصاب</th>
                     <th>أيام الراحة</th>
+                    <th>رمز الاستعلام</th>
                     <th />
                   </tr>
                 </thead>
@@ -195,6 +213,39 @@ export function DataView() {
                             );
                           })}
                         </div>
+                      </td>
+                      <td>
+                        {teacher.codeHash ? (
+                          <div className="flex items-center gap-1">
+                            <span className="badge">مفعّل</span>
+                            <button
+                              className="btn btn-ghost btn-sm px-1 text-[11px]"
+                              onClick={() =>
+                                update((prev) => ({
+                                  ...prev,
+                                  teachers: prev.teachers.map((t, i) =>
+                                    i === index ? { ...t, codeHash: undefined } : t,
+                                  ),
+                                }))
+                              }
+                            >
+                              إلغاء
+                            </button>
+                          </div>
+                        ) : (
+                          <div className="flex gap-1">
+                            <input
+                              className="input w-28 py-1 text-center text-[11px]"
+                              placeholder="السجل المدني"
+                              inputMode="numeric"
+                              value={idInputs[teacher.id] ?? ''}
+                              onChange={(e) => setIdInputs((prev) => ({ ...prev, [teacher.id]: e.target.value }))}
+                            />
+                            <button className="btn btn-sm" onClick={() => void activateCode(teacher.id)}>
+                              تفعيل
+                            </button>
+                          </div>
+                        )}
                       </td>
                       <td>
                         <button
