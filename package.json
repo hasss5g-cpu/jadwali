@@ -23,7 +23,9 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "deploy:pages": "node scripts/deploy-pages.mjs",
+    "shots": "node scripts/shots.mjs"
   },
   "dependencies": {
     "react": "^19.3.1",

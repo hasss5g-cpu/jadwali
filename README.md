@@ -74,11 +74,24 @@ tests/                  اختبارات الوحدة (Vitest)
 
 ## النشر على GitHub Pages
 
-المستودع يتضمن `.github/workflows/deploy.yml`:
+**النسخة الحية:** https://hasss5g-cpu.github.io/jadwali/
 
-1. ارفع إلى GitHub وفعّل Pages بمصدر **GitHub Actions**.
-2. كل دفعة إلى `main` تبني وتختبر وتنشر تلقائيًا.
-3. الرابط يكون `https://<user>.github.io/<repo>/`.
+البناء ثابت بالكامل (`base: './'`)، فيعمل على أي مسار. طريقة النشر الحالية تستخدم فرع `gh-pages` ولا تحتاج صلاحية `workflow`:
+
+```bash
+pnpm build
+pnpm deploy:pages   # يدفع dist/ إلى فرع gh-pages
+```
+
+ثم من إعدادات المستودع: **Pages → Source: Deploy from a branch → gh-pages / (root)**.
+
+لتشغيل النشر الآلي عبر GitHub Actions، امنح `gh` صلاحية سير العمل ثم انسخ الملف المرفق:
+
+```bash
+gh auth refresh -s workflow
+mkdir -p .github/workflows && cp docs/deploy-workflow.example.yml .github/workflows/deploy.yml
+git add .github/workflows/deploy.yml && git commit -m "ci: deploy" && git push
+```
 
 ## الخصوصية
 
