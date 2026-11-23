@@ -18,7 +18,12 @@ if (!existsSync('dist/.git')) git('init', '-q', '-b', 'gh-pages');
 git('checkout', '-q', '-B', 'gh-pages');
 git('add', '-A');
 try {
-  git('commit', '-q', '-m', 'نشر جدولي');
+  execFileSync('git', [
+    '-C', 'dist',
+    '-c', 'user.name=jadwali-deploy',
+    '-c', 'user.email=deploy@users.noreply.github.com',
+    'commit', '-q', '-m', 'نشر جدولي',
+  ], { stdio: 'pipe' });
 } catch {
   console.log('لا تغييرات جديدة للنشر.');
 }
