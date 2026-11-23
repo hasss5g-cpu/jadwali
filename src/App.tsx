@@ -8,6 +8,7 @@ import { GenerateView } from './views/GenerateView';
 import { AssignmentsView } from './views/AssignmentsView';
 import { CoverageView } from './views/CoverageView';
 import { ExamsView } from './views/ExamsView';
+import { ReportsView } from './views/ReportsView';
 import { DataView } from './views/DataView';
 import { ShareView } from './views/ShareView';
 import { PublicApp } from './views/PublicApp';
@@ -19,6 +20,7 @@ const TABS = [
   { id: 'assignments', label: 'الإسنادات', icon: 'users' },
   { id: 'coverage', label: 'الانتظار', icon: 'shield' },
   { id: 'exams', label: 'الاختبارات', icon: 'clipboard' },
+  { id: 'reports', label: 'التقارير', icon: 'printer' },
   { id: 'data', label: 'البيانات', icon: 'database' },
   { id: 'share', label: 'المشاركة', icon: 'share' },
 ];
@@ -78,6 +80,7 @@ function Admin() {
         {tab === 'assignments' && <AssignmentsView />}
         {tab === 'coverage' && <CoverageView />}
         {tab === 'exams' && <ExamsView />}
+        {tab === 'reports' && <ReportsView />}
         {tab === 'data' && <DataView />}
         {tab === 'share' && <ShareView />}
       </main>

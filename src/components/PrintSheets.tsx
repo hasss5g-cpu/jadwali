@@ -1,5 +1,5 @@
 import type { Cover, SchoolData } from '../types';
-import { DAY_NAMES, className, subjectName, teacherName } from '../lib/model';
+import { DAY_NAMES, className, subjectName, teacherMetrics, teacherName, validate } from '../lib/model';
 import { hijri, numberAr, periodTimes, today } from '../lib/utils';
 
 export function SheetHead({ title, subtitle }: { title: string; subtitle?: string }) {
@@ -257,5 +257,302 @@ export function CoverageSheet({
         </tbody>
       </table>
     </div>
+  );
+}
+
+/** تقرير النصاب والتوزيع: حصص كل معلم وفراغاته وتتابعه وأيام عمله. */
+export function TeachersLoadSheet({ data }: { data: SchoolData }) {
+  const rows = teacherMetrics(data)
+    .filter((row) => row.quota > 0 || row.lessons > 0)
+    .sort((a, b) => b.quota - a.quota || a.name.localeCompare(b.name, 'ar'));
+  const total = rows.reduce(
+    (acc, row) => ({
+      lessons: acc.lessons + row.lessons,
+      quota: acc.quota + row.quota,
+      holes: acc.holes + row.holes,
+      longRuns: acc.longRuns + row.longRuns,
+      seventh: acc.seventh + row.seventh,
+      overflow: acc.overflow + row.overflow,
+    }),
+    { lessons: 0, quota: 0, holes: 0, longRuns: 0, seventh: 0, overflow: 0 },
+  );
+  return (
+    <div>
+      <SheetHead
+        title="تقرير النصاب والتوزيع"
+        subtitle={`${data.school} · ${data.term} · ${numberAr(rows.length)} معلمًا`}
+      />
+      <table>
+        <thead>
+          <tr>
+            <th style={{ width: 26 }}>#</th>
+            <th>المعلم</th>
+            <th>المادة</th>
+            <th>الحصص</th>
+            <th>النصاب</th>
+            <th>الحد</th>
+            <th>الزيادة</th>
+            <th>الفراغات</th>
+            <th>التتابع</th>
+            <th>أطول تتابع</th>
+            <th>أيام العمل</th>
+            <th>الحصة ٧</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((row, index) => (
+            <tr key={row.id}>
+              <td>{index + 1}</td>
+              <td style={{ textAlign: 'right', fontWeight: 700 }}>{row.name}</td>
+              <td style={{ textAlign: 'right', fontSize: 10 }}>{row.subject}</td>
+              <td>{row.lessons}</td>
+              <td>{row.quota}</td>
+              <td>{row.max}</td>
+              <td style={{ fontWeight: row.overflow ? 700 : 400, color: row.overflow ? '#b91c1c' : undefined }}>
+                {row.overflow || '—'}
+              </td>
+              <td>{row.holes}</td>
+              <td>{row.longRuns}</td>
+              <td>{row.maxRun}</td>
+              <td>{row.activeDays}</td>
+              <td>{row.seventh}</td>
+            </tr>
+          ))}
+        </tbody>
+        <tfoot>
+          <tr>
+            <th colSpan={3}>الإجمالي</th>
+            <th>{total.lessons}</th>
+            <th>{total.quota}</th>
+            <th>—</th>
+            <th>{total.overflow}</th>
+            <th>{total.holes}</th>
+            <th>{total.longRuns}</th>
+            <th>—</th>
+            <th>—</th>
+            <th>{total.seventh}</th>
+          </tr>
+        </tfoot>
+      </table>
+      <p className="print-totals">
+        الزيادة = إسنادات تتجاوز حد المعلم · التتابع = عدد المرات التي زادت فيها حصص المعلم المتتالية على ثلاث ·
+        الفراغات = فجوات في يوم المعلم.
+      </p>
+    </div>
+  );
+}
+
+/** تقرير التدقيق: المخالفات الصارمة، تجاوزات النصاب، وسعة الأسبوع. */
+export function AuditSheet({ data }: { data: SchoolData }) {
+  const violations = validate(data);
+  const metrics = teacherMetrics(data);
+  const over = metrics.filter((row) => row.overflow > 0 && row.quota > 0);
+  const holes = metrics.reduce((n, row) => n + row.holes, 0);
+  const longRuns = metrics.reduce((n, row) => n + row.longRuns, 0);
+  const capacity = data.days * data.periods;
+  const classRows = data.classes.map((cls) => ({
+    name: cls.name,
+    demand: data.assignments.filter((a) => a.classId === cls.id).reduce((n, a) => n + a.count, 0),
+  }));
+  const peIds = new Set(
+    data.subjects
+      .filter((subject) => /بدني|البدنية|رياضة/.test(subject.name) && !/رياضيات/.test(subject.name))
+      .map((subject) => subject.id),
+  );
+  const peLessons = data.lessons.filter((lesson) => {
+    const assignment = data.assignments.find((a) => a.id === lesson.assignmentId);
+    return assignment && peIds.has(assignment.subjectId);
+  }).length;
+  const peCapacity = capacity * 2;
+
+  return (
+    <div>
+      <SheetHead title="تقرير التدقيق والجودة" subtitle={`${data.school} · ${data.term}`} />
+      <h2 style={{ fontSize: 13, margin: '10px 0 4px' }}>ملخص عام</h2>
+      <table>
+        <tbody>
+          <tr>
+            <th>الفصول</th>
+            <td>{numberAr(data.classes.length)}</td>
+            <th>المعلمون</th>
+            <td>{numberAr(data.teachers.length)}</td>
+            <th>المواد</th>
+            <td>{numberAr(data.subjects.length)}</td>
+          </tr>
+          <tr>
+            <th>الإسنادات</th>
+            <td>{numberAr(data.assignments.length)}</td>
+            <th>الحصص الموزعة</th>
+            <td>{numberAr(data.lessons.length)}</td>
+            <th>المخالفات</th>
+            <td style={{ fontWeight: 700, color: violations.length ? '#b91c1c' : '#047857' }}>
+              {numberAr(violations.length)}
+            </td>
+          </tr>
+          <tr>
+            <th>فراغات المعلمين</th>
+            <td>{numberAr(holes)}</td>
+            <th>تتابع &gt; ٣</th>
+            <td>{numberAr(longRuns)}</td>
+            <th>سعة الفصل الأسبوعية</th>
+            <td>{numberAr(capacity)} موعداً</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2 style={{ fontSize: 13, margin: '12px 0 4px' }}>المخالفات الصارمة</h2>
+      {violations.length ? (
+        <table>
+          <thead>
+            <tr>
+              <th style={{ width: 30 }}>#</th>
+              <th>النوع</th>
+              <th>التفصيل</th>
+            </tr>
+          </thead>
+          <tbody>
+            {violations.slice(0, 40).map((violation, index) => (
+              <tr key={index}>
+                <td>{index + 1}</td>
+                <td>{{ 'teacher-clash': 'تعارض معلم', 'class-clash': 'تعارض فصل', 'room-clash': 'تعارض قاعة', 'pe-cap': 'سقف البدنية', 'off-day': 'يوم راحة', 'out-of-range': 'خارج النطاق' }[violation.kind]}</td>
+                <td style={{ textAlign: 'right' }}>{violation.message}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ) : (
+        <p className="print-totals">لا توجد مخالفات صارمة — الجدول صالح.</p>
+      )}
+
+      <h2 style={{ fontSize: 13, margin: '12px 0 4px' }}>تجاوزات النصاب</h2>
+      {over.length ? (
+        <table>
+          <thead>
+            <tr>
+              <th>المعلم</th>
+              <th>الإسنادات</th>
+              <th>الحد</th>
+              <th>الزيادة</th>
+            </tr>
+          </thead>
+          <tbody>
+            {over.map((row) => (
+              <tr key={row.id}>
+                <td style={{ textAlign: 'right' }}>{row.name}</td>
+                <td>{row.quota}</td>
+                <td>{row.max}</td>
+                <td style={{ fontWeight: 700 }}>{row.overflow}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ) : (
+        <p className="print-totals">كل المعلمين داخل حدود النصاب.</p>
+      )}
+
+      <h2 style={{ fontSize: 13, margin: '12px 0 4px' }}>سعة الفصول وحصص البدنية</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>الفصل</th>
+            <th>الإسنادات</th>
+            <th>السعة</th>
+            <th>الحالة</th>
+          </tr>
+        </thead>
+        <tbody>
+          {classRows.map((row) => (
+            <tr key={row.name}>
+              <td style={{ textAlign: 'right' }}>{row.name}</td>
+              <td>{row.demand}</td>
+              <td>{capacity}</td>
+              <td style={{ color: row.demand > capacity ? '#b91c1c' : '#047857', fontWeight: 700 }}>
+                {row.demand > capacity ? 'تجاوز' : row.demand === capacity ? 'مكتمل' : 'متاح'}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <p className="print-totals">
+        حصص التربية البدنية: {numberAr(peLessons)} من سقف {numberAr(peCapacity)} حصة أسبوعيًا (فصلان في الحصة).
+      </p>
+    </div>
+  );
+}
+
+/** جدول الحصص ليوم واحد: الفصول × الحصص. */
+export function DailySheet({ data, day }: { data: SchoolData; day: number }) {
+  const cell = (classId: string, period: number) => {
+    const lesson = data.lessons.find((l) => l.day === day && l.period === period);
+    if (!lesson) return null;
+    const assignment = data.assignments.find((a) => a.id === lesson.assignmentId);
+    if (!assignment || assignment.classId !== classId) return null;
+    return assignment;
+  };
+  return (
+    <div>
+      <SheetHead
+        title={`جدول الحصص اليومي — ${DAY_NAMES[day]}`}
+        subtitle={`${data.school} · ${data.term}`}
+      />
+      <table>
+        <thead>
+          <tr>
+            <th style={{ width: 110 }}>الفصل</th>
+            {Array.from({ length: data.periods }, (_, period) => (
+              <th key={period}>{period + 1}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {data.classes.map((cls) => (
+            <tr key={cls.id}>
+              <th style={{ textAlign: 'right', whiteSpace: 'nowrap' }}>{cls.name}</th>
+              {Array.from({ length: data.periods }, (_, period) => {
+                const assignment = cell(cls.id, period);
+                return (
+                  <td key={period} style={{ fontSize: 9.5 }}>
+                    {assignment ? (
+                      <>
+                        <div style={{ fontWeight: 700 }}>{subjectName(data, assignment.subjectId)}</div>
+                        <div style={{ color: '#475569' }}>{teacherName(data, assignment.teacherId)}</div>
+                      </>
+                    ) : (
+                      <span style={{ color: '#cbd5d1' }}>—</span>
+                    )}
+                  </td>
+                );
+              })}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+/** كل جداول الفصول في مستند واحد، كل فصل في صفحة. */
+export function AllClassesSheet({ data }: { data: SchoolData }) {
+  return (
+    <>
+      {data.classes.map((cls, index) => (
+        <section key={cls.id} className={index ? 'print-break' : undefined}>
+          <ClassSheet data={data} classId={cls.id} />
+        </section>
+      ))}
+    </>
+  );
+}
+
+/** كل جداول المعلمين في مستند واحد. */
+export function AllTeachersSheet({ data }: { data: SchoolData }) {
+  return (
+    <>
+      {data.teachers.map((teacher, index) => (
+        <section key={teacher.id} className={index ? 'print-break' : undefined}>
+          <TeacherSheet data={data} teacherId={teacher.id} />
+        </section>
+      ))}
+    </>
   );
 }

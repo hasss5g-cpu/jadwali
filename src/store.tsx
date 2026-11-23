@@ -17,6 +17,12 @@ export interface Toast {
   tone: 'ok' | 'warn' | 'error';
 }
 
+export interface PrintOptions {
+  orientation?: 'portrait' | 'landscape';
+  size?: 'A4' | 'A3';
+  compact?: boolean;
+}
+
 interface StoreValue {
   data: SchoolData;
   update: (fn: (data: SchoolData) => SchoolData) => void;
@@ -28,8 +34,8 @@ interface StoreValue {
   canRedo: boolean;
   toast: (message: string, tone?: Toast['tone']) => void;
   toasts: Toast[];
-  print: (title: string, content: ReactNode) => void;
-  printDoc: { title: string; content: ReactNode } | null;
+  print: (title: string, content: ReactNode, options?: PrintOptions) => void;
+  printDoc: { title: string; content: ReactNode; options: PrintOptions } | null;
   closePrint: () => void;
 }
 
@@ -42,7 +48,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const [past, setPast] = useState<SchoolData[]>([]);
   const [future, setFuture] = useState<SchoolData[]>([]);
   const [toasts, setToasts] = useState<Toast[]>([]);
-  const [printDoc, setPrintDoc] = useState<{ title: string; content: ReactNode } | null>(null);
+  const [printDoc, setPrintDoc] = useState<{ title: string; content: ReactNode; options: PrintOptions } | null>(null);
   const toastId = useRef(1);
   const saveTimer = useRef<number | undefined>(undefined);
 
@@ -125,7 +131,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       canRedo: future.length > 0,
       toast,
       toasts,
-      print: (title, content) => setPrintDoc({ title, content }),
+      print: (title, content, options = {}) => setPrintDoc({ title, content, options }),
       printDoc,
       closePrint: () => setPrintDoc(null),
     }),

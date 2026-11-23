@@ -121,10 +121,23 @@ export function ToastHost() {
 export function PrintOverlay() {
   const { printDoc, closePrint } = useStore();
   if (!printDoc) return null;
+  const { options } = printDoc;
+  const landscape = options.orientation === 'landscape';
+  const size = options.size ?? 'A4';
+  const widthMm = size === 'A3' ? (landscape ? 420 : 297) : landscape ? 297 : 210;
   return (
     <div className="print-overlay" role="dialog" aria-label={printDoc.title}>
-      <div className="print-toolbar sticky top-0 z-10 mx-auto mb-3 flex max-w-[210mm] items-center justify-between gap-2 rounded-xl bg-white/95 px-3 py-2 shadow">
-        <strong className="text-sm">{printDoc.title}</strong>
+      <div
+        className="print-toolbar sticky top-0 z-10 mx-auto mb-3 flex max-w-full items-center justify-between gap-2 rounded-xl bg-white/95 px-3 py-2 shadow"
+        style={{ maxWidth: `${widthMm}mm` }}
+      >
+        <div>
+          <strong className="text-sm">{printDoc.title}</strong>
+          <span className="ms-2 text-[11px] text-[var(--muted)]">
+            {size} · {landscape ? 'عرضي' : 'طولي'}
+            {options.compact ? ' · مضغوط' : ''}
+          </span>
+        </div>
         <div className="flex gap-2">
           <button className="btn btn-primary btn-sm" onClick={() => window.print()}>
             طباعة / حفظ PDF
@@ -134,7 +147,14 @@ export function PrintOverlay() {
           </button>
         </div>
       </div>
-      <div className="print-sheet">{printDoc.content}</div>
+      <div
+        className="print-sheet"
+        data-orientation={options.orientation ?? 'portrait'}
+        data-size={size}
+        data-compact={options.compact ? 'true' : 'false'}
+      >
+        {printDoc.content}
+      </div>
     </div>
   );
 }

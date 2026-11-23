@@ -343,6 +343,50 @@ body {
   background: #f1f5f3;
 }
 
+.print-sheet[data-orientation='landscape'] {
+  width: 297mm;
+  min-height: 210mm;
+}
+
+.print-sheet[data-size='A3'] {
+  width: 297mm;
+  min-height: 420mm;
+}
+
+.print-sheet[data-size='A3'][data-orientation='landscape'] {
+  width: 420mm;
+  min-height: 297mm;
+}
+
+.print-sheet[data-compact='true'] table {
+  font-size: 10px;
+}
+
+.print-sheet[data-compact='true'] th,
+.print-sheet[data-compact='true'] td {
+  padding: 3px 5px;
+}
+
+.print-sheet[data-compact='true'] header {
+  margin-bottom: 6px !important;
+}
+
+.print-break {
+  break-before: page;
+}
+
+.print-note {
+  margin: 0 0 8px;
+  font-size: 11px;
+  color: #475569;
+}
+
+.print-totals {
+  margin-top: 8px;
+  font-size: 11px;
+  color: #334155;
+}
+
 @media (max-width: 720px) {
   .app {
     padding: 0 10px 64px;
@@ -363,6 +407,42 @@ body {
   @page {
     size: A4 portrait;
     margin: 10mm;
+  }
+
+  @page p-a4 {
+    size: A4 portrait;
+    margin: 10mm;
+  }
+
+  @page l-a4 {
+    size: A4 landscape;
+    margin: 8mm;
+  }
+
+  @page p-a3 {
+    size: A3 portrait;
+    margin: 10mm;
+  }
+
+  @page l-a3 {
+    size: A3 landscape;
+    margin: 8mm;
+  }
+
+  .print-sheet[data-orientation='portrait'][data-size='A4'] {
+    page: p-a4;
+  }
+
+  .print-sheet[data-orientation='landscape'][data-size='A4'] {
+    page: l-a4;
+  }
+
+  .print-sheet[data-orientation='portrait'][data-size='A3'] {
+    page: p-a3;
+  }
+
+  .print-sheet[data-orientation='landscape'][data-size='A3'] {
+    page: l-a3;
   }
 
   body {

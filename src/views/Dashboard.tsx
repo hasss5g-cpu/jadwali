@@ -86,6 +86,7 @@ export function Dashboard({ onNavigate }: { onNavigate: (tab: string) => void })
               { tab: 'schedule', label: 'عرض وطباعة الجدول', hint: 'فصل أو معلم على A4', icon: 'calendar' },
               { tab: 'coverage', label: 'توزيع حصص الانتظار', hint: 'غياب اليوم ورسالة واتساب', icon: 'shield' },
               { tab: 'exams', label: 'جدول الاختبارات', hint: 'فترية ورسمية', icon: 'clipboard' },
+              { tab: 'reports', label: 'التقارير والطباعة', hint: '10 تقارير جاهزة', icon: 'printer' },
               { tab: 'assignments', label: 'مراجعة الإسنادات', hint: 'النصاب وتجاوزاته', icon: 'users' },
               { tab: 'share', label: 'روابط المشاركة', hint: 'الفصول واستعلام المعلم', icon: 'share' },
             ].map((item) => (

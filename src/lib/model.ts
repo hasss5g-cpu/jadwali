@@ -49,6 +49,87 @@ export function slotKey(day: number, period: number): string {
   return `${day}:${period}`;
 }
 
+export interface TeacherMetric {
+  id: ID;
+  name: string;
+  subject: string;
+  lessons: number;
+  quota: number;
+  max: number;
+  overflow: number;
+  holes: number;
+  longRuns: number;
+  maxRun: number;
+  activeDays: number;
+  seventh: number;
+  goldenDays: number;
+}
+
+/** مقاييس توزيع كل معلم: النصاب، الفراغات، التتابع، أيام العمل، الحصة السابعة. */
+export function teacherMetrics(data: SchoolData): TeacherMetric[] {
+  const teacherOf = new Map(data.assignments.map((a) => [a.id, a.teacherId]));
+  const quota = new Map<ID, number>();
+  for (const a of data.assignments) quota.set(a.teacherId, (quota.get(a.teacherId) ?? 0) + a.count);
+
+  const byTeacherDay = new Map<string, number[]>();
+  const lessons = new Map<ID, number>();
+  for (const lesson of data.lessons) {
+    const teacher = teacherOf.get(lesson.assignmentId);
+    if (!teacher) continue;
+    lessons.set(teacher, (lessons.get(teacher) ?? 0) + 1);
+    const key = `${teacher}:${lesson.day}`;
+    const list = byTeacherDay.get(key) ?? [];
+    list.push(lesson.period);
+    byTeacherDay.set(key, list);
+  }
+
+  const subjectNameOf = (id: ID) => data.subjects.find((s) => s.id === id)?.name ?? '';
+
+  return data.teachers.map((teacher) => {
+    let holes = 0;
+    let longRuns = 0;
+    let maxRun = 0;
+    let activeDays = 0;
+    let seventh = 0;
+    let goldenDays = 0;
+    for (let day = 0; day < data.days; day++) {
+      const periods = (byTeacherDay.get(`${teacher.id}:${day}`) ?? []).sort((a, b) => a - b);
+      if (!periods.length) continue;
+      activeDays++;
+      holes += periods[periods.length - 1] - periods[0] + 1 - periods.length;
+      seventh += periods.filter((p) => p === data.periods - 1).length;
+      if (periods[periods.length - 1] <= 2 && periods.length <= 3) goldenDays++;
+      let run = 1;
+      for (let i = 1; i < periods.length; i++) {
+        if (periods[i] === periods[i - 1] + 1) run++;
+        else {
+          maxRun = Math.max(maxRun, run);
+          if (run > 3) longRuns++;
+          run = 1;
+        }
+      }
+      maxRun = Math.max(maxRun, run);
+      if (run > 3) longRuns++;
+    }
+    const demand = quota.get(teacher.id) ?? 0;
+    return {
+      id: teacher.id,
+      name: teacher.name,
+      subject: subjectNameOf(teacher.subject),
+      lessons: lessons.get(teacher.id) ?? 0,
+      quota: demand,
+      max: teacher.max,
+      overflow: Math.max(0, demand - teacher.max),
+      holes,
+      longRuns,
+      maxRun,
+      activeDays,
+      seventh,
+      goldenDays,
+    };
+  });
+}
+
 /** يستكمل الحقول الناقصة في أي ملف بيانات (ملفات المدرسة القديمة مثلًا). */
 export function normalizeData(input: SchoolData): SchoolData {
   return {
