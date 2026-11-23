@@ -1,0 +1,7912 @@
+{
+  "school": "المدرسة",
+  "term": "الفصل الدراسي الأول · ١٤٤٨ هـ",
+  "periods": 7,
+  "start": "07:00",
+  "duration": 45,
+  "subjects": [
+    {
+      "id": "s0",
+      "name": "اللغة الإنجليزية",
+      "color": 0
+    },
+    {
+      "id": "s1",
+      "name": "المهارات الرقمية",
+      "color": 1
+    },
+    {
+      "id": "s2",
+      "name": "لغتي الخالدة",
+      "color": 2
+    },
+    {
+      "id": "s3",
+      "name": "النشاط",
+      "color": 3
+    },
+    {
+      "id": "s4",
+      "name": "الدراسات الإسلامية",
+      "color": 4
+    },
+    {
+      "id": "s5",
+      "name": "الدراسات الاجتماعية",
+      "color": 5
+    },
+    {
+      "id": "s6",
+      "name": "المهارات الحياتية",
+      "color": 6
+    },
+    {
+      "id": "s7",
+      "name": "الرياضيات",
+      "color": 7
+    },
+    {
+      "id": "s8",
+      "name": "التفكير الناقد",
+      "color": 0
+    },
+    {
+      "id": "s9",
+      "name": "العلوم",
+      "color": 1
+    },
+    {
+      "id": "s10",
+      "name": "التربية الفنية",
+      "color": 2
+    },
+    {
+      "id": "s11",
+      "name": "التربية البدنية",
+      "color": 3
+    }
+  ],
+  "teachers": [
+    {
+      "id": "t0",
+      "name": "إبراهيم الأحمدي",
+      "max": 24,
+      "off": [],
+      "subject": "s0",
+      "additionalSubjects": []
+    },
+    {
+      "id": "t1",
+      "name": "أحمد الحربي",
+      "max": 16,
+      "off": [],
+      "subject": "s1",
+      "additionalSubjects": []
+    },
+    {
+      "id": "t2",
+      "name": "أحمد الخيري",
+      "max": 16,
+      "off": [],
+      "subject": "s1",
+      "additionalSubjects": []
+    },
+    {
+      "id": "t3",
+      "name": "أحمد اللحياني",
+      "max": 15,
+      "off": [],
+      "subject": "s2",
+      "additionalSubjects": [
+        "s3"
+      ]
+    },
+    {
+      "id": "t4",
+      "name": "أحمد حكمي",
+      "max": 16,
+      "off": [],
+      "subject": "s4",
+      "additionalSubjects": [
+        "s3"
+      ]
+    },
+    {
+      "id": "t5",
+      "name": "أحمد مدربا",
+      "max": 16,
+      "off": [],
+      "subject": "s4",
+      "additionalSubjects": [
+        "s3"
+      ]
+    },
+    {
+      "id": "t6",
+      "name": "أسامة الصاعدي",
+      "max": 16,
+      "off": [],
+      "subject": "s2",
+      "additionalSubjects": [
+        "s3"
+      ]
+    },
+    {
+      "id": "t7",
+      "name": "أسامة الصبحي",
+      "max": 16,
+      "off": [],
+      "subject": "s5",
+      "additionalSubjects": [
+        "s6"
+      ]
+    },
+    {
+      "id": "t8",
+      "name": "أيمن اللقماني",
+      "max": 5,
+      "off": [],
+      "subject": "s2",
+      "additionalSubjects": [
+        "s3"
+      ]
+    },
+    {
+      "id": "t9",
+      "name": "باسم الحازمي",
+      "max": 18,
+      "off": [],
+      "subject": "s7",
+      "additionalSubjects": []
+    },
+    {
+      "id": "t10",
+      "name": "بديع محمد",
+      "max": 18,
+      "off": [],
+      "subject": "s1",
+      "additionalSubjects": []
+    },
+    {
+      "id": "t11",
+      "name": "بسام العوفي",
+      "max": 16,
+      "off": [],
+      "subject": "s5",
+      "additionalSubjects": [
+        "s6"
+      ]
+    },
+    {
+      "id": "t12",
+      "name": "حاتم الزهراني",
+      "max": 15,
+      "off": [],
+      "subject": "s4",
+      "additionalSubjects": [
+        "s3",
+        "s8"
+      ]
+    },
+    {
+      "id": "t13",
+      "name": "حمدان الحربي",
+      "max": 16,
+      "off": [],
+      "subject": "s9",
+      "additionalSubjects": []
+    },
+    {
+      "id": "t14",
+      "name": "رعد السواط",
+      "max": 13,
+      "off": [],
+      "subject": "s9",
+      "additionalSubjects": [
+        "s3"
+      ]
+    },
+    {
+      "id": "t15",
+      "name": "سلطان الحازمي",
+      "max": 12,
+      "off": [],
+      "subject": "s4",
+      "additionalSubjects": [
+        "s3"
+      ]
+    },
+    {
+      "id": "t16",
+      "name": "شاهر السلمي",
+      "max": 15,
+      "off": [],
+      "subject": "s4",
+      "additionalSubjects": [
+        "s3",
+        "s8"
+      ]
+    },
+    {
+      "id": "t17",
+      "name": "ضياء بكاوي",
+      "max": 18,
+      "off": [],
+      "subject": "s10",
+      "additionalSubjects": []
+    },
+    {
+      "id": "t18",
+      "name": "طلال السلمي",
+      "max": 11,
+      "off": [],
+      "subject": "s6",
+      "additionalSubjects": [
+        "s3"
+      ]
+    },
+    {
+      "id": "t19",
+      "name": "طلال العتيبي",
+      "max": 16,
+      "off": [],
+      "subject": "s0",
+      "additionalSubjects": []
+    },
+    {
+      "id": "t20",
+      "name": "طلال الفهمي",
+      "max": 20,
+      "off": [],
+      "subject": "s0",
+      "additionalSubjects": []
+    },
+    {
+      "id": "t21",
+      "name": "عبدالرحمن سنبل",
+      "max": 16,
+      "off": [],
+      "subject": "s10",
+      "additionalSubjects": []
+    },
+    {
+      "id": "t22",
+      "name": "عبدالصمد السريحي",
+      "max": 15,
+      "off": [],
+      "subject": "s4",
+      "additionalSubjects": [
+        "s3",
+        "s8"
+      ]
+    },
+    {
+      "id": "t23",
+      "name": "عبدالعزيز الجودي",
+      "max": 20,
+      "off": [],
+      "subject": "s0",
+      "additionalSubjects": []
+    },
+    {
+      "id": "t24",
+      "name": "عبدالعزيز العوفي",
+      "max": 24,
+      "off": [],
+      "subject": "s7",
+      "additionalSubjects": []
+    },
+    {
+      "id": "t25",
+      "name": "عبدالكريم السعيدي",
+      "max": 20,
+      "off": [],
+      "subject": "s0",
+      "additionalSubjects": []
+    },
+    {
+      "id": "t26",
+      "name": "عبدالله الحازمي",
+      "max": 15,
+      "off": [],
+      "subject": "s4",
+      "additionalSubjects": [
+        "s3",
+        "s8"
+      ]
+    },
+    {
+      "id": "t27",
+      "name": "عبدالله الزهراني",
+      "max": 18,
+      "off": [],
+      "subject": "s7",
+      "additionalSubjects": []
+    },
+    {
+      "id": "t28",
+      "name": "عبدالله السلمي",
+      "max": 16,
+      "off": [],
+      "subject": "s9",
+      "additionalSubjects": []
+    },
+    {
+      "id": "t29",
+      "name": "عبدالله باحطاب",
+      "max": 16,
+      "off": [],
+      "subject": "s2",
+      "additionalSubjects": []
+    },
+    {
+      "id": "t30",
+      "name": "عبدالله حمود",
+      "max": 24,
+      "off": [],
+      "subject": "s7",
+      "additionalSubjects": []
+    },
+    {
+      "id": "t31",
+      "name": "عبدالله فيصل الصاعدي",
+      "max": 16,
+      "off": [],
+      "subject": "s4",
+      "additionalSubjects": [
+        "s3"
+      ]
+    },
+    {
+      "id": "t32",
+      "name": "عبدالهادي اللهيبي",
+      "max": 16,
+      "off": [],
+      "subject": "s9",
+      "additionalSubjects": []
+    },
+    {
+      "id": "t33",
+      "name": "عماد الصاعدي",
+      "max": 16,
+      "off": [],
+      "subject": "s4",
+      "additionalSubjects": [
+        "s3"
+      ]
+    },
+    {
+      "id": "t34",
+      "name": "فهد اللهيبي",
+      "max": 16,
+      "off": [],
+      "subject": "s4",
+      "additionalSubjects": [
+        "s3"
+      ]
+    },
+    {
+      "id": "t35",
+      "name": "فواز الحربي",
+      "max": 16,
+      "off": [],
+      "subject": "s2",
+      "additionalSubjects": [
+        "s3"
+      ]
+    },
+    {
+      "id": "t36",
+      "name": "ماجد اللهيبي",
+      "max": 16,
+      "off": [],
+      "subject": "s5",
+      "additionalSubjects": []
+    },
+    {
+      "id": "t37",
+      "name": "مجدي القارحي",
+      "max": 16,
+      "off": [],
+      "subject": "s9",
+      "additionalSubjects": []
+    },
+    {
+      "id": "t38",
+      "name": "مجدي اللهيبي",
+      "max": 16,
+      "off": [],
+      "subject": "s5",
+      "additionalSubjects": [
+        "s6"
+      ]
+    },
+    {
+      "id": "t39",
+      "name": "محمد الهاشمي",
+      "max": 18,
+      "off": [],
+      "subject": "s5",
+      "additionalSubjects": [
+        "s6"
+      ]
+    },
+    {
+      "id": "t40",
+      "name": "محمد بامشعب",
+      "max": 12,
+      "off": [],
+      "subject": "s2",
+      "additionalSubjects": [
+        "s3"
+      ]
+    },
+    {
+      "id": "t41",
+      "name": "محمود المولد",
+      "max": 16,
+      "off": [],
+      "subject": "s2",
+      "additionalSubjects": [
+        "s3"
+      ]
+    },
+    {
+      "id": "t42",
+      "name": "مشاري السميري",
+      "max": 18,
+      "off": [],
+      "subject": "s11",
+      "additionalSubjects": []
+    },
+    {
+      "id": "t43",
+      "name": "مشاري مرشد",
+      "max": 18,
+      "off": [],
+      "subject": "s7",
+      "additionalSubjects": []
+    },
+    {
+      "id": "t44",
+      "name": "منصور القارحي",
+      "max": 24,
+      "off": [],
+      "subject": "s7",
+      "additionalSubjects": []
+    },
+    {
+      "id": "t45",
+      "name": "مهند المرشدي",
+      "max": 13,
+      "off": [],
+      "subject": "s9",
+      "additionalSubjects": [
+        "s3"
+      ]
+    },
+    {
+      "id": "t46",
+      "name": "نادر اللهيبي",
+      "max": 12,
+      "off": [],
+      "subject": "s9",
+      "additionalSubjects": []
+    },
+    {
+      "id": "t47",
+      "name": "نزار معروف",
+      "max": 16,
+      "off": [],
+      "subject": "s11",
+      "additionalSubjects": []
+    },
+    {
+      "id": "t48",
+      "name": "هاشم عصام",
+      "max": 16,
+      "off": [],
+      "subject": "s10",
+      "additionalSubjects": []
+    },
+    {
+      "id": "t49",
+      "name": "وليد الجهني",
+      "max": 16,
+      "off": [],
+      "subject": "s2",
+      "additionalSubjects": [
+        "s3"
+      ]
+    },
+    {
+      "id": "t50",
+      "name": "وليد الحربي",
+      "max": 16,
+      "off": [],
+      "subject": "s2",
+      "additionalSubjects": [
+        "s3"
+      ]
+    },
+    {
+      "id": "t51",
+      "name": "ياسر الشنبري",
+      "max": 24,
+      "off": [],
+      "subject": "s7",
+      "additionalSubjects": []
+    },
+    {
+      "id": "t52",
+      "name": "ياسر آل خريم",
+      "max": 16,
+      "off": [],
+      "subject": "s11",
+      "additionalSubjects": []
+    }
+  ],
+  "classes": [
+    {
+      "id": "c1-1",
+      "name": "الأول متوسط / 1",
+      "room": "الغرفة الرئيسية — الأول متوسط / 1"
+    },
+    {
+      "id": "c1-2",
+      "name": "الأول متوسط / 2",
+      "room": "الغرفة الرئيسية — الأول متوسط / 2"
+    },
+    {
+      "id": "c1-3",
+      "name": "الأول متوسط / 3",
+      "room": "الغرفة الرئيسية — الأول متوسط / 3"
+    },
+    {
+      "id": "c1-4",
+      "name": "الأول متوسط / 4",
+      "room": "الغرفة الرئيسية — الأول متوسط / 4"
+    },
+    {
+      "id": "c1-5",
+      "name": "الأول متوسط / 5",
+      "room": "الغرفة الرئيسية — الأول متوسط / 5"
+    },
+    {
+      "id": "c1-6",
+      "name": "الأول متوسط / 6",
+      "room": "الغرفة الرئيسية — الأول متوسط / 6"
+    },
+    {
+      "id": "c1-7",
+      "name": "الأول متوسط / 7",
+      "room": "الغرفة الرئيسية — الأول متوسط / 7"
+    },
+    {
+      "id": "c1-8",
+      "name": "الأول متوسط / 8",
+      "room": "الغرفة الرئيسية — الأول متوسط / 8"
+    },
+    {
+      "id": "c2-1",
+      "name": "الثاني متوسط / 1",
+      "room": "الغرفة الرئيسية — الثاني متوسط / 1"
+    },
+    {
+      "id": "c2-2",
+      "name": "الثاني متوسط / 2",
+      "room": "الغرفة الرئيسية — الثاني متوسط / 2"
+    },
+    {
+      "id": "c2-3",
+      "name": "الثاني متوسط / 3",
+      "room": "الغرفة الرئيسية — الثاني متوسط / 3"
+    },
+    {
+      "id": "c2-4",
+      "name": "الثاني متوسط / 4",
+      "room": "الغرفة الرئيسية — الثاني متوسط / 4"
+    },
+    {
+      "id": "c2-5",
+      "name": "الثاني متوسط / 5",
+      "room": "الغرفة الرئيسية — الثاني متوسط / 5"
+    },
+    {
+      "id": "c2-6",
+      "name": "الثاني متوسط / 6",
+      "room": "الغرفة الرئيسية — الثاني متوسط / 6"
+    },
+    {
+      "id": "c2-7",
+      "name": "الثاني متوسط / 7",
+      "room": "الغرفة الرئيسية — الثاني متوسط / 7"
+    },
+    {
+      "id": "c2-8",
+      "name": "الثاني متوسط / 8",
+      "room": "الغرفة الرئيسية — الثاني متوسط / 8"
+    },
+    {
+      "id": "c2-9",
+      "name": "الثاني متوسط / 9",
+      "room": "الغرفة الرئيسية — الثاني متوسط / 9"
+    },
+    {
+      "id": "c3-1",
+      "name": "الثالث متوسط / 1",
+      "room": "الغرفة الرئيسية — الثالث متوسط / 1"
+    },
+    {
+      "id": "c3-2",
+      "name": "الثالث متوسط / 2",
+      "room": "الغرفة الرئيسية — الثالث متوسط / 2"
+    },
+    {
+      "id": "c3-3",
+      "name": "الثالث متوسط / 3",
+      "room": "الغرفة الرئيسية — الثالث متوسط / 3"
+    },
+    {
+      "id": "c3-4",
+      "name": "الثالث متوسط / 4",
+      "room": "الغرفة الرئيسية — الثالث متوسط / 4"
+    },
+    {
+      "id": "c3-5",
+      "name": "الثالث متوسط / 5",
+      "room": "الغرفة الرئيسية — الثالث متوسط / 5"
+    },
+    {
+      "id": "c3-6",
+      "name": "الثالث متوسط / 6",
+      "room": "الغرفة الرئيسية — الثالث متوسط / 6"
+    },
+    {
+      "id": "c3-7",
+      "name": "الثالث متوسط / 7",
+      "room": "الغرفة الرئيسية — الثالث متوسط / 7"
+    },
+    {
+      "id": "c3-8",
+      "name": "الثالث متوسط / 8",
+      "room": "الغرفة الرئيسية — الثالث متوسط / 8"
+    }
+  ],
+  "assignments": [
+    {
+      "id": "a1",
+      "classId": "c1-1",
+      "subjectId": "s0",
+      "teacherId": "t0",
+      "count": 4
+    },
+    {
+      "id": "a2",
+      "classId": "c1-1",
+      "subjectId": "s1",
+      "teacherId": "t2",
+      "count": 2
+    },
+    {
+      "id": "a3",
+      "classId": "c1-1",
+      "subjectId": "s4",
+      "teacherId": "t31",
+      "count": 5
+    },
+    {
+      "id": "a4",
+      "classId": "c1-1",
+      "subjectId": "s9",
+      "teacherId": "t37",
+      "count": 4
+    },
+    {
+      "id": "a5",
+      "classId": "c1-1",
+      "subjectId": "s5",
+      "teacherId": "t38",
+      "count": 3
+    },
+    {
+      "id": "a6",
+      "classId": "c1-1",
+      "subjectId": "s6",
+      "teacherId": "t38",
+      "count": 1
+    },
+    {
+      "id": "a7",
+      "classId": "c1-1",
+      "subjectId": "s7",
+      "teacherId": "t44",
+      "count": 6
+    },
+    {
+      "id": "a8",
+      "classId": "c1-1",
+      "subjectId": "s10",
+      "teacherId": "t48",
+      "count": 2
+    },
+    {
+      "id": "a9",
+      "classId": "c1-1",
+      "subjectId": "s2",
+      "teacherId": "t49",
+      "count": 5
+    },
+    {
+      "id": "a10",
+      "classId": "c1-1",
+      "subjectId": "s3",
+      "teacherId": "t49",
+      "count": 1
+    },
+    {
+      "id": "a11",
+      "classId": "c1-1",
+      "subjectId": "s11",
+      "teacherId": "t52",
+      "count": 2
+    },
+    {
+      "id": "a12",
+      "classId": "c1-2",
+      "subjectId": "s0",
+      "teacherId": "t0",
+      "count": 4
+    },
+    {
+      "id": "a13",
+      "classId": "c1-2",
+      "subjectId": "s1",
+      "teacherId": "t2",
+      "count": 2
+    },
+    {
+      "id": "a14",
+      "classId": "c1-2",
+      "subjectId": "s4",
+      "teacherId": "t31",
+      "count": 5
+    },
+    {
+      "id": "a15",
+      "classId": "c1-2",
+      "subjectId": "s3",
+      "teacherId": "t31",
+      "count": 1
+    },
+    {
+      "id": "a16",
+      "classId": "c1-2",
+      "subjectId": "s9",
+      "teacherId": "t37",
+      "count": 4
+    },
+    {
+      "id": "a17",
+      "classId": "c1-2",
+      "subjectId": "s5",
+      "teacherId": "t38",
+      "count": 3
+    },
+    {
+      "id": "a18",
+      "classId": "c1-2",
+      "subjectId": "s6",
+      "teacherId": "t38",
+      "count": 1
+    },
+    {
+      "id": "a19",
+      "classId": "c1-2",
+      "subjectId": "s7",
+      "teacherId": "t44",
+      "count": 6
+    },
+    {
+      "id": "a20",
+      "classId": "c1-2",
+      "subjectId": "s10",
+      "teacherId": "t48",
+      "count": 2
+    },
+    {
+      "id": "a21",
+      "classId": "c1-2",
+      "subjectId": "s2",
+      "teacherId": "t49",
+      "count": 5
+    },
+    {
+      "id": "a22",
+      "classId": "c1-2",
+      "subjectId": "s11",
+      "teacherId": "t52",
+      "count": 2
+    },
+    {
+      "id": "a23",
+      "classId": "c1-3",
+      "subjectId": "s0",
+      "teacherId": "t0",
+      "count": 4
+    },
+    {
+      "id": "a24",
+      "classId": "c1-3",
+      "subjectId": "s1",
+      "teacherId": "t2",
+      "count": 2
+    },
+    {
+      "id": "a25",
+      "classId": "c1-3",
+      "subjectId": "s3",
+      "teacherId": "t12",
+      "count": 1
+    },
+    {
+      "id": "a26",
+      "classId": "c1-3",
+      "subjectId": "s4",
+      "teacherId": "t31",
+      "count": 5
+    },
+    {
+      "id": "a27",
+      "classId": "c1-3",
+      "subjectId": "s9",
+      "teacherId": "t37",
+      "count": 4
+    },
+    {
+      "id": "a28",
+      "classId": "c1-3",
+      "subjectId": "s5",
+      "teacherId": "t38",
+      "count": 3
+    },
+    {
+      "id": "a29",
+      "classId": "c1-3",
+      "subjectId": "s6",
+      "teacherId": "t38",
+      "count": 1
+    },
+    {
+      "id": "a30",
+      "classId": "c1-3",
+      "subjectId": "s7",
+      "teacherId": "t44",
+      "count": 6
+    },
+    {
+      "id": "a31",
+      "classId": "c1-3",
+      "subjectId": "s10",
+      "teacherId": "t48",
+      "count": 2
+    },
+    {
+      "id": "a32",
+      "classId": "c1-3",
+      "subjectId": "s2",
+      "teacherId": "t49",
+      "count": 5
+    },
+    {
+      "id": "a33",
+      "classId": "c1-3",
+      "subjectId": "s11",
+      "teacherId": "t52",
+      "count": 2
+    },
+    {
+      "id": "a34",
+      "classId": "c1-4",
+      "subjectId": "s0",
+      "teacherId": "t0",
+      "count": 4
+    },
+    {
+      "id": "a35",
+      "classId": "c1-4",
+      "subjectId": "s1",
+      "teacherId": "t2",
+      "count": 2
+    },
+    {
+      "id": "a36",
+      "classId": "c1-4",
+      "subjectId": "s2",
+      "teacherId": "t6",
+      "count": 5
+    },
+    {
+      "id": "a37",
+      "classId": "c1-4",
+      "subjectId": "s3",
+      "teacherId": "t6",
+      "count": 1
+    },
+    {
+      "id": "a38",
+      "classId": "c1-4",
+      "subjectId": "s4",
+      "teacherId": "t33",
+      "count": 5
+    },
+    {
+      "id": "a39",
+      "classId": "c1-4",
+      "subjectId": "s9",
+      "teacherId": "t37",
+      "count": 4
+    },
+    {
+      "id": "a40",
+      "classId": "c1-4",
+      "subjectId": "s5",
+      "teacherId": "t38",
+      "count": 3
+    },
+    {
+      "id": "a41",
+      "classId": "c1-4",
+      "subjectId": "s6",
+      "teacherId": "t38",
+      "count": 1
+    },
+    {
+      "id": "a42",
+      "classId": "c1-4",
+      "subjectId": "s7",
+      "teacherId": "t44",
+      "count": 6
+    },
+    {
+      "id": "a43",
+      "classId": "c1-4",
+      "subjectId": "s10",
+      "teacherId": "t48",
+      "count": 2
+    },
+    {
+      "id": "a44",
+      "classId": "c1-4",
+      "subjectId": "s11",
+      "teacherId": "t52",
+      "count": 2
+    },
+    {
+      "id": "a45",
+      "classId": "c1-5",
+      "subjectId": "s0",
+      "teacherId": "t0",
+      "count": 4
+    },
+    {
+      "id": "a46",
+      "classId": "c1-5",
+      "subjectId": "s1",
+      "teacherId": "t2",
+      "count": 2
+    },
+    {
+      "id": "a47",
+      "classId": "c1-5",
+      "subjectId": "s2",
+      "teacherId": "t6",
+      "count": 5
+    },
+    {
+      "id": "a48",
+      "classId": "c1-5",
+      "subjectId": "s5",
+      "teacherId": "t7",
+      "count": 3
+    },
+    {
+      "id": "a49",
+      "classId": "c1-5",
+      "subjectId": "s6",
+      "teacherId": "t7",
+      "count": 1
+    },
+    {
+      "id": "a50",
+      "classId": "c1-5",
+      "subjectId": "s9",
+      "teacherId": "t28",
+      "count": 4
+    },
+    {
+      "id": "a51",
+      "classId": "c1-5",
+      "subjectId": "s4",
+      "teacherId": "t33",
+      "count": 5
+    },
+    {
+      "id": "a52",
+      "classId": "c1-5",
+      "subjectId": "s3",
+      "teacherId": "t33",
+      "count": 1
+    },
+    {
+      "id": "a53",
+      "classId": "c1-5",
+      "subjectId": "s7",
+      "teacherId": "t43",
+      "count": 6
+    },
+    {
+      "id": "a54",
+      "classId": "c1-5",
+      "subjectId": "s10",
+      "teacherId": "t48",
+      "count": 2
+    },
+    {
+      "id": "a55",
+      "classId": "c1-5",
+      "subjectId": "s11",
+      "teacherId": "t52",
+      "count": 2
+    },
+    {
+      "id": "a56",
+      "classId": "c1-6",
+      "subjectId": "s1",
+      "teacherId": "t2",
+      "count": 2
+    },
+    {
+      "id": "a57",
+      "classId": "c1-6",
+      "subjectId": "s2",
+      "teacherId": "t6",
+      "count": 5
+    },
+    {
+      "id": "a58",
+      "classId": "c1-6",
+      "subjectId": "s5",
+      "teacherId": "t7",
+      "count": 3
+    },
+    {
+      "id": "a59",
+      "classId": "c1-6",
+      "subjectId": "s6",
+      "teacherId": "t7",
+      "count": 1
+    },
+    {
+      "id": "a60",
+      "classId": "c1-6",
+      "subjectId": "s0",
+      "teacherId": "t20",
+      "count": 4
+    },
+    {
+      "id": "a61",
+      "classId": "c1-6",
+      "subjectId": "s9",
+      "teacherId": "t28",
+      "count": 4
+    },
+    {
+      "id": "a62",
+      "classId": "c1-6",
+      "subjectId": "s4",
+      "teacherId": "t33",
+      "count": 5
+    },
+    {
+      "id": "a63",
+      "classId": "c1-6",
+      "subjectId": "s7",
+      "teacherId": "t43",
+      "count": 6
+    },
+    {
+      "id": "a64",
+      "classId": "c1-6",
+      "subjectId": "s3",
+      "teacherId": "t45",
+      "count": 1
+    },
+    {
+      "id": "a65",
+      "classId": "c1-6",
+      "subjectId": "s10",
+      "teacherId": "t48",
+      "count": 2
+    },
+    {
+      "id": "a66",
+      "classId": "c1-6",
+      "subjectId": "s11",
+      "teacherId": "t52",
+      "count": 2
+    },
+    {
+      "id": "a67",
+      "classId": "c1-7",
+      "subjectId": "s0",
+      "teacherId": "t0",
+      "count": 4
+    },
+    {
+      "id": "a68",
+      "classId": "c1-7",
+      "subjectId": "s1",
+      "teacherId": "t2",
+      "count": 2
+    },
+    {
+      "id": "a69",
+      "classId": "c1-7",
+      "subjectId": "s5",
+      "teacherId": "t7",
+      "count": 3
+    },
+    {
+      "id": "a70",
+      "classId": "c1-7",
+      "subjectId": "s6",
+      "teacherId": "t7",
+      "count": 1
+    },
+    {
+      "id": "a71",
+      "classId": "c1-7",
+      "subjectId": "s4",
+      "teacherId": "t15",
+      "count": 5
+    },
+    {
+      "id": "a72",
+      "classId": "c1-7",
+      "subjectId": "s3",
+      "teacherId": "t15",
+      "count": 1
+    },
+    {
+      "id": "a73",
+      "classId": "c1-7",
+      "subjectId": "s7",
+      "teacherId": "t27",
+      "count": 6
+    },
+    {
+      "id": "a74",
+      "classId": "c1-7",
+      "subjectId": "s9",
+      "teacherId": "t28",
+      "count": 4
+    },
+    {
+      "id": "a75",
+      "classId": "c1-7",
+      "subjectId": "s2",
+      "teacherId": "t40",
+      "count": 5
+    },
+    {
+      "id": "a76",
+      "classId": "c1-7",
+      "subjectId": "s10",
+      "teacherId": "t48",
+      "count": 2
+    },
+    {
+      "id": "a77",
+      "classId": "c1-7",
+      "subjectId": "s11",
+      "teacherId": "t52",
+      "count": 2
+    },
+    {
+      "id": "a78",
+      "classId": "c1-8",
+      "subjectId": "s1",
+      "teacherId": "t2",
+      "count": 2
+    },
+    {
+      "id": "a79",
+      "classId": "c1-8",
+      "subjectId": "s5",
+      "teacherId": "t7",
+      "count": 3
+    },
+    {
+      "id": "a80",
+      "classId": "c1-8",
+      "subjectId": "s6",
+      "teacherId": "t7",
+      "count": 1
+    },
+    {
+      "id": "a81",
+      "classId": "c1-8",
+      "subjectId": "s4",
+      "teacherId": "t15",
+      "count": 5
+    },
+    {
+      "id": "a82",
+      "classId": "c1-8",
+      "subjectId": "s3",
+      "teacherId": "t15",
+      "count": 1
+    },
+    {
+      "id": "a83",
+      "classId": "c1-8",
+      "subjectId": "s0",
+      "teacherId": "t20",
+      "count": 4
+    },
+    {
+      "id": "a84",
+      "classId": "c1-8",
+      "subjectId": "s7",
+      "teacherId": "t27",
+      "count": 6
+    },
+    {
+      "id": "a85",
+      "classId": "c1-8",
+      "subjectId": "s9",
+      "teacherId": "t28",
+      "count": 4
+    },
+    {
+      "id": "a86",
+      "classId": "c1-8",
+      "subjectId": "s2",
+      "teacherId": "t40",
+      "count": 5
+    },
+    {
+      "id": "a87",
+      "classId": "c1-8",
+      "subjectId": "s10",
+      "teacherId": "t48",
+      "count": 2
+    },
+    {
+      "id": "a88",
+      "classId": "c1-8",
+      "subjectId": "s11",
+      "teacherId": "t52",
+      "count": 2
+    },
+    {
+      "id": "a89",
+      "classId": "c2-1",
+      "subjectId": "s4",
+      "teacherId": "t5",
+      "count": 5
+    },
+    {
+      "id": "a90",
+      "classId": "c2-1",
+      "subjectId": "s1",
+      "teacherId": "t10",
+      "count": 2
+    },
+    {
+      "id": "a91",
+      "classId": "c2-1",
+      "subjectId": "s9",
+      "teacherId": "t13",
+      "count": 4
+    },
+    {
+      "id": "a92",
+      "classId": "c2-1",
+      "subjectId": "s10",
+      "teacherId": "t17",
+      "count": 2
+    },
+    {
+      "id": "a93",
+      "classId": "c2-1",
+      "subjectId": "s0",
+      "teacherId": "t20",
+      "count": 4
+    },
+    {
+      "id": "a94",
+      "classId": "c2-1",
+      "subjectId": "s2",
+      "teacherId": "t35",
+      "count": 5
+    },
+    {
+      "id": "a95",
+      "classId": "c2-1",
+      "subjectId": "s3",
+      "teacherId": "t35",
+      "count": 1
+    },
+    {
+      "id": "a96",
+      "classId": "c2-1",
+      "subjectId": "s5",
+      "teacherId": "t39",
+      "count": 3
+    },
+    {
+      "id": "a97",
+      "classId": "c2-1",
+      "subjectId": "s6",
+      "teacherId": "t39",
+      "count": 1
+    },
+    {
+      "id": "a98",
+      "classId": "c2-1",
+      "subjectId": "s11",
+      "teacherId": "t42",
+      "count": 2
+    },
+    {
+      "id": "a99",
+      "classId": "c2-1",
+      "subjectId": "s7",
+      "teacherId": "t51",
+      "count": 6
+    },
+    {
+      "id": "a100",
+      "classId": "c2-2",
+      "subjectId": "s4",
+      "teacherId": "t5",
+      "count": 5
+    },
+    {
+      "id": "a101",
+      "classId": "c2-2",
+      "subjectId": "s1",
+      "teacherId": "t10",
+      "count": 2
+    },
+    {
+      "id": "a102",
+      "classId": "c2-2",
+      "subjectId": "s9",
+      "teacherId": "t13",
+      "count": 4
+    },
+    {
+      "id": "a103",
+      "classId": "c2-2",
+      "subjectId": "s10",
+      "teacherId": "t17",
+      "count": 2
+    },
+    {
+      "id": "a104",
+      "classId": "c2-2",
+      "subjectId": "s0",
+      "teacherId": "t19",
+      "count": 4
+    },
+    {
+      "id": "a105",
+      "classId": "c2-2",
+      "subjectId": "s3",
+      "teacherId": "t26",
+      "count": 1
+    },
+    {
+      "id": "a106",
+      "classId": "c2-2",
+      "subjectId": "s2",
+      "teacherId": "t35",
+      "count": 5
+    },
+    {
+      "id": "a107",
+      "classId": "c2-2",
+      "subjectId": "s5",
+      "teacherId": "t39",
+      "count": 3
+    },
+    {
+      "id": "a108",
+      "classId": "c2-2",
+      "subjectId": "s6",
+      "teacherId": "t39",
+      "count": 1
+    },
+    {
+      "id": "a109",
+      "classId": "c2-2",
+      "subjectId": "s11",
+      "teacherId": "t42",
+      "count": 2
+    },
+    {
+      "id": "a110",
+      "classId": "c2-2",
+      "subjectId": "s7",
+      "teacherId": "t51",
+      "count": 6
+    },
+    {
+      "id": "a111",
+      "classId": "c2-3",
+      "subjectId": "s4",
+      "teacherId": "t5",
+      "count": 5
+    },
+    {
+      "id": "a112",
+      "classId": "c2-3",
+      "subjectId": "s3",
+      "teacherId": "t5",
+      "count": 1
+    },
+    {
+      "id": "a113",
+      "classId": "c2-3",
+      "subjectId": "s1",
+      "teacherId": "t10",
+      "count": 2
+    },
+    {
+      "id": "a114",
+      "classId": "c2-3",
+      "subjectId": "s9",
+      "teacherId": "t13",
+      "count": 4
+    },
+    {
+      "id": "a115",
+      "classId": "c2-3",
+      "subjectId": "s10",
+      "teacherId": "t17",
+      "count": 2
+    },
+    {
+      "id": "a116",
+      "classId": "c2-3",
+      "subjectId": "s0",
+      "teacherId": "t19",
+      "count": 4
+    },
+    {
+      "id": "a117",
+      "classId": "c2-3",
+      "subjectId": "s2",
+      "teacherId": "t35",
+      "count": 5
+    },
+    {
+      "id": "a118",
+      "classId": "c2-3",
+      "subjectId": "s5",
+      "teacherId": "t39",
+      "count": 3
+    },
+    {
+      "id": "a119",
+      "classId": "c2-3",
+      "subjectId": "s6",
+      "teacherId": "t39",
+      "count": 1
+    },
+    {
+      "id": "a120",
+      "classId": "c2-3",
+      "subjectId": "s11",
+      "teacherId": "t42",
+      "count": 2
+    },
+    {
+      "id": "a121",
+      "classId": "c2-3",
+      "subjectId": "s7",
+      "teacherId": "t51",
+      "count": 6
+    },
+    {
+      "id": "a122",
+      "classId": "c2-4",
+      "subjectId": "s4",
+      "teacherId": "t4",
+      "count": 5
+    },
+    {
+      "id": "a123",
+      "classId": "c2-4",
+      "subjectId": "s1",
+      "teacherId": "t10",
+      "count": 2
+    },
+    {
+      "id": "a124",
+      "classId": "c2-4",
+      "subjectId": "s9",
+      "teacherId": "t13",
+      "count": 4
+    },
+    {
+      "id": "a125",
+      "classId": "c2-4",
+      "subjectId": "s10",
+      "teacherId": "t17",
+      "count": 2
+    },
+    {
+      "id": "a126",
+      "classId": "c2-4",
+      "subjectId": "s0",
+      "teacherId": "t19",
+      "count": 4
+    },
+    {
+      "id": "a127",
+      "classId": "c2-4",
+      "subjectId": "s5",
+      "teacherId": "t39",
+      "count": 3
+    },
+    {
+      "id": "a128",
+      "classId": "c2-4",
+      "subjectId": "s6",
+      "teacherId": "t39",
+      "count": 1
+    },
+    {
+      "id": "a129",
+      "classId": "c2-4",
+      "subjectId": "s2",
+      "teacherId": "t41",
+      "count": 5
+    },
+    {
+      "id": "a130",
+      "classId": "c2-4",
+      "subjectId": "s3",
+      "teacherId": "t41",
+      "count": 1
+    },
+    {
+      "id": "a131",
+      "classId": "c2-4",
+      "subjectId": "s11",
+      "teacherId": "t42",
+      "count": 2
+    },
+    {
+      "id": "a132",
+      "classId": "c2-4",
+      "subjectId": "s7",
+      "teacherId": "t51",
+      "count": 6
+    },
+    {
+      "id": "a133",
+      "classId": "c2-5",
+      "subjectId": "s4",
+      "teacherId": "t4",
+      "count": 5
+    },
+    {
+      "id": "a134",
+      "classId": "c2-5",
+      "subjectId": "s3",
+      "teacherId": "t4",
+      "count": 1
+    },
+    {
+      "id": "a135",
+      "classId": "c2-5",
+      "subjectId": "s1",
+      "teacherId": "t10",
+      "count": 2
+    },
+    {
+      "id": "a136",
+      "classId": "c2-5",
+      "subjectId": "s5",
+      "teacherId": "t11",
+      "count": 3
+    },
+    {
+      "id": "a137",
+      "classId": "c2-5",
+      "subjectId": "s10",
+      "teacherId": "t17",
+      "count": 2
+    },
+    {
+      "id": "a138",
+      "classId": "c2-5",
+      "subjectId": "s0",
+      "teacherId": "t19",
+      "count": 4
+    },
+    {
+      "id": "a139",
+      "classId": "c2-5",
+      "subjectId": "s7",
+      "teacherId": "t30",
+      "count": 6
+    },
+    {
+      "id": "a140",
+      "classId": "c2-5",
+      "subjectId": "s9",
+      "teacherId": "t32",
+      "count": 4
+    },
+    {
+      "id": "a141",
+      "classId": "c2-5",
+      "subjectId": "s6",
+      "teacherId": "t39",
+      "count": 1
+    },
+    {
+      "id": "a142",
+      "classId": "c2-5",
+      "subjectId": "s2",
+      "teacherId": "t41",
+      "count": 5
+    },
+    {
+      "id": "a143",
+      "classId": "c2-5",
+      "subjectId": "s11",
+      "teacherId": "t42",
+      "count": 2
+    },
+    {
+      "id": "a144",
+      "classId": "c2-6",
+      "subjectId": "s4",
+      "teacherId": "t4",
+      "count": 5
+    },
+    {
+      "id": "a145",
+      "classId": "c2-6",
+      "subjectId": "s1",
+      "teacherId": "t10",
+      "count": 2
+    },
+    {
+      "id": "a146",
+      "classId": "c2-6",
+      "subjectId": "s5",
+      "teacherId": "t11",
+      "count": 3
+    },
+    {
+      "id": "a147",
+      "classId": "c2-6",
+      "subjectId": "s3",
+      "teacherId": "t16",
+      "count": 1
+    },
+    {
+      "id": "a148",
+      "classId": "c2-6",
+      "subjectId": "s10",
+      "teacherId": "t17",
+      "count": 2
+    },
+    {
+      "id": "a149",
+      "classId": "c2-6",
+      "subjectId": "s0",
+      "teacherId": "t23",
+      "count": 4
+    },
+    {
+      "id": "a150",
+      "classId": "c2-6",
+      "subjectId": "s7",
+      "teacherId": "t30",
+      "count": 6
+    },
+    {
+      "id": "a151",
+      "classId": "c2-6",
+      "subjectId": "s9",
+      "teacherId": "t32",
+      "count": 4
+    },
+    {
+      "id": "a152",
+      "classId": "c2-6",
+      "subjectId": "s6",
+      "teacherId": "t39",
+      "count": 1
+    },
+    {
+      "id": "a153",
+      "classId": "c2-6",
+      "subjectId": "s2",
+      "teacherId": "t41",
+      "count": 5
+    },
+    {
+      "id": "a154",
+      "classId": "c2-6",
+      "subjectId": "s11",
+      "teacherId": "t42",
+      "count": 2
+    },
+    {
+      "id": "a155",
+      "classId": "c2-7",
+      "subjectId": "s1",
+      "teacherId": "t10",
+      "count": 2
+    },
+    {
+      "id": "a156",
+      "classId": "c2-7",
+      "subjectId": "s5",
+      "teacherId": "t11",
+      "count": 3
+    },
+    {
+      "id": "a157",
+      "classId": "c2-7",
+      "subjectId": "s6",
+      "teacherId": "t11",
+      "count": 1
+    },
+    {
+      "id": "a158",
+      "classId": "c2-7",
+      "subjectId": "s10",
+      "teacherId": "t17",
+      "count": 2
+    },
+    {
+      "id": "a159",
+      "classId": "c2-7",
+      "subjectId": "s0",
+      "teacherId": "t23",
+      "count": 4
+    },
+    {
+      "id": "a160",
+      "classId": "c2-7",
+      "subjectId": "s7",
+      "teacherId": "t30",
+      "count": 6
+    },
+    {
+      "id": "a161",
+      "classId": "c2-7",
+      "subjectId": "s9",
+      "teacherId": "t32",
+      "count": 4
+    },
+    {
+      "id": "a162",
+      "classId": "c2-7",
+      "subjectId": "s4",
+      "teacherId": "t34",
+      "count": 5
+    },
+    {
+      "id": "a163",
+      "classId": "c2-7",
+      "subjectId": "s11",
+      "teacherId": "t42",
+      "count": 2
+    },
+    {
+      "id": "a164",
+      "classId": "c2-7",
+      "subjectId": "s2",
+      "teacherId": "t50",
+      "count": 5
+    },
+    {
+      "id": "a165",
+      "classId": "c2-7",
+      "subjectId": "s3",
+      "teacherId": "t50",
+      "count": 1
+    },
+    {
+      "id": "a166",
+      "classId": "c2-8",
+      "subjectId": "s1",
+      "teacherId": "t10",
+      "count": 2
+    },
+    {
+      "id": "a167",
+      "classId": "c2-8",
+      "subjectId": "s5",
+      "teacherId": "t11",
+      "count": 3
+    },
+    {
+      "id": "a168",
+      "classId": "c2-8",
+      "subjectId": "s10",
+      "teacherId": "t17",
+      "count": 2
+    },
+    {
+      "id": "a169",
+      "classId": "c2-8",
+      "subjectId": "s6",
+      "teacherId": "t18",
+      "count": 1
+    },
+    {
+      "id": "a170",
+      "classId": "c2-8",
+      "subjectId": "s0",
+      "teacherId": "t20",
+      "count": 4
+    },
+    {
+      "id": "a171",
+      "classId": "c2-8",
+      "subjectId": "s7",
+      "teacherId": "t30",
+      "count": 6
+    },
+    {
+      "id": "a172",
+      "classId": "c2-8",
+      "subjectId": "s9",
+      "teacherId": "t32",
+      "count": 4
+    },
+    {
+      "id": "a173",
+      "classId": "c2-8",
+      "subjectId": "s4",
+      "teacherId": "t34",
+      "count": 5
+    },
+    {
+      "id": "a174",
+      "classId": "c2-8",
+      "subjectId": "s3",
+      "teacherId": "t34",
+      "count": 1
+    },
+    {
+      "id": "a175",
+      "classId": "c2-8",
+      "subjectId": "s11",
+      "teacherId": "t42",
+      "count": 2
+    },
+    {
+      "id": "a176",
+      "classId": "c2-8",
+      "subjectId": "s2",
+      "teacherId": "t50",
+      "count": 5
+    },
+    {
+      "id": "a177",
+      "classId": "c2-9",
+      "subjectId": "s1",
+      "teacherId": "t10",
+      "count": 2
+    },
+    {
+      "id": "a178",
+      "classId": "c2-9",
+      "subjectId": "s5",
+      "teacherId": "t11",
+      "count": 3
+    },
+    {
+      "id": "a179",
+      "classId": "c2-9",
+      "subjectId": "s10",
+      "teacherId": "t17",
+      "count": 2
+    },
+    {
+      "id": "a180",
+      "classId": "c2-9",
+      "subjectId": "s6",
+      "teacherId": "t18",
+      "count": 1
+    },
+    {
+      "id": "a181",
+      "classId": "c2-9",
+      "subjectId": "s0",
+      "teacherId": "t20",
+      "count": 4
+    },
+    {
+      "id": "a182",
+      "classId": "c2-9",
+      "subjectId": "s3",
+      "teacherId": "t22",
+      "count": 1
+    },
+    {
+      "id": "a183",
+      "classId": "c2-9",
+      "subjectId": "s7",
+      "teacherId": "t27",
+      "count": 6
+    },
+    {
+      "id": "a184",
+      "classId": "c2-9",
+      "subjectId": "s4",
+      "teacherId": "t34",
+      "count": 5
+    },
+    {
+      "id": "a185",
+      "classId": "c2-9",
+      "subjectId": "s11",
+      "teacherId": "t42",
+      "count": 2
+    },
+    {
+      "id": "a186",
+      "classId": "c2-9",
+      "subjectId": "s9",
+      "teacherId": "t46",
+      "count": 4
+    },
+    {
+      "id": "a187",
+      "classId": "c2-9",
+      "subjectId": "s2",
+      "teacherId": "t50",
+      "count": 5
+    },
+    {
+      "id": "a188",
+      "classId": "c3-1",
+      "subjectId": "s1",
+      "teacherId": "t1",
+      "count": 2
+    },
+    {
+      "id": "a189",
+      "classId": "c3-1",
+      "subjectId": "s2",
+      "teacherId": "t3",
+      "count": 4
+    },
+    {
+      "id": "a190",
+      "classId": "c3-1",
+      "subjectId": "s3",
+      "teacherId": "t3",
+      "count": 1
+    },
+    {
+      "id": "a191",
+      "classId": "c3-1",
+      "subjectId": "s7",
+      "teacherId": "t9",
+      "count": 6
+    },
+    {
+      "id": "a192",
+      "classId": "c3-1",
+      "subjectId": "s9",
+      "teacherId": "t14",
+      "count": 4
+    },
+    {
+      "id": "a193",
+      "classId": "c3-1",
+      "subjectId": "s6",
+      "teacherId": "t18",
+      "count": 1
+    },
+    {
+      "id": "a194",
+      "classId": "c3-1",
+      "subjectId": "s10",
+      "teacherId": "t21",
+      "count": 2
+    },
+    {
+      "id": "a195",
+      "classId": "c3-1",
+      "subjectId": "s0",
+      "teacherId": "t25",
+      "count": 4
+    },
+    {
+      "id": "a196",
+      "classId": "c3-1",
+      "subjectId": "s4",
+      "teacherId": "t26",
+      "count": 5
+    },
+    {
+      "id": "a197",
+      "classId": "c3-1",
+      "subjectId": "s8",
+      "teacherId": "t26",
+      "count": 2
+    },
+    {
+      "id": "a198",
+      "classId": "c3-1",
+      "subjectId": "s5",
+      "teacherId": "t36",
+      "count": 2
+    },
+    {
+      "id": "a199",
+      "classId": "c3-1",
+      "subjectId": "s11",
+      "teacherId": "t47",
+      "count": 2
+    },
+    {
+      "id": "a200",
+      "classId": "c3-2",
+      "subjectId": "s1",
+      "teacherId": "t1",
+      "count": 2
+    },
+    {
+      "id": "a201",
+      "classId": "c3-2",
+      "subjectId": "s2",
+      "teacherId": "t3",
+      "count": 4
+    },
+    {
+      "id": "a202",
+      "classId": "c3-2",
+      "subjectId": "s3",
+      "teacherId": "t3",
+      "count": 1
+    },
+    {
+      "id": "a203",
+      "classId": "c3-2",
+      "subjectId": "s7",
+      "teacherId": "t9",
+      "count": 6
+    },
+    {
+      "id": "a204",
+      "classId": "c3-2",
+      "subjectId": "s9",
+      "teacherId": "t14",
+      "count": 4
+    },
+    {
+      "id": "a205",
+      "classId": "c3-2",
+      "subjectId": "s6",
+      "teacherId": "t18",
+      "count": 1
+    },
+    {
+      "id": "a206",
+      "classId": "c3-2",
+      "subjectId": "s10",
+      "teacherId": "t21",
+      "count": 2
+    },
+    {
+      "id": "a207",
+      "classId": "c3-2",
+      "subjectId": "s0",
+      "teacherId": "t25",
+      "count": 4
+    },
+    {
+      "id": "a208",
+      "classId": "c3-2",
+      "subjectId": "s4",
+      "teacherId": "t26",
+      "count": 5
+    },
+    {
+      "id": "a209",
+      "classId": "c3-2",
+      "subjectId": "s8",
+      "teacherId": "t26",
+      "count": 2
+    },
+    {
+      "id": "a210",
+      "classId": "c3-2",
+      "subjectId": "s5",
+      "teacherId": "t36",
+      "count": 2
+    },
+    {
+      "id": "a211",
+      "classId": "c3-2",
+      "subjectId": "s11",
+      "teacherId": "t47",
+      "count": 2
+    },
+    {
+      "id": "a212",
+      "classId": "c3-3",
+      "subjectId": "s1",
+      "teacherId": "t1",
+      "count": 2
+    },
+    {
+      "id": "a213",
+      "classId": "c3-3",
+      "subjectId": "s2",
+      "teacherId": "t3",
+      "count": 4
+    },
+    {
+      "id": "a214",
+      "classId": "c3-3",
+      "subjectId": "s3",
+      "teacherId": "t3",
+      "count": 1
+    },
+    {
+      "id": "a215",
+      "classId": "c3-3",
+      "subjectId": "s7",
+      "teacherId": "t9",
+      "count": 6
+    },
+    {
+      "id": "a216",
+      "classId": "c3-3",
+      "subjectId": "s4",
+      "teacherId": "t12",
+      "count": 5
+    },
+    {
+      "id": "a217",
+      "classId": "c3-3",
+      "subjectId": "s8",
+      "teacherId": "t12",
+      "count": 2
+    },
+    {
+      "id": "a218",
+      "classId": "c3-3",
+      "subjectId": "s9",
+      "teacherId": "t14",
+      "count": 4
+    },
+    {
+      "id": "a219",
+      "classId": "c3-3",
+      "subjectId": "s6",
+      "teacherId": "t18",
+      "count": 1
+    },
+    {
+      "id": "a220",
+      "classId": "c3-3",
+      "subjectId": "s10",
+      "teacherId": "t21",
+      "count": 2
+    },
+    {
+      "id": "a221",
+      "classId": "c3-3",
+      "subjectId": "s0",
+      "teacherId": "t25",
+      "count": 4
+    },
+    {
+      "id": "a222",
+      "classId": "c3-3",
+      "subjectId": "s5",
+      "teacherId": "t36",
+      "count": 2
+    },
+    {
+      "id": "a223",
+      "classId": "c3-3",
+      "subjectId": "s11",
+      "teacherId": "t47",
+      "count": 2
+    },
+    {
+      "id": "a224",
+      "classId": "c3-4",
+      "subjectId": "s1",
+      "teacherId": "t1",
+      "count": 2
+    },
+    {
+      "id": "a225",
+      "classId": "c3-4",
+      "subjectId": "s4",
+      "teacherId": "t12",
+      "count": 5
+    },
+    {
+      "id": "a226",
+      "classId": "c3-4",
+      "subjectId": "s8",
+      "teacherId": "t12",
+      "count": 2
+    },
+    {
+      "id": "a227",
+      "classId": "c3-4",
+      "subjectId": "s3",
+      "teacherId": "t14",
+      "count": 1
+    },
+    {
+      "id": "a228",
+      "classId": "c3-4",
+      "subjectId": "s6",
+      "teacherId": "t18",
+      "count": 1
+    },
+    {
+      "id": "a229",
+      "classId": "c3-4",
+      "subjectId": "s10",
+      "teacherId": "t21",
+      "count": 2
+    },
+    {
+      "id": "a230",
+      "classId": "c3-4",
+      "subjectId": "s7",
+      "teacherId": "t24",
+      "count": 6
+    },
+    {
+      "id": "a231",
+      "classId": "c3-4",
+      "subjectId": "s0",
+      "teacherId": "t25",
+      "count": 4
+    },
+    {
+      "id": "a232",
+      "classId": "c3-4",
+      "subjectId": "s2",
+      "teacherId": "t29",
+      "count": 4
+    },
+    {
+      "id": "a233",
+      "classId": "c3-4",
+      "subjectId": "s5",
+      "teacherId": "t36",
+      "count": 2
+    },
+    {
+      "id": "a234",
+      "classId": "c3-4",
+      "subjectId": "s9",
+      "teacherId": "t45",
+      "count": 4
+    },
+    {
+      "id": "a235",
+      "classId": "c3-4",
+      "subjectId": "s11",
+      "teacherId": "t47",
+      "count": 2
+    },
+    {
+      "id": "a236",
+      "classId": "c3-5",
+      "subjectId": "s1",
+      "teacherId": "t1",
+      "count": 2
+    },
+    {
+      "id": "a237",
+      "classId": "c3-5",
+      "subjectId": "s6",
+      "teacherId": "t18",
+      "count": 1
+    },
+    {
+      "id": "a238",
+      "classId": "c3-5",
+      "subjectId": "s10",
+      "teacherId": "t21",
+      "count": 2
+    },
+    {
+      "id": "a239",
+      "classId": "c3-5",
+      "subjectId": "s4",
+      "teacherId": "t22",
+      "count": 5
+    },
+    {
+      "id": "a240",
+      "classId": "c3-5",
+      "subjectId": "s8",
+      "teacherId": "t22",
+      "count": 2
+    },
+    {
+      "id": "a241",
+      "classId": "c3-5",
+      "subjectId": "s7",
+      "teacherId": "t24",
+      "count": 6
+    },
+    {
+      "id": "a242",
+      "classId": "c3-5",
+      "subjectId": "s0",
+      "teacherId": "t25",
+      "count": 4
+    },
+    {
+      "id": "a243",
+      "classId": "c3-5",
+      "subjectId": "s2",
+      "teacherId": "t29",
+      "count": 4
+    },
+    {
+      "id": "a244",
+      "classId": "c3-5",
+      "subjectId": "s5",
+      "teacherId": "t36",
+      "count": 2
+    },
+    {
+      "id": "a245",
+      "classId": "c3-5",
+      "subjectId": "s3",
+      "teacherId": "t40",
+      "count": 1
+    },
+    {
+      "id": "a246",
+      "classId": "c3-5",
+      "subjectId": "s9",
+      "teacherId": "t45",
+      "count": 4
+    },
+    {
+      "id": "a247",
+      "classId": "c3-5",
+      "subjectId": "s11",
+      "teacherId": "t47",
+      "count": 2
+    },
+    {
+      "id": "a248",
+      "classId": "c3-6",
+      "subjectId": "s1",
+      "teacherId": "t1",
+      "count": 2
+    },
+    {
+      "id": "a249",
+      "classId": "c3-6",
+      "subjectId": "s6",
+      "teacherId": "t18",
+      "count": 1
+    },
+    {
+      "id": "a250",
+      "classId": "c3-6",
+      "subjectId": "s10",
+      "teacherId": "t21",
+      "count": 2
+    },
+    {
+      "id": "a251",
+      "classId": "c3-6",
+      "subjectId": "s4",
+      "teacherId": "t22",
+      "count": 5
+    },
+    {
+      "id": "a252",
+      "classId": "c3-6",
+      "subjectId": "s8",
+      "teacherId": "t22",
+      "count": 2
+    },
+    {
+      "id": "a253",
+      "classId": "c3-6",
+      "subjectId": "s0",
+      "teacherId": "t23",
+      "count": 4
+    },
+    {
+      "id": "a254",
+      "classId": "c3-6",
+      "subjectId": "s7",
+      "teacherId": "t24",
+      "count": 6
+    },
+    {
+      "id": "a255",
+      "classId": "c3-6",
+      "subjectId": "s2",
+      "teacherId": "t29",
+      "count": 4
+    },
+    {
+      "id": "a256",
+      "classId": "c3-6",
+      "subjectId": "s5",
+      "teacherId": "t36",
+      "count": 2
+    },
+    {
+      "id": "a257",
+      "classId": "c3-6",
+      "subjectId": "s3",
+      "teacherId": "t40",
+      "count": 1
+    },
+    {
+      "id": "a258",
+      "classId": "c3-6",
+      "subjectId": "s9",
+      "teacherId": "t45",
+      "count": 4
+    },
+    {
+      "id": "a259",
+      "classId": "c3-6",
+      "subjectId": "s11",
+      "teacherId": "t47",
+      "count": 2
+    },
+    {
+      "id": "a260",
+      "classId": "c3-7",
+      "subjectId": "s1",
+      "teacherId": "t1",
+      "count": 2
+    },
+    {
+      "id": "a261",
+      "classId": "c3-7",
+      "subjectId": "s2",
+      "teacherId": "t8",
+      "count": 4
+    },
+    {
+      "id": "a262",
+      "classId": "c3-7",
+      "subjectId": "s4",
+      "teacherId": "t16",
+      "count": 5
+    },
+    {
+      "id": "a263",
+      "classId": "c3-7",
+      "subjectId": "s8",
+      "teacherId": "t16",
+      "count": 2
+    },
+    {
+      "id": "a264",
+      "classId": "c3-7",
+      "subjectId": "s6",
+      "teacherId": "t18",
+      "count": 1
+    },
+    {
+      "id": "a265",
+      "classId": "c3-7",
+      "subjectId": "s3",
+      "teacherId": "t18",
+      "count": 1
+    },
+    {
+      "id": "a266",
+      "classId": "c3-7",
+      "subjectId": "s10",
+      "teacherId": "t21",
+      "count": 2
+    },
+    {
+      "id": "a267",
+      "classId": "c3-7",
+      "subjectId": "s0",
+      "teacherId": "t23",
+      "count": 4
+    },
+    {
+      "id": "a268",
+      "classId": "c3-7",
+      "subjectId": "s7",
+      "teacherId": "t24",
+      "count": 6
+    },
+    {
+      "id": "a269",
+      "classId": "c3-7",
+      "subjectId": "s5",
+      "teacherId": "t36",
+      "count": 2
+    },
+    {
+      "id": "a270",
+      "classId": "c3-7",
+      "subjectId": "s9",
+      "teacherId": "t46",
+      "count": 4
+    },
+    {
+      "id": "a271",
+      "classId": "c3-7",
+      "subjectId": "s11",
+      "teacherId": "t47",
+      "count": 2
+    },
+    {
+      "id": "a272",
+      "classId": "c3-8",
+      "subjectId": "s1",
+      "teacherId": "t1",
+      "count": 2
+    },
+    {
+      "id": "a273",
+      "classId": "c3-8",
+      "subjectId": "s3",
+      "teacherId": "t8",
+      "count": 1
+    },
+    {
+      "id": "a274",
+      "classId": "c3-8",
+      "subjectId": "s4",
+      "teacherId": "t16",
+      "count": 5
+    },
+    {
+      "id": "a275",
+      "classId": "c3-8",
+      "subjectId": "s8",
+      "teacherId": "t16",
+      "count": 2
+    },
+    {
+      "id": "a276",
+      "classId": "c3-8",
+      "subjectId": "s6",
+      "teacherId": "t18",
+      "count": 1
+    },
+    {
+      "id": "a277",
+      "classId": "c3-8",
+      "subjectId": "s10",
+      "teacherId": "t21",
+      "count": 2
+    },
+    {
+      "id": "a278",
+      "classId": "c3-8",
+      "subjectId": "s0",
+      "teacherId": "t23",
+      "count": 4
+    },
+    {
+      "id": "a279",
+      "classId": "c3-8",
+      "subjectId": "s2",
+      "teacherId": "t29",
+      "count": 4
+    },
+    {
+      "id": "a280",
+      "classId": "c3-8",
+      "subjectId": "s5",
+      "teacherId": "t36",
+      "count": 2
+    },
+    {
+      "id": "a281",
+      "classId": "c3-8",
+      "subjectId": "s7",
+      "teacherId": "t43",
+      "count": 6
+    },
+    {
+      "id": "a282",
+      "classId": "c3-8",
+      "subjectId": "s9",
+      "teacherId": "t46",
+      "count": 4
+    },
+    {
+      "id": "a283",
+      "classId": "c3-8",
+      "subjectId": "s11",
+      "teacherId": "t47",
+      "count": 2
+    }
+  ],
+  "lessons": [
+    {
+      "id": "l0-0-6",
+      "assignmentId": "a1",
+      "day": 0,
+      "period": 6
+    },
+    {
+      "id": "l0-1-6",
+      "assignmentId": "a1",
+      "day": 1,
+      "period": 6
+    },
+    {
+      "id": "l0-2-2",
+      "assignmentId": "a1",
+      "day": 2,
+      "period": 2
+    },
+    {
+      "id": "l0-3-2",
+      "assignmentId": "a1",
+      "day": 3,
+      "period": 2
+    },
+    {
+      "id": "l1-1-5",
+      "assignmentId": "a2",
+      "day": 1,
+      "period": 5
+    },
+    {
+      "id": "l1-2-6",
+      "assignmentId": "a2",
+      "day": 2,
+      "period": 6
+    },
+    {
+      "id": "l2-0-3",
+      "assignmentId": "a3",
+      "day": 0,
+      "period": 3
+    },
+    {
+      "id": "l2-1-4",
+      "assignmentId": "a3",
+      "day": 1,
+      "period": 4
+    },
+    {
+      "id": "l2-2-1",
+      "assignmentId": "a3",
+      "day": 2,
+      "period": 1
+    },
+    {
+      "id": "l2-3-4",
+      "assignmentId": "a3",
+      "day": 3,
+      "period": 4
+    },
+    {
+      "id": "l2-4-0",
+      "assignmentId": "a3",
+      "day": 4,
+      "period": 0
+    },
+    {
+      "id": "l3-0-4",
+      "assignmentId": "a4",
+      "day": 0,
+      "period": 4
+    },
+    {
+      "id": "l3-1-0",
+      "assignmentId": "a4",
+      "day": 1,
+      "period": 0
+    },
+    {
+      "id": "l3-3-3",
+      "assignmentId": "a4",
+      "day": 3,
+      "period": 3
+    },
+    {
+      "id": "l3-4-3",
+      "assignmentId": "a4",
+      "day": 4,
+      "period": 3
+    },
+    {
+      "id": "l4-2-5",
+      "assignmentId": "a5",
+      "day": 2,
+      "period": 5
+    },
+    {
+      "id": "l4-3-1",
+      "assignmentId": "a5",
+      "day": 3,
+      "period": 1
+    },
+    {
+      "id": "l4-4-2",
+      "assignmentId": "a5",
+      "day": 4,
+      "period": 2
+    },
+    {
+      "id": "l5-0-0",
+      "assignmentId": "a6",
+      "day": 0,
+      "period": 0
+    },
+    {
+      "id": "l6-0-2",
+      "assignmentId": "a7",
+      "day": 0,
+      "period": 2
+    },
+    {
+      "id": "l6-1-3",
+      "assignmentId": "a7",
+      "day": 1,
+      "period": 3
+    },
+    {
+      "id": "l6-2-3",
+      "assignmentId": "a7",
+      "day": 2,
+      "period": 3
+    },
+    {
+      "id": "l6-3-0",
+      "assignmentId": "a7",
+      "day": 3,
+      "period": 0
+    },
+    {
+      "id": "l6-4-4",
+      "assignmentId": "a7",
+      "day": 4,
+      "period": 4
+    },
+    {
+      "id": "l6-4-6",
+      "assignmentId": "a7",
+      "day": 4,
+      "period": 6
+    },
+    {
+      "id": "l7-3-6",
+      "assignmentId": "a8",
+      "day": 3,
+      "period": 6
+    },
+    {
+      "id": "l7-4-1",
+      "assignmentId": "a8",
+      "day": 4,
+      "period": 1
+    },
+    {
+      "id": "l8-0-5",
+      "assignmentId": "a9",
+      "day": 0,
+      "period": 5
+    },
+    {
+      "id": "l8-1-2",
+      "assignmentId": "a9",
+      "day": 1,
+      "period": 2
+    },
+    {
+      "id": "l8-2-4",
+      "assignmentId": "a9",
+      "day": 2,
+      "period": 4
+    },
+    {
+      "id": "l8-3-5",
+      "assignmentId": "a9",
+      "day": 3,
+      "period": 5
+    },
+    {
+      "id": "l8-4-5",
+      "assignmentId": "a9",
+      "day": 4,
+      "period": 5
+    },
+    {
+      "id": "l9-0-1",
+      "assignmentId": "a10",
+      "day": 0,
+      "period": 1
+    },
+    {
+      "id": "l10-1-1",
+      "assignmentId": "a11",
+      "day": 1,
+      "period": 1
+    },
+    {
+      "id": "l10-2-0",
+      "assignmentId": "a11",
+      "day": 2,
+      "period": 0
+    },
+    {
+      "id": "l11-0-5",
+      "assignmentId": "a12",
+      "day": 0,
+      "period": 5
+    },
+    {
+      "id": "l11-1-3",
+      "assignmentId": "a12",
+      "day": 1,
+      "period": 3
+    },
+    {
+      "id": "l11-2-6",
+      "assignmentId": "a12",
+      "day": 2,
+      "period": 6
+    },
+    {
+      "id": "l11-4-1",
+      "assignmentId": "a12",
+      "day": 4,
+      "period": 1
+    },
+    {
+      "id": "l12-0-4",
+      "assignmentId": "a13",
+      "day": 0,
+      "period": 4
+    },
+    {
+      "id": "l12-3-2",
+      "assignmentId": "a13",
+      "day": 3,
+      "period": 2
+    },
+    {
+      "id": "l13-0-6",
+      "assignmentId": "a14",
+      "day": 0,
+      "period": 6
+    },
+    {
+      "id": "l13-1-0",
+      "assignmentId": "a14",
+      "day": 1,
+      "period": 0
+    },
+    {
+      "id": "l13-2-5",
+      "assignmentId": "a14",
+      "day": 2,
+      "period": 5
+    },
+    {
+      "id": "l13-3-5",
+      "assignmentId": "a14",
+      "day": 3,
+      "period": 5
+    },
+    {
+      "id": "l13-4-4",
+      "assignmentId": "a14",
+      "day": 4,
+      "period": 4
+    },
+    {
+      "id": "l14-2-3",
+      "assignmentId": "a15",
+      "day": 2,
+      "period": 3
+    },
+    {
+      "id": "l15-0-1",
+      "assignmentId": "a16",
+      "day": 0,
+      "period": 1
+    },
+    {
+      "id": "l15-1-4",
+      "assignmentId": "a16",
+      "day": 1,
+      "period": 4
+    },
+    {
+      "id": "l15-3-6",
+      "assignmentId": "a16",
+      "day": 3,
+      "period": 6
+    },
+    {
+      "id": "l15-4-5",
+      "assignmentId": "a16",
+      "day": 4,
+      "period": 5
+    },
+    {
+      "id": "l16-1-2",
+      "assignmentId": "a17",
+      "day": 1,
+      "period": 2
+    },
+    {
+      "id": "l16-2-0",
+      "assignmentId": "a17",
+      "day": 2,
+      "period": 0
+    },
+    {
+      "id": "l16-3-0",
+      "assignmentId": "a17",
+      "day": 3,
+      "period": 0
+    },
+    {
+      "id": "l17-0-2",
+      "assignmentId": "a18",
+      "day": 0,
+      "period": 2
+    },
+    {
+      "id": "l18-0-0",
+      "assignmentId": "a19",
+      "day": 0,
+      "period": 0
+    },
+    {
+      "id": "l18-1-6",
+      "assignmentId": "a19",
+      "day": 1,
+      "period": 6
+    },
+    {
+      "id": "l18-2-4",
+      "assignmentId": "a19",
+      "day": 2,
+      "period": 4
+    },
+    {
+      "id": "l18-3-3",
+      "assignmentId": "a19",
+      "day": 3,
+      "period": 3
+    },
+    {
+      "id": "l18-4-0",
+      "assignmentId": "a19",
+      "day": 4,
+      "period": 0
+    },
+    {
+      "id": "l18-4-2",
+      "assignmentId": "a19",
+      "day": 4,
+      "period": 2
+    },
+    {
+      "id": "l19-1-1",
+      "assignmentId": "a20",
+      "day": 1,
+      "period": 1
+    },
+    {
+      "id": "l19-4-3",
+      "assignmentId": "a20",
+      "day": 4,
+      "period": 3
+    },
+    {
+      "id": "l20-0-3",
+      "assignmentId": "a21",
+      "day": 0,
+      "period": 3
+    },
+    {
+      "id": "l20-1-5",
+      "assignmentId": "a21",
+      "day": 1,
+      "period": 5
+    },
+    {
+      "id": "l20-2-1",
+      "assignmentId": "a21",
+      "day": 2,
+      "period": 1
+    },
+    {
+      "id": "l20-3-4",
+      "assignmentId": "a21",
+      "day": 3,
+      "period": 4
+    },
+    {
+      "id": "l20-4-6",
+      "assignmentId": "a21",
+      "day": 4,
+      "period": 6
+    },
+    {
+      "id": "l21-2-2",
+      "assignmentId": "a22",
+      "day": 2,
+      "period": 2
+    },
+    {
+      "id": "l21-3-1",
+      "assignmentId": "a22",
+      "day": 3,
+      "period": 1
+    },
+    {
+      "id": "l22-0-4",
+      "assignmentId": "a23",
+      "day": 0,
+      "period": 4
+    },
+    {
+      "id": "l22-2-3",
+      "assignmentId": "a23",
+      "day": 2,
+      "period": 3
+    },
+    {
+      "id": "l22-3-0",
+      "assignmentId": "a23",
+      "day": 3,
+      "period": 0
+    },
+    {
+      "id": "l22-4-4",
+      "assignmentId": "a23",
+      "day": 4,
+      "period": 4
+    },
+    {
+      "id": "l23-0-2",
+      "assignmentId": "a24",
+      "day": 0,
+      "period": 2
+    },
+    {
+      "id": "l23-1-0",
+      "assignmentId": "a24",
+      "day": 1,
+      "period": 0
+    },
+    {
+      "id": "l24-4-2",
+      "assignmentId": "a25",
+      "day": 4,
+      "period": 2
+    },
+    {
+      "id": "l25-0-1",
+      "assignmentId": "a26",
+      "day": 0,
+      "period": 1
+    },
+    {
+      "id": "l25-1-6",
+      "assignmentId": "a26",
+      "day": 1,
+      "period": 6
+    },
+    {
+      "id": "l25-2-0",
+      "assignmentId": "a26",
+      "day": 2,
+      "period": 0
+    },
+    {
+      "id": "l25-3-3",
+      "assignmentId": "a26",
+      "day": 3,
+      "period": 3
+    },
+    {
+      "id": "l25-4-5",
+      "assignmentId": "a26",
+      "day": 4,
+      "period": 5
+    },
+    {
+      "id": "l26-1-3",
+      "assignmentId": "a27",
+      "day": 1,
+      "period": 3
+    },
+    {
+      "id": "l26-2-5",
+      "assignmentId": "a27",
+      "day": 2,
+      "period": 5
+    },
+    {
+      "id": "l26-3-2",
+      "assignmentId": "a27",
+      "day": 3,
+      "period": 2
+    },
+    {
+      "id": "l26-4-6",
+      "assignmentId": "a27",
+      "day": 4,
+      "period": 6
+    },
+    {
+      "id": "l27-0-6",
+      "assignmentId": "a28",
+      "day": 0,
+      "period": 6
+    },
+    {
+      "id": "l27-1-4",
+      "assignmentId": "a28",
+      "day": 1,
+      "period": 4
+    },
+    {
+      "id": "l27-2-4",
+      "assignmentId": "a28",
+      "day": 2,
+      "period": 4
+    },
+    {
+      "id": "l28-3-5",
+      "assignmentId": "a29",
+      "day": 3,
+      "period": 5
+    },
+    {
+      "id": "l29-0-3",
+      "assignmentId": "a30",
+      "day": 0,
+      "period": 3
+    },
+    {
+      "id": "l29-0-5",
+      "assignmentId": "a30",
+      "day": 0,
+      "period": 5
+    },
+    {
+      "id": "l29-1-5",
+      "assignmentId": "a30",
+      "day": 1,
+      "period": 5
+    },
+    {
+      "id": "l29-2-2",
+      "assignmentId": "a30",
+      "day": 2,
+      "period": 2
+    },
+    {
+      "id": "l29-3-4",
+      "assignmentId": "a30",
+      "day": 3,
+      "period": 4
+    },
+    {
+      "id": "l29-4-3",
+      "assignmentId": "a30",
+      "day": 4,
+      "period": 3
+    },
+    {
+      "id": "l30-1-2",
+      "assignmentId": "a31",
+      "day": 1,
+      "period": 2
+    },
+    {
+      "id": "l30-2-1",
+      "assignmentId": "a31",
+      "day": 2,
+      "period": 1
+    },
+    {
+      "id": "l31-0-0",
+      "assignmentId": "a32",
+      "day": 0,
+      "period": 0
+    },
+    {
+      "id": "l31-1-1",
+      "assignmentId": "a32",
+      "day": 1,
+      "period": 1
+    },
+    {
+      "id": "l31-2-6",
+      "assignmentId": "a32",
+      "day": 2,
+      "period": 6
+    },
+    {
+      "id": "l31-3-1",
+      "assignmentId": "a32",
+      "day": 3,
+      "period": 1
+    },
+    {
+      "id": "l31-4-0",
+      "assignmentId": "a32",
+      "day": 4,
+      "period": 0
+    },
+    {
+      "id": "l32-3-6",
+      "assignmentId": "a33",
+      "day": 3,
+      "period": 6
+    },
+    {
+      "id": "l32-4-1",
+      "assignmentId": "a33",
+      "day": 4,
+      "period": 1
+    },
+    {
+      "id": "l33-1-4",
+      "assignmentId": "a34",
+      "day": 1,
+      "period": 4
+    },
+    {
+      "id": "l33-2-4",
+      "assignmentId": "a34",
+      "day": 2,
+      "period": 4
+    },
+    {
+      "id": "l33-3-3",
+      "assignmentId": "a34",
+      "day": 3,
+      "period": 3
+    },
+    {
+      "id": "l33-4-0",
+      "assignmentId": "a34",
+      "day": 4,
+      "period": 0
+    },
+    {
+      "id": "l34-3-6",
+      "assignmentId": "a35",
+      "day": 3,
+      "period": 6
+    },
+    {
+      "id": "l34-4-3",
+      "assignmentId": "a35",
+      "day": 4,
+      "period": 3
+    },
+    {
+      "id": "l35-0-0",
+      "assignmentId": "a36",
+      "day": 0,
+      "period": 0
+    },
+    {
+      "id": "l35-1-6",
+      "assignmentId": "a36",
+      "day": 1,
+      "period": 6
+    },
+    {
+      "id": "l35-2-6",
+      "assignmentId": "a36",
+      "day": 2,
+      "period": 6
+    },
+    {
+      "id": "l35-3-4",
+      "assignmentId": "a36",
+      "day": 3,
+      "period": 4
+    },
+    {
+      "id": "l35-4-1",
+      "assignmentId": "a36",
+      "day": 4,
+      "period": 1
+    },
+    {
+      "id": "l36-0-1",
+      "assignmentId": "a37",
+      "day": 0,
+      "period": 1
+    },
+    {
+      "id": "l37-0-2",
+      "assignmentId": "a38",
+      "day": 0,
+      "period": 2
+    },
+    {
+      "id": "l37-1-1",
+      "assignmentId": "a38",
+      "day": 1,
+      "period": 1
+    },
+    {
+      "id": "l37-2-0",
+      "assignmentId": "a38",
+      "day": 2,
+      "period": 0
+    },
+    {
+      "id": "l37-3-2",
+      "assignmentId": "a38",
+      "day": 3,
+      "period": 2
+    },
+    {
+      "id": "l37-4-2",
+      "assignmentId": "a38",
+      "day": 4,
+      "period": 2
+    },
+    {
+      "id": "l38-0-3",
+      "assignmentId": "a39",
+      "day": 0,
+      "period": 3
+    },
+    {
+      "id": "l38-1-2",
+      "assignmentId": "a39",
+      "day": 1,
+      "period": 2
+    },
+    {
+      "id": "l38-2-2",
+      "assignmentId": "a39",
+      "day": 2,
+      "period": 2
+    },
+    {
+      "id": "l38-4-4",
+      "assignmentId": "a39",
+      "day": 4,
+      "period": 4
+    },
+    {
+      "id": "l39-0-5",
+      "assignmentId": "a40",
+      "day": 0,
+      "period": 5
+    },
+    {
+      "id": "l39-2-1",
+      "assignmentId": "a40",
+      "day": 2,
+      "period": 1
+    },
+    {
+      "id": "l39-4-6",
+      "assignmentId": "a40",
+      "day": 4,
+      "period": 6
+    },
+    {
+      "id": "l40-2-3",
+      "assignmentId": "a41",
+      "day": 2,
+      "period": 3
+    },
+    {
+      "id": "l41-0-6",
+      "assignmentId": "a42",
+      "day": 0,
+      "period": 6
+    },
+    {
+      "id": "l41-1-0",
+      "assignmentId": "a42",
+      "day": 1,
+      "period": 0
+    },
+    {
+      "id": "l41-2-5",
+      "assignmentId": "a42",
+      "day": 2,
+      "period": 5
+    },
+    {
+      "id": "l41-3-1",
+      "assignmentId": "a42",
+      "day": 3,
+      "period": 1
+    },
+    {
+      "id": "l41-3-5",
+      "assignmentId": "a42",
+      "day": 3,
+      "period": 5
+    },
+    {
+      "id": "l41-4-5",
+      "assignmentId": "a42",
+      "day": 4,
+      "period": 5
+    },
+    {
+      "id": "l42-0-4",
+      "assignmentId": "a43",
+      "day": 0,
+      "period": 4
+    },
+    {
+      "id": "l42-1-5",
+      "assignmentId": "a43",
+      "day": 1,
+      "period": 5
+    },
+    {
+      "id": "l43-1-3",
+      "assignmentId": "a44",
+      "day": 1,
+      "period": 3
+    },
+    {
+      "id": "l43-3-0",
+      "assignmentId": "a44",
+      "day": 3,
+      "period": 0
+    },
+    {
+      "id": "l44-0-0",
+      "assignmentId": "a45",
+      "day": 0,
+      "period": 0
+    },
+    {
+      "id": "l44-2-1",
+      "assignmentId": "a45",
+      "day": 2,
+      "period": 1
+    },
+    {
+      "id": "l44-3-4",
+      "assignmentId": "a45",
+      "day": 3,
+      "period": 4
+    },
+    {
+      "id": "l44-4-2",
+      "assignmentId": "a45",
+      "day": 4,
+      "period": 2
+    },
+    {
+      "id": "l45-1-6",
+      "assignmentId": "a46",
+      "day": 1,
+      "period": 6
+    },
+    {
+      "id": "l45-3-3",
+      "assignmentId": "a46",
+      "day": 3,
+      "period": 3
+    },
+    {
+      "id": "l46-0-3",
+      "assignmentId": "a47",
+      "day": 0,
+      "period": 3
+    },
+    {
+      "id": "l46-1-3",
+      "assignmentId": "a47",
+      "day": 1,
+      "period": 3
+    },
+    {
+      "id": "l46-2-5",
+      "assignmentId": "a47",
+      "day": 2,
+      "period": 5
+    },
+    {
+      "id": "l46-3-0",
+      "assignmentId": "a47",
+      "day": 3,
+      "period": 0
+    },
+    {
+      "id": "l46-4-3",
+      "assignmentId": "a47",
+      "day": 4,
+      "period": 3
+    },
+    {
+      "id": "l47-2-6",
+      "assignmentId": "a48",
+      "day": 2,
+      "period": 6
+    },
+    {
+      "id": "l47-3-1",
+      "assignmentId": "a48",
+      "day": 3,
+      "period": 1
+    },
+    {
+      "id": "l47-4-1",
+      "assignmentId": "a48",
+      "day": 4,
+      "period": 1
+    },
+    {
+      "id": "l48-0-6",
+      "assignmentId": "a49",
+      "day": 0,
+      "period": 6
+    },
+    {
+      "id": "l49-0-5",
+      "assignmentId": "a50",
+      "day": 0,
+      "period": 5
+    },
+    {
+      "id": "l49-1-1",
+      "assignmentId": "a50",
+      "day": 1,
+      "period": 1
+    },
+    {
+      "id": "l49-2-3",
+      "assignmentId": "a50",
+      "day": 2,
+      "period": 3
+    },
+    {
+      "id": "l49-4-6",
+      "assignmentId": "a50",
+      "day": 4,
+      "period": 6
+    },
+    {
+      "id": "l50-0-4",
+      "assignmentId": "a51",
+      "day": 0,
+      "period": 4
+    },
+    {
+      "id": "l50-1-2",
+      "assignmentId": "a51",
+      "day": 1,
+      "period": 2
+    },
+    {
+      "id": "l50-2-4",
+      "assignmentId": "a51",
+      "day": 2,
+      "period": 4
+    },
+    {
+      "id": "l50-3-6",
+      "assignmentId": "a51",
+      "day": 3,
+      "period": 6
+    },
+    {
+      "id": "l50-4-4",
+      "assignmentId": "a51",
+      "day": 4,
+      "period": 4
+    },
+    {
+      "id": "l51-4-0",
+      "assignmentId": "a52",
+      "day": 4,
+      "period": 0
+    },
+    {
+      "id": "l52-0-1",
+      "assignmentId": "a53",
+      "day": 0,
+      "period": 1
+    },
+    {
+      "id": "l52-1-0",
+      "assignmentId": "a53",
+      "day": 1,
+      "period": 0
+    },
+    {
+      "id": "l52-1-5",
+      "assignmentId": "a53",
+      "day": 1,
+      "period": 5
+    },
+    {
+      "id": "l52-2-2",
+      "assignmentId": "a53",
+      "day": 2,
+      "period": 2
+    },
+    {
+      "id": "l52-3-2",
+      "assignmentId": "a53",
+      "day": 3,
+      "period": 2
+    },
+    {
+      "id": "l52-4-5",
+      "assignmentId": "a53",
+      "day": 4,
+      "period": 5
+    },
+    {
+      "id": "l53-0-2",
+      "assignmentId": "a54",
+      "day": 0,
+      "period": 2
+    },
+    {
+      "id": "l53-2-0",
+      "assignmentId": "a54",
+      "day": 2,
+      "period": 0
+    },
+    {
+      "id": "l54-1-4",
+      "assignmentId": "a55",
+      "day": 1,
+      "period": 4
+    },
+    {
+      "id": "l54-3-5",
+      "assignmentId": "a55",
+      "day": 3,
+      "period": 5
+    },
+    {
+      "id": "l55-2-4",
+      "assignmentId": "a56",
+      "day": 2,
+      "period": 4
+    },
+    {
+      "id": "l55-3-1",
+      "assignmentId": "a56",
+      "day": 3,
+      "period": 1
+    },
+    {
+      "id": "l56-0-4",
+      "assignmentId": "a57",
+      "day": 0,
+      "period": 4
+    },
+    {
+      "id": "l56-1-5",
+      "assignmentId": "a57",
+      "day": 1,
+      "period": 5
+    },
+    {
+      "id": "l56-2-2",
+      "assignmentId": "a57",
+      "day": 2,
+      "period": 2
+    },
+    {
+      "id": "l56-3-6",
+      "assignmentId": "a57",
+      "day": 3,
+      "period": 6
+    },
+    {
+      "id": "l56-4-0",
+      "assignmentId": "a57",
+      "day": 4,
+      "period": 0
+    },
+    {
+      "id": "l57-0-3",
+      "assignmentId": "a58",
+      "day": 0,
+      "period": 3
+    },
+    {
+      "id": "l57-2-0",
+      "assignmentId": "a58",
+      "day": 2,
+      "period": 0
+    },
+    {
+      "id": "l57-3-4",
+      "assignmentId": "a58",
+      "day": 3,
+      "period": 4
+    },
+    {
+      "id": "l58-1-1",
+      "assignmentId": "a59",
+      "day": 1,
+      "period": 1
+    },
+    {
+      "id": "l59-0-5",
+      "assignmentId": "a60",
+      "day": 0,
+      "period": 5
+    },
+    {
+      "id": "l59-1-2",
+      "assignmentId": "a60",
+      "day": 1,
+      "period": 2
+    },
+    {
+      "id": "l59-3-2",
+      "assignmentId": "a60",
+      "day": 3,
+      "period": 2
+    },
+    {
+      "id": "l59-4-1",
+      "assignmentId": "a60",
+      "day": 4,
+      "period": 1
+    },
+    {
+      "id": "l60-0-2",
+      "assignmentId": "a61",
+      "day": 0,
+      "period": 2
+    },
+    {
+      "id": "l60-1-4",
+      "assignmentId": "a61",
+      "day": 1,
+      "period": 4
+    },
+    {
+      "id": "l60-3-5",
+      "assignmentId": "a61",
+      "day": 3,
+      "period": 5
+    },
+    {
+      "id": "l60-4-2",
+      "assignmentId": "a61",
+      "day": 4,
+      "period": 2
+    },
+    {
+      "id": "l61-0-1",
+      "assignmentId": "a62",
+      "day": 0,
+      "period": 1
+    },
+    {
+      "id": "l61-1-0",
+      "assignmentId": "a62",
+      "day": 1,
+      "period": 0
+    },
+    {
+      "id": "l61-2-5",
+      "assignmentId": "a62",
+      "day": 2,
+      "period": 5
+    },
+    {
+      "id": "l61-3-0",
+      "assignmentId": "a62",
+      "day": 3,
+      "period": 0
+    },
+    {
+      "id": "l61-4-6",
+      "assignmentId": "a62",
+      "day": 4,
+      "period": 6
+    },
+    {
+      "id": "l62-0-0",
+      "assignmentId": "a63",
+      "day": 0,
+      "period": 0
+    },
+    {
+      "id": "l62-1-3",
+      "assignmentId": "a63",
+      "day": 1,
+      "period": 3
+    },
+    {
+      "id": "l62-2-1",
+      "assignmentId": "a63",
+      "day": 2,
+      "period": 1
+    },
+    {
+      "id": "l62-2-6",
+      "assignmentId": "a63",
+      "day": 2,
+      "period": 6
+    },
+    {
+      "id": "l62-3-3",
+      "assignmentId": "a63",
+      "day": 3,
+      "period": 3
+    },
+    {
+      "id": "l62-4-3",
+      "assignmentId": "a63",
+      "day": 4,
+      "period": 3
+    },
+    {
+      "id": "l63-2-3",
+      "assignmentId": "a64",
+      "day": 2,
+      "period": 3
+    },
+    {
+      "id": "l64-1-6",
+      "assignmentId": "a65",
+      "day": 1,
+      "period": 6
+    },
+    {
+      "id": "l64-4-4",
+      "assignmentId": "a65",
+      "day": 4,
+      "period": 4
+    },
+    {
+      "id": "l65-0-6",
+      "assignmentId": "a66",
+      "day": 0,
+      "period": 6
+    },
+    {
+      "id": "l65-4-5",
+      "assignmentId": "a66",
+      "day": 4,
+      "period": 5
+    },
+    {
+      "id": "l66-0-2",
+      "assignmentId": "a67",
+      "day": 0,
+      "period": 2
+    },
+    {
+      "id": "l66-1-1",
+      "assignmentId": "a67",
+      "day": 1,
+      "period": 1
+    },
+    {
+      "id": "l66-3-6",
+      "assignmentId": "a67",
+      "day": 3,
+      "period": 6
+    },
+    {
+      "id": "l66-4-5",
+      "assignmentId": "a67",
+      "day": 4,
+      "period": 5
+    },
+    {
+      "id": "l67-0-1",
+      "assignmentId": "a68",
+      "day": 0,
+      "period": 1
+    },
+    {
+      "id": "l67-2-1",
+      "assignmentId": "a68",
+      "day": 2,
+      "period": 1
+    },
+    {
+      "id": "l68-0-5",
+      "assignmentId": "a69",
+      "day": 0,
+      "period": 5
+    },
+    {
+      "id": "l68-2-5",
+      "assignmentId": "a69",
+      "day": 2,
+      "period": 5
+    },
+    {
+      "id": "l68-3-5",
+      "assignmentId": "a69",
+      "day": 3,
+      "period": 5
+    },
+    {
+      "id": "l69-4-6",
+      "assignmentId": "a70",
+      "day": 4,
+      "period": 6
+    },
+    {
+      "id": "l70-0-3",
+      "assignmentId": "a71",
+      "day": 0,
+      "period": 3
+    },
+    {
+      "id": "l70-1-6",
+      "assignmentId": "a71",
+      "day": 1,
+      "period": 6
+    },
+    {
+      "id": "l70-2-0",
+      "assignmentId": "a71",
+      "day": 2,
+      "period": 0
+    },
+    {
+      "id": "l70-3-1",
+      "assignmentId": "a71",
+      "day": 3,
+      "period": 1
+    },
+    {
+      "id": "l70-4-2",
+      "assignmentId": "a71",
+      "day": 4,
+      "period": 2
+    },
+    {
+      "id": "l71-4-1",
+      "assignmentId": "a72",
+      "day": 4,
+      "period": 1
+    },
+    {
+      "id": "l72-0-4",
+      "assignmentId": "a73",
+      "day": 0,
+      "period": 4
+    },
+    {
+      "id": "l72-1-5",
+      "assignmentId": "a73",
+      "day": 1,
+      "period": 5
+    },
+    {
+      "id": "l72-2-2",
+      "assignmentId": "a73",
+      "day": 2,
+      "period": 2
+    },
+    {
+      "id": "l72-2-6",
+      "assignmentId": "a73",
+      "day": 2,
+      "period": 6
+    },
+    {
+      "id": "l72-3-3",
+      "assignmentId": "a73",
+      "day": 3,
+      "period": 3
+    },
+    {
+      "id": "l72-4-4",
+      "assignmentId": "a73",
+      "day": 4,
+      "period": 4
+    },
+    {
+      "id": "l73-0-6",
+      "assignmentId": "a74",
+      "day": 0,
+      "period": 6
+    },
+    {
+      "id": "l73-1-0",
+      "assignmentId": "a74",
+      "day": 1,
+      "period": 0
+    },
+    {
+      "id": "l73-3-0",
+      "assignmentId": "a74",
+      "day": 3,
+      "period": 0
+    },
+    {
+      "id": "l73-4-0",
+      "assignmentId": "a74",
+      "day": 4,
+      "period": 0
+    },
+    {
+      "id": "l74-0-0",
+      "assignmentId": "a75",
+      "day": 0,
+      "period": 0
+    },
+    {
+      "id": "l74-1-3",
+      "assignmentId": "a75",
+      "day": 1,
+      "period": 3
+    },
+    {
+      "id": "l74-2-3",
+      "assignmentId": "a75",
+      "day": 2,
+      "period": 3
+    },
+    {
+      "id": "l74-3-4",
+      "assignmentId": "a75",
+      "day": 3,
+      "period": 4
+    },
+    {
+      "id": "l74-4-3",
+      "assignmentId": "a75",
+      "day": 4,
+      "period": 3
+    },
+    {
+      "id": "l75-1-4",
+      "assignmentId": "a76",
+      "day": 1,
+      "period": 4
+    },
+    {
+      "id": "l75-2-4",
+      "assignmentId": "a76",
+      "day": 2,
+      "period": 4
+    },
+    {
+      "id": "l76-1-2",
+      "assignmentId": "a77",
+      "day": 1,
+      "period": 2
+    },
+    {
+      "id": "l76-3-2",
+      "assignmentId": "a77",
+      "day": 3,
+      "period": 2
+    },
+    {
+      "id": "l77-3-5",
+      "assignmentId": "a78",
+      "day": 3,
+      "period": 5
+    },
+    {
+      "id": "l77-4-6",
+      "assignmentId": "a78",
+      "day": 4,
+      "period": 6
+    },
+    {
+      "id": "l78-0-2",
+      "assignmentId": "a79",
+      "day": 0,
+      "period": 2
+    },
+    {
+      "id": "l78-1-3",
+      "assignmentId": "a79",
+      "day": 1,
+      "period": 3
+    },
+    {
+      "id": "l78-4-4",
+      "assignmentId": "a79",
+      "day": 4,
+      "period": 4
+    },
+    {
+      "id": "l79-0-0",
+      "assignmentId": "a80",
+      "day": 0,
+      "period": 0
+    },
+    {
+      "id": "l80-0-6",
+      "assignmentId": "a81",
+      "day": 0,
+      "period": 6
+    },
+    {
+      "id": "l80-1-1",
+      "assignmentId": "a81",
+      "day": 1,
+      "period": 1
+    },
+    {
+      "id": "l80-2-1",
+      "assignmentId": "a81",
+      "day": 2,
+      "period": 1
+    },
+    {
+      "id": "l80-3-2",
+      "assignmentId": "a81",
+      "day": 3,
+      "period": 2
+    },
+    {
+      "id": "l80-4-3",
+      "assignmentId": "a81",
+      "day": 4,
+      "period": 3
+    },
+    {
+      "id": "l81-2-3",
+      "assignmentId": "a82",
+      "day": 2,
+      "period": 3
+    },
+    {
+      "id": "l82-0-4",
+      "assignmentId": "a83",
+      "day": 0,
+      "period": 4
+    },
+    {
+      "id": "l82-1-0",
+      "assignmentId": "a83",
+      "day": 1,
+      "period": 0
+    },
+    {
+      "id": "l82-2-4",
+      "assignmentId": "a83",
+      "day": 2,
+      "period": 4
+    },
+    {
+      "id": "l82-3-1",
+      "assignmentId": "a83",
+      "day": 3,
+      "period": 1
+    },
+    {
+      "id": "l83-0-1",
+      "assignmentId": "a84",
+      "day": 0,
+      "period": 1
+    },
+    {
+      "id": "l83-0-3",
+      "assignmentId": "a84",
+      "day": 0,
+      "period": 3
+    },
+    {
+      "id": "l83-1-2",
+      "assignmentId": "a84",
+      "day": 1,
+      "period": 2
+    },
+    {
+      "id": "l83-2-5",
+      "assignmentId": "a84",
+      "day": 2,
+      "period": 5
+    },
+    {
+      "id": "l83-3-4",
+      "assignmentId": "a84",
+      "day": 3,
+      "period": 4
+    },
+    {
+      "id": "l83-4-2",
+      "assignmentId": "a84",
+      "day": 4,
+      "period": 2
+    },
+    {
+      "id": "l84-1-5",
+      "assignmentId": "a85",
+      "day": 1,
+      "period": 5
+    },
+    {
+      "id": "l84-2-0",
+      "assignmentId": "a85",
+      "day": 2,
+      "period": 0
+    },
+    {
+      "id": "l84-3-6",
+      "assignmentId": "a85",
+      "day": 3,
+      "period": 6
+    },
+    {
+      "id": "l84-4-1",
+      "assignmentId": "a85",
+      "day": 4,
+      "period": 1
+    },
+    {
+      "id": "l85-0-5",
+      "assignmentId": "a86",
+      "day": 0,
+      "period": 5
+    },
+    {
+      "id": "l85-1-4",
+      "assignmentId": "a86",
+      "day": 1,
+      "period": 4
+    },
+    {
+      "id": "l85-2-2",
+      "assignmentId": "a86",
+      "day": 2,
+      "period": 2
+    },
+    {
+      "id": "l85-3-0",
+      "assignmentId": "a86",
+      "day": 3,
+      "period": 0
+    },
+    {
+      "id": "l85-4-5",
+      "assignmentId": "a86",
+      "day": 4,
+      "period": 5
+    },
+    {
+      "id": "l86-3-3",
+      "assignmentId": "a87",
+      "day": 3,
+      "period": 3
+    },
+    {
+      "id": "l86-4-0",
+      "assignmentId": "a87",
+      "day": 4,
+      "period": 0
+    },
+    {
+      "id": "l87-1-6",
+      "assignmentId": "a88",
+      "day": 1,
+      "period": 6
+    },
+    {
+      "id": "l87-2-6",
+      "assignmentId": "a88",
+      "day": 2,
+      "period": 6
+    },
+    {
+      "id": "l88-0-5",
+      "assignmentId": "a89",
+      "day": 0,
+      "period": 5
+    },
+    {
+      "id": "l88-1-6",
+      "assignmentId": "a89",
+      "day": 1,
+      "period": 6
+    },
+    {
+      "id": "l88-2-2",
+      "assignmentId": "a89",
+      "day": 2,
+      "period": 2
+    },
+    {
+      "id": "l88-3-5",
+      "assignmentId": "a89",
+      "day": 3,
+      "period": 5
+    },
+    {
+      "id": "l88-4-1",
+      "assignmentId": "a89",
+      "day": 4,
+      "period": 1
+    },
+    {
+      "id": "l89-1-0",
+      "assignmentId": "a90",
+      "day": 1,
+      "period": 0
+    },
+    {
+      "id": "l89-2-5",
+      "assignmentId": "a90",
+      "day": 2,
+      "period": 5
+    },
+    {
+      "id": "l90-0-6",
+      "assignmentId": "a91",
+      "day": 0,
+      "period": 6
+    },
+    {
+      "id": "l90-2-1",
+      "assignmentId": "a91",
+      "day": 2,
+      "period": 1
+    },
+    {
+      "id": "l90-3-1",
+      "assignmentId": "a91",
+      "day": 3,
+      "period": 1
+    },
+    {
+      "id": "l90-4-5",
+      "assignmentId": "a91",
+      "day": 4,
+      "period": 5
+    },
+    {
+      "id": "l91-1-3",
+      "assignmentId": "a92",
+      "day": 1,
+      "period": 3
+    },
+    {
+      "id": "l91-4-0",
+      "assignmentId": "a92",
+      "day": 4,
+      "period": 0
+    },
+    {
+      "id": "l92-0-0",
+      "assignmentId": "a93",
+      "day": 0,
+      "period": 0
+    },
+    {
+      "id": "l92-2-3",
+      "assignmentId": "a93",
+      "day": 2,
+      "period": 3
+    },
+    {
+      "id": "l92-3-0",
+      "assignmentId": "a93",
+      "day": 3,
+      "period": 0
+    },
+    {
+      "id": "l92-4-2",
+      "assignmentId": "a93",
+      "day": 4,
+      "period": 2
+    },
+    {
+      "id": "l93-0-2",
+      "assignmentId": "a94",
+      "day": 0,
+      "period": 2
+    },
+    {
+      "id": "l93-1-5",
+      "assignmentId": "a94",
+      "day": 1,
+      "period": 5
+    },
+    {
+      "id": "l93-2-0",
+      "assignmentId": "a94",
+      "day": 2,
+      "period": 0
+    },
+    {
+      "id": "l93-3-2",
+      "assignmentId": "a94",
+      "day": 3,
+      "period": 2
+    },
+    {
+      "id": "l93-4-3",
+      "assignmentId": "a94",
+      "day": 4,
+      "period": 3
+    },
+    {
+      "id": "l94-3-6",
+      "assignmentId": "a95",
+      "day": 3,
+      "period": 6
+    },
+    {
+      "id": "l95-1-2",
+      "assignmentId": "a96",
+      "day": 1,
+      "period": 2
+    },
+    {
+      "id": "l95-2-6",
+      "assignmentId": "a96",
+      "day": 2,
+      "period": 6
+    },
+    {
+      "id": "l95-4-4",
+      "assignmentId": "a96",
+      "day": 4,
+      "period": 4
+    },
+    {
+      "id": "l96-3-3",
+      "assignmentId": "a97",
+      "day": 3,
+      "period": 3
+    },
+    {
+      "id": "l97-0-4",
+      "assignmentId": "a98",
+      "day": 0,
+      "period": 4
+    },
+    {
+      "id": "l97-1-4",
+      "assignmentId": "a98",
+      "day": 1,
+      "period": 4
+    },
+    {
+      "id": "l98-0-1",
+      "assignmentId": "a99",
+      "day": 0,
+      "period": 1
+    },
+    {
+      "id": "l98-0-3",
+      "assignmentId": "a99",
+      "day": 0,
+      "period": 3
+    },
+    {
+      "id": "l98-1-1",
+      "assignmentId": "a99",
+      "day": 1,
+      "period": 1
+    },
+    {
+      "id": "l98-2-4",
+      "assignmentId": "a99",
+      "day": 2,
+      "period": 4
+    },
+    {
+      "id": "l98-3-4",
+      "assignmentId": "a99",
+      "day": 3,
+      "period": 4
+    },
+    {
+      "id": "l98-4-6",
+      "assignmentId": "a99",
+      "day": 4,
+      "period": 6
+    },
+    {
+      "id": "l99-0-0",
+      "assignmentId": "a100",
+      "day": 0,
+      "period": 0
+    },
+    {
+      "id": "l99-1-0",
+      "assignmentId": "a100",
+      "day": 1,
+      "period": 0
+    },
+    {
+      "id": "l99-2-0",
+      "assignmentId": "a100",
+      "day": 2,
+      "period": 0
+    },
+    {
+      "id": "l99-3-3",
+      "assignmentId": "a100",
+      "day": 3,
+      "period": 3
+    },
+    {
+      "id": "l99-4-3",
+      "assignmentId": "a100",
+      "day": 4,
+      "period": 3
+    },
+    {
+      "id": "l100-0-1",
+      "assignmentId": "a101",
+      "day": 0,
+      "period": 1
+    },
+    {
+      "id": "l100-1-4",
+      "assignmentId": "a101",
+      "day": 1,
+      "period": 4
+    },
+    {
+      "id": "l101-0-3",
+      "assignmentId": "a102",
+      "day": 0,
+      "period": 3
+    },
+    {
+      "id": "l101-2-2",
+      "assignmentId": "a102",
+      "day": 2,
+      "period": 2
+    },
+    {
+      "id": "l101-3-2",
+      "assignmentId": "a102",
+      "day": 3,
+      "period": 2
+    },
+    {
+      "id": "l101-4-6",
+      "assignmentId": "a102",
+      "day": 4,
+      "period": 6
+    },
+    {
+      "id": "l102-0-5",
+      "assignmentId": "a103",
+      "day": 0,
+      "period": 5
+    },
+    {
+      "id": "l102-4-5",
+      "assignmentId": "a103",
+      "day": 4,
+      "period": 5
+    },
+    {
+      "id": "l103-0-6",
+      "assignmentId": "a104",
+      "day": 0,
+      "period": 6
+    },
+    {
+      "id": "l103-1-6",
+      "assignmentId": "a104",
+      "day": 1,
+      "period": 6
+    },
+    {
+      "id": "l103-2-5",
+      "assignmentId": "a104",
+      "day": 2,
+      "period": 5
+    },
+    {
+      "id": "l103-4-4",
+      "assignmentId": "a104",
+      "day": 4,
+      "period": 4
+    },
+    {
+      "id": "l104-1-2",
+      "assignmentId": "a105",
+      "day": 1,
+      "period": 2
+    },
+    {
+      "id": "l105-0-4",
+      "assignmentId": "a106",
+      "day": 0,
+      "period": 4
+    },
+    {
+      "id": "l105-1-3",
+      "assignmentId": "a106",
+      "day": 1,
+      "period": 3
+    },
+    {
+      "id": "l105-2-4",
+      "assignmentId": "a106",
+      "day": 2,
+      "period": 4
+    },
+    {
+      "id": "l105-3-4",
+      "assignmentId": "a106",
+      "day": 3,
+      "period": 4
+    },
+    {
+      "id": "l105-4-1",
+      "assignmentId": "a106",
+      "day": 4,
+      "period": 1
+    },
+    {
+      "id": "l106-2-3",
+      "assignmentId": "a107",
+      "day": 2,
+      "period": 3
+    },
+    {
+      "id": "l106-3-5",
+      "assignmentId": "a107",
+      "day": 3,
+      "period": 5
+    },
+    {
+      "id": "l106-4-2",
+      "assignmentId": "a107",
+      "day": 4,
+      "period": 2
+    },
+    {
+      "id": "l107-3-1",
+      "assignmentId": "a108",
+      "day": 3,
+      "period": 1
+    },
+    {
+      "id": "l108-1-1",
+      "assignmentId": "a109",
+      "day": 1,
+      "period": 1
+    },
+    {
+      "id": "l108-3-0",
+      "assignmentId": "a109",
+      "day": 3,
+      "period": 0
+    },
+    {
+      "id": "l109-0-2",
+      "assignmentId": "a110",
+      "day": 0,
+      "period": 2
+    },
+    {
+      "id": "l109-1-5",
+      "assignmentId": "a110",
+      "day": 1,
+      "period": 5
+    },
+    {
+      "id": "l109-2-1",
+      "assignmentId": "a110",
+      "day": 2,
+      "period": 1
+    },
+    {
+      "id": "l109-2-6",
+      "assignmentId": "a110",
+      "day": 2,
+      "period": 6
+    },
+    {
+      "id": "l109-3-6",
+      "assignmentId": "a110",
+      "day": 3,
+      "period": 6
+    },
+    {
+      "id": "l109-4-0",
+      "assignmentId": "a110",
+      "day": 4,
+      "period": 0
+    },
+    {
+      "id": "l110-0-4",
+      "assignmentId": "a111",
+      "day": 0,
+      "period": 4
+    },
+    {
+      "id": "l110-1-5",
+      "assignmentId": "a111",
+      "day": 1,
+      "period": 5
+    },
+    {
+      "id": "l110-2-1",
+      "assignmentId": "a111",
+      "day": 2,
+      "period": 1
+    },
+    {
+      "id": "l110-3-0",
+      "assignmentId": "a111",
+      "day": 3,
+      "period": 0
+    },
+    {
+      "id": "l110-4-5",
+      "assignmentId": "a111",
+      "day": 4,
+      "period": 5
+    },
+    {
+      "id": "l111-4-6",
+      "assignmentId": "a112",
+      "day": 4,
+      "period": 6
+    },
+    {
+      "id": "l112-2-2",
+      "assignmentId": "a113",
+      "day": 2,
+      "period": 2
+    },
+    {
+      "id": "l112-3-4",
+      "assignmentId": "a113",
+      "day": 3,
+      "period": 4
+    },
+    {
+      "id": "l113-0-1",
+      "assignmentId": "a114",
+      "day": 0,
+      "period": 1
+    },
+    {
+      "id": "l113-1-0",
+      "assignmentId": "a114",
+      "day": 1,
+      "period": 0
+    },
+    {
+      "id": "l113-3-3",
+      "assignmentId": "a114",
+      "day": 3,
+      "period": 3
+    },
+    {
+      "id": "l113-4-3",
+      "assignmentId": "a114",
+      "day": 4,
+      "period": 3
+    },
+    {
+      "id": "l114-0-6",
+      "assignmentId": "a115",
+      "day": 0,
+      "period": 6
+    },
+    {
+      "id": "l114-3-6",
+      "assignmentId": "a115",
+      "day": 3,
+      "period": 6
+    },
+    {
+      "id": "l115-0-2",
+      "assignmentId": "a116",
+      "day": 0,
+      "period": 2
+    },
+    {
+      "id": "l115-1-2",
+      "assignmentId": "a116",
+      "day": 1,
+      "period": 2
+    },
+    {
+      "id": "l115-2-4",
+      "assignmentId": "a116",
+      "day": 2,
+      "period": 4
+    },
+    {
+      "id": "l115-4-0",
+      "assignmentId": "a116",
+      "day": 4,
+      "period": 0
+    },
+    {
+      "id": "l116-0-3",
+      "assignmentId": "a117",
+      "day": 0,
+      "period": 3
+    },
+    {
+      "id": "l116-1-1",
+      "assignmentId": "a117",
+      "day": 1,
+      "period": 1
+    },
+    {
+      "id": "l116-2-6",
+      "assignmentId": "a117",
+      "day": 2,
+      "period": 6
+    },
+    {
+      "id": "l116-3-5",
+      "assignmentId": "a117",
+      "day": 3,
+      "period": 5
+    },
+    {
+      "id": "l116-4-2",
+      "assignmentId": "a117",
+      "day": 4,
+      "period": 2
+    },
+    {
+      "id": "l117-0-5",
+      "assignmentId": "a118",
+      "day": 0,
+      "period": 5
+    },
+    {
+      "id": "l117-2-0",
+      "assignmentId": "a118",
+      "day": 2,
+      "period": 0
+    },
+    {
+      "id": "l117-4-1",
+      "assignmentId": "a118",
+      "day": 4,
+      "period": 1
+    },
+    {
+      "id": "l118-3-2",
+      "assignmentId": "a119",
+      "day": 3,
+      "period": 2
+    },
+    {
+      "id": "l119-1-3",
+      "assignmentId": "a120",
+      "day": 1,
+      "period": 3
+    },
+    {
+      "id": "l119-2-3",
+      "assignmentId": "a120",
+      "day": 2,
+      "period": 3
+    },
+    {
+      "id": "l120-0-0",
+      "assignmentId": "a121",
+      "day": 0,
+      "period": 0
+    },
+    {
+      "id": "l120-1-4",
+      "assignmentId": "a121",
+      "day": 1,
+      "period": 4
+    },
+    {
+      "id": "l120-1-6",
+      "assignmentId": "a121",
+      "day": 1,
+      "period": 6
+    },
+    {
+      "id": "l120-2-5",
+      "assignmentId": "a121",
+      "day": 2,
+      "period": 5
+    },
+    {
+      "id": "l120-3-1",
+      "assignmentId": "a121",
+      "day": 3,
+      "period": 1
+    },
+    {
+      "id": "l120-4-4",
+      "assignmentId": "a121",
+      "day": 4,
+      "period": 4
+    },
+    {
+      "id": "l121-0-6",
+      "assignmentId": "a122",
+      "day": 0,
+      "period": 6
+    },
+    {
+      "id": "l121-1-4",
+      "assignmentId": "a122",
+      "day": 1,
+      "period": 4
+    },
+    {
+      "id": "l121-2-4",
+      "assignmentId": "a122",
+      "day": 2,
+      "period": 4
+    },
+    {
+      "id": "l121-3-2",
+      "assignmentId": "a122",
+      "day": 3,
+      "period": 2
+    },
+    {
+      "id": "l121-4-0",
+      "assignmentId": "a122",
+      "day": 4,
+      "period": 0
+    },
+    {
+      "id": "l122-1-5",
+      "assignmentId": "a123",
+      "day": 1,
+      "period": 5
+    },
+    {
+      "id": "l122-4-6",
+      "assignmentId": "a123",
+      "day": 4,
+      "period": 6
+    },
+    {
+      "id": "l123-0-2",
+      "assignmentId": "a124",
+      "day": 0,
+      "period": 2
+    },
+    {
+      "id": "l123-1-6",
+      "assignmentId": "a124",
+      "day": 1,
+      "period": 6
+    },
+    {
+      "id": "l123-2-5",
+      "assignmentId": "a124",
+      "day": 2,
+      "period": 5
+    },
+    {
+      "id": "l123-3-6",
+      "assignmentId": "a124",
+      "day": 3,
+      "period": 6
+    },
+    {
+      "id": "l124-1-1",
+      "assignmentId": "a125",
+      "day": 1,
+      "period": 1
+    },
+    {
+      "id": "l124-3-3",
+      "assignmentId": "a125",
+      "day": 3,
+      "period": 3
+    },
+    {
+      "id": "l125-0-3",
+      "assignmentId": "a126",
+      "day": 0,
+      "period": 3
+    },
+    {
+      "id": "l125-2-6",
+      "assignmentId": "a126",
+      "day": 2,
+      "period": 6
+    },
+    {
+      "id": "l125-3-1",
+      "assignmentId": "a126",
+      "day": 3,
+      "period": 1
+    },
+    {
+      "id": "l125-4-1",
+      "assignmentId": "a126",
+      "day": 4,
+      "period": 1
+    },
+    {
+      "id": "l126-0-1",
+      "assignmentId": "a127",
+      "day": 0,
+      "period": 1
+    },
+    {
+      "id": "l126-2-1",
+      "assignmentId": "a127",
+      "day": 2,
+      "period": 1
+    },
+    {
+      "id": "l126-4-5",
+      "assignmentId": "a127",
+      "day": 4,
+      "period": 5
+    },
+    {
+      "id": "l127-3-0",
+      "assignmentId": "a128",
+      "day": 3,
+      "period": 0
+    },
+    {
+      "id": "l128-0-0",
+      "assignmentId": "a129",
+      "day": 0,
+      "period": 0
+    },
+    {
+      "id": "l128-1-3",
+      "assignmentId": "a129",
+      "day": 1,
+      "period": 3
+    },
+    {
+      "id": "l128-2-0",
+      "assignmentId": "a129",
+      "day": 2,
+      "period": 0
+    },
+    {
+      "id": "l128-3-4",
+      "assignmentId": "a129",
+      "day": 3,
+      "period": 4
+    },
+    {
+      "id": "l128-4-4",
+      "assignmentId": "a129",
+      "day": 4,
+      "period": 4
+    },
+    {
+      "id": "l129-0-4",
+      "assignmentId": "a130",
+      "day": 0,
+      "period": 4
+    },
+    {
+      "id": "l130-2-2",
+      "assignmentId": "a131",
+      "day": 2,
+      "period": 2
+    },
+    {
+      "id": "l130-4-3",
+      "assignmentId": "a131",
+      "day": 4,
+      "period": 3
+    },
+    {
+      "id": "l131-0-5",
+      "assignmentId": "a132",
+      "day": 0,
+      "period": 5
+    },
+    {
+      "id": "l131-1-0",
+      "assignmentId": "a132",
+      "day": 1,
+      "period": 0
+    },
+    {
+      "id": "l131-1-2",
+      "assignmentId": "a132",
+      "day": 1,
+      "period": 2
+    },
+    {
+      "id": "l131-2-3",
+      "assignmentId": "a132",
+      "day": 2,
+      "period": 3
+    },
+    {
+      "id": "l131-3-5",
+      "assignmentId": "a132",
+      "day": 3,
+      "period": 5
+    },
+    {
+      "id": "l131-4-2",
+      "assignmentId": "a132",
+      "day": 4,
+      "period": 2
+    },
+    {
+      "id": "l132-0-2",
+      "assignmentId": "a133",
+      "day": 0,
+      "period": 2
+    },
+    {
+      "id": "l132-1-6",
+      "assignmentId": "a133",
+      "day": 1,
+      "period": 6
+    },
+    {
+      "id": "l132-2-6",
+      "assignmentId": "a133",
+      "day": 2,
+      "period": 6
+    },
+    {
+      "id": "l132-3-1",
+      "assignmentId": "a133",
+      "day": 3,
+      "period": 1
+    },
+    {
+      "id": "l132-4-2",
+      "assignmentId": "a133",
+      "day": 4,
+      "period": 2
+    },
+    {
+      "id": "l133-2-1",
+      "assignmentId": "a134",
+      "day": 2,
+      "period": 1
+    },
+    {
+      "id": "l134-0-3",
+      "assignmentId": "a135",
+      "day": 0,
+      "period": 3
+    },
+    {
+      "id": "l134-2-4",
+      "assignmentId": "a135",
+      "day": 2,
+      "period": 4
+    },
+    {
+      "id": "l135-2-2",
+      "assignmentId": "a136",
+      "day": 2,
+      "period": 2
+    },
+    {
+      "id": "l135-3-2",
+      "assignmentId": "a136",
+      "day": 3,
+      "period": 2
+    },
+    {
+      "id": "l135-4-4",
+      "assignmentId": "a136",
+      "day": 4,
+      "period": 4
+    },
+    {
+      "id": "l136-0-1",
+      "assignmentId": "a137",
+      "day": 0,
+      "period": 1
+    },
+    {
+      "id": "l136-1-0",
+      "assignmentId": "a137",
+      "day": 1,
+      "period": 0
+    },
+    {
+      "id": "l137-0-0",
+      "assignmentId": "a138",
+      "day": 0,
+      "period": 0
+    },
+    {
+      "id": "l137-1-3",
+      "assignmentId": "a138",
+      "day": 1,
+      "period": 3
+    },
+    {
+      "id": "l137-2-0",
+      "assignmentId": "a138",
+      "day": 2,
+      "period": 0
+    },
+    {
+      "id": "l137-3-3",
+      "assignmentId": "a138",
+      "day": 3,
+      "period": 3
+    },
+    {
+      "id": "l138-0-6",
+      "assignmentId": "a139",
+      "day": 0,
+      "period": 6
+    },
+    {
+      "id": "l138-1-1",
+      "assignmentId": "a139",
+      "day": 1,
+      "period": 1
+    },
+    {
+      "id": "l138-1-5",
+      "assignmentId": "a139",
+      "day": 1,
+      "period": 5
+    },
+    {
+      "id": "l138-2-3",
+      "assignmentId": "a139",
+      "day": 2,
+      "period": 3
+    },
+    {
+      "id": "l138-3-0",
+      "assignmentId": "a139",
+      "day": 3,
+      "period": 0
+    },
+    {
+      "id": "l138-4-3",
+      "assignmentId": "a139",
+      "day": 4,
+      "period": 3
+    },
+    {
+      "id": "l139-0-4",
+      "assignmentId": "a140",
+      "day": 0,
+      "period": 4
+    },
+    {
+      "id": "l139-1-2",
+      "assignmentId": "a140",
+      "day": 1,
+      "period": 2
+    },
+    {
+      "id": "l139-3-4",
+      "assignmentId": "a140",
+      "day": 3,
+      "period": 4
+    },
+    {
+      "id": "l139-4-5",
+      "assignmentId": "a140",
+      "day": 4,
+      "period": 5
+    },
+    {
+      "id": "l140-4-6",
+      "assignmentId": "a141",
+      "day": 4,
+      "period": 6
+    },
+    {
+      "id": "l141-0-5",
+      "assignmentId": "a142",
+      "day": 0,
+      "period": 5
+    },
+    {
+      "id": "l141-1-4",
+      "assignmentId": "a142",
+      "day": 1,
+      "period": 4
+    },
+    {
+      "id": "l141-2-5",
+      "assignmentId": "a142",
+      "day": 2,
+      "period": 5
+    },
+    {
+      "id": "l141-3-6",
+      "assignmentId": "a142",
+      "day": 3,
+      "period": 6
+    },
+    {
+      "id": "l141-4-0",
+      "assignmentId": "a142",
+      "day": 4,
+      "period": 0
+    },
+    {
+      "id": "l142-3-5",
+      "assignmentId": "a143",
+      "day": 3,
+      "period": 5
+    },
+    {
+      "id": "l142-4-1",
+      "assignmentId": "a143",
+      "day": 4,
+      "period": 1
+    },
+    {
+      "id": "l143-0-5",
+      "assignmentId": "a144",
+      "day": 0,
+      "period": 5
+    },
+    {
+      "id": "l143-1-0",
+      "assignmentId": "a144",
+      "day": 1,
+      "period": 0
+    },
+    {
+      "id": "l143-2-3",
+      "assignmentId": "a144",
+      "day": 2,
+      "period": 3
+    },
+    {
+      "id": "l143-3-5",
+      "assignmentId": "a144",
+      "day": 3,
+      "period": 5
+    },
+    {
+      "id": "l143-4-4",
+      "assignmentId": "a144",
+      "day": 4,
+      "period": 4
+    },
+    {
+      "id": "l144-0-6",
+      "assignmentId": "a145",
+      "day": 0,
+      "period": 6
+    },
+    {
+      "id": "l144-3-6",
+      "assignmentId": "a145",
+      "day": 3,
+      "period": 6
+    },
+    {
+      "id": "l145-0-3",
+      "assignmentId": "a146",
+      "day": 0,
+      "period": 3
+    },
+    {
+      "id": "l145-3-3",
+      "assignmentId": "a146",
+      "day": 3,
+      "period": 3
+    },
+    {
+      "id": "l145-4-1",
+      "assignmentId": "a146",
+      "day": 4,
+      "period": 1
+    },
+    {
+      "id": "l146-3-1",
+      "assignmentId": "a147",
+      "day": 3,
+      "period": 1
+    },
+    {
+      "id": "l147-0-2",
+      "assignmentId": "a148",
+      "day": 0,
+      "period": 2
+    },
+    {
+      "id": "l147-1-4",
+      "assignmentId": "a148",
+      "day": 1,
+      "period": 4
+    },
+    {
+      "id": "l148-0-0",
+      "assignmentId": "a149",
+      "day": 0,
+      "period": 0
+    },
+    {
+      "id": "l148-1-3",
+      "assignmentId": "a149",
+      "day": 1,
+      "period": 3
+    },
+    {
+      "id": "l148-2-2",
+      "assignmentId": "a149",
+      "day": 2,
+      "period": 2
+    },
+    {
+      "id": "l148-4-2",
+      "assignmentId": "a149",
+      "day": 4,
+      "period": 2
+    },
+    {
+      "id": "l149-0-4",
+      "assignmentId": "a150",
+      "day": 0,
+      "period": 4
+    },
+    {
+      "id": "l149-1-6",
+      "assignmentId": "a150",
+      "day": 1,
+      "period": 6
+    },
+    {
+      "id": "l149-2-0",
+      "assignmentId": "a150",
+      "day": 2,
+      "period": 0
+    },
+    {
+      "id": "l149-2-1",
+      "assignmentId": "a150",
+      "day": 2,
+      "period": 1
+    },
+    {
+      "id": "l149-3-4",
+      "assignmentId": "a150",
+      "day": 3,
+      "period": 4
+    },
+    {
+      "id": "l149-4-5",
+      "assignmentId": "a150",
+      "day": 4,
+      "period": 5
+    },
+    {
+      "id": "l150-1-5",
+      "assignmentId": "a151",
+      "day": 1,
+      "period": 5
+    },
+    {
+      "id": "l150-2-6",
+      "assignmentId": "a151",
+      "day": 2,
+      "period": 6
+    },
+    {
+      "id": "l150-3-2",
+      "assignmentId": "a151",
+      "day": 3,
+      "period": 2
+    },
+    {
+      "id": "l150-4-0",
+      "assignmentId": "a151",
+      "day": 4,
+      "period": 0
+    },
+    {
+      "id": "l151-1-1",
+      "assignmentId": "a152",
+      "day": 1,
+      "period": 1
+    },
+    {
+      "id": "l152-0-1",
+      "assignmentId": "a153",
+      "day": 0,
+      "period": 1
+    },
+    {
+      "id": "l152-1-2",
+      "assignmentId": "a153",
+      "day": 1,
+      "period": 2
+    },
+    {
+      "id": "l152-2-4",
+      "assignmentId": "a153",
+      "day": 2,
+      "period": 4
+    },
+    {
+      "id": "l152-3-0",
+      "assignmentId": "a153",
+      "day": 3,
+      "period": 0
+    },
+    {
+      "id": "l152-4-3",
+      "assignmentId": "a153",
+      "day": 4,
+      "period": 3
+    },
+    {
+      "id": "l153-2-5",
+      "assignmentId": "a154",
+      "day": 2,
+      "period": 5
+    },
+    {
+      "id": "l153-4-6",
+      "assignmentId": "a154",
+      "day": 4,
+      "period": 6
+    },
+    {
+      "id": "l154-1-6",
+      "assignmentId": "a155",
+      "day": 1,
+      "period": 6
+    },
+    {
+      "id": "l154-4-3",
+      "assignmentId": "a155",
+      "day": 4,
+      "period": 3
+    },
+    {
+      "id": "l155-0-2",
+      "assignmentId": "a156",
+      "day": 0,
+      "period": 2
+    },
+    {
+      "id": "l155-2-1",
+      "assignmentId": "a156",
+      "day": 2,
+      "period": 1
+    },
+    {
+      "id": "l155-3-1",
+      "assignmentId": "a156",
+      "day": 3,
+      "period": 1
+    },
+    {
+      "id": "l156-2-3",
+      "assignmentId": "a157",
+      "day": 2,
+      "period": 3
+    },
+    {
+      "id": "l157-3-2",
+      "assignmentId": "a158",
+      "day": 3,
+      "period": 2
+    },
+    {
+      "id": "l157-4-4",
+      "assignmentId": "a158",
+      "day": 4,
+      "period": 4
+    },
+    {
+      "id": "l158-0-5",
+      "assignmentId": "a159",
+      "day": 0,
+      "period": 5
+    },
+    {
+      "id": "l158-1-1",
+      "assignmentId": "a159",
+      "day": 1,
+      "period": 1
+    },
+    {
+      "id": "l158-2-0",
+      "assignmentId": "a159",
+      "day": 2,
+      "period": 0
+    },
+    {
+      "id": "l158-3-4",
+      "assignmentId": "a159",
+      "day": 3,
+      "period": 4
+    },
+    {
+      "id": "l159-0-0",
+      "assignmentId": "a160",
+      "day": 0,
+      "period": 0
+    },
+    {
+      "id": "l159-0-3",
+      "assignmentId": "a160",
+      "day": 0,
+      "period": 3
+    },
+    {
+      "id": "l159-1-2",
+      "assignmentId": "a160",
+      "day": 1,
+      "period": 2
+    },
+    {
+      "id": "l159-2-5",
+      "assignmentId": "a160",
+      "day": 2,
+      "period": 5
+    },
+    {
+      "id": "l159-3-6",
+      "assignmentId": "a160",
+      "day": 3,
+      "period": 6
+    },
+    {
+      "id": "l159-4-6",
+      "assignmentId": "a160",
+      "day": 4,
+      "period": 6
+    },
+    {
+      "id": "l160-0-6",
+      "assignmentId": "a161",
+      "day": 0,
+      "period": 6
+    },
+    {
+      "id": "l160-2-4",
+      "assignmentId": "a161",
+      "day": 2,
+      "period": 4
+    },
+    {
+      "id": "l160-3-5",
+      "assignmentId": "a161",
+      "day": 3,
+      "period": 5
+    },
+    {
+      "id": "l160-4-1",
+      "assignmentId": "a161",
+      "day": 4,
+      "period": 1
+    },
+    {
+      "id": "l161-0-4",
+      "assignmentId": "a162",
+      "day": 0,
+      "period": 4
+    },
+    {
+      "id": "l161-1-5",
+      "assignmentId": "a162",
+      "day": 1,
+      "period": 5
+    },
+    {
+      "id": "l161-2-2",
+      "assignmentId": "a162",
+      "day": 2,
+      "period": 2
+    },
+    {
+      "id": "l161-3-0",
+      "assignmentId": "a162",
+      "day": 3,
+      "period": 0
+    },
+    {
+      "id": "l161-4-2",
+      "assignmentId": "a162",
+      "day": 4,
+      "period": 2
+    },
+    {
+      "id": "l162-1-0",
+      "assignmentId": "a163",
+      "day": 1,
+      "period": 0
+    },
+    {
+      "id": "l162-4-5",
+      "assignmentId": "a163",
+      "day": 4,
+      "period": 5
+    },
+    {
+      "id": "l163-0-1",
+      "assignmentId": "a164",
+      "day": 0,
+      "period": 1
+    },
+    {
+      "id": "l163-1-4",
+      "assignmentId": "a164",
+      "day": 1,
+      "period": 4
+    },
+    {
+      "id": "l163-2-6",
+      "assignmentId": "a164",
+      "day": 2,
+      "period": 6
+    },
+    {
+      "id": "l163-3-3",
+      "assignmentId": "a164",
+      "day": 3,
+      "period": 3
+    },
+    {
+      "id": "l163-4-0",
+      "assignmentId": "a164",
+      "day": 4,
+      "period": 0
+    },
+    {
+      "id": "l164-1-3",
+      "assignmentId": "a165",
+      "day": 1,
+      "period": 3
+    },
+    {
+      "id": "l165-0-4",
+      "assignmentId": "a166",
+      "day": 0,
+      "period": 4
+    },
+    {
+      "id": "l165-2-3",
+      "assignmentId": "a166",
+      "day": 2,
+      "period": 3
+    },
+    {
+      "id": "l166-1-2",
+      "assignmentId": "a167",
+      "day": 1,
+      "period": 2
+    },
+    {
+      "id": "l166-3-6",
+      "assignmentId": "a167",
+      "day": 3,
+      "period": 6
+    },
+    {
+      "id": "l166-4-3",
+      "assignmentId": "a167",
+      "day": 4,
+      "period": 3
+    },
+    {
+      "id": "l167-0-3",
+      "assignmentId": "a168",
+      "day": 0,
+      "period": 3
+    },
+    {
+      "id": "l167-1-5",
+      "assignmentId": "a168",
+      "day": 1,
+      "period": 5
+    },
+    {
+      "id": "l168-2-4",
+      "assignmentId": "a169",
+      "day": 2,
+      "period": 4
+    },
+    {
+      "id": "l169-0-1",
+      "assignmentId": "a170",
+      "day": 0,
+      "period": 1
+    },
+    {
+      "id": "l169-1-3",
+      "assignmentId": "a170",
+      "day": 1,
+      "period": 3
+    },
+    {
+      "id": "l169-2-5",
+      "assignmentId": "a170",
+      "day": 2,
+      "period": 5
+    },
+    {
+      "id": "l169-4-5",
+      "assignmentId": "a170",
+      "day": 4,
+      "period": 5
+    },
+    {
+      "id": "l170-0-5",
+      "assignmentId": "a171",
+      "day": 0,
+      "period": 5
+    },
+    {
+      "id": "l170-1-4",
+      "assignmentId": "a171",
+      "day": 1,
+      "period": 4
+    },
+    {
+      "id": "l170-2-6",
+      "assignmentId": "a171",
+      "day": 2,
+      "period": 6
+    },
+    {
+      "id": "l170-3-1",
+      "assignmentId": "a171",
+      "day": 3,
+      "period": 1
+    },
+    {
+      "id": "l170-3-2",
+      "assignmentId": "a171",
+      "day": 3,
+      "period": 2
+    },
+    {
+      "id": "l170-4-4",
+      "assignmentId": "a171",
+      "day": 4,
+      "period": 4
+    },
+    {
+      "id": "l171-1-0",
+      "assignmentId": "a172",
+      "day": 1,
+      "period": 0
+    },
+    {
+      "id": "l171-2-1",
+      "assignmentId": "a172",
+      "day": 2,
+      "period": 1
+    },
+    {
+      "id": "l171-3-0",
+      "assignmentId": "a172",
+      "day": 3,
+      "period": 0
+    },
+    {
+      "id": "l171-4-2",
+      "assignmentId": "a172",
+      "day": 4,
+      "period": 2
+    },
+    {
+      "id": "l172-0-6",
+      "assignmentId": "a173",
+      "day": 0,
+      "period": 6
+    },
+    {
+      "id": "l172-1-1",
+      "assignmentId": "a173",
+      "day": 1,
+      "period": 1
+    },
+    {
+      "id": "l172-2-0",
+      "assignmentId": "a173",
+      "day": 2,
+      "period": 0
+    },
+    {
+      "id": "l172-3-3",
+      "assignmentId": "a173",
+      "day": 3,
+      "period": 3
+    },
+    {
+      "id": "l172-4-1",
+      "assignmentId": "a173",
+      "day": 4,
+      "period": 1
+    },
+    {
+      "id": "l173-3-5",
+      "assignmentId": "a174",
+      "day": 3,
+      "period": 5
+    },
+    {
+      "id": "l174-0-2",
+      "assignmentId": "a175",
+      "day": 0,
+      "period": 2
+    },
+    {
+      "id": "l174-4-0",
+      "assignmentId": "a175",
+      "day": 4,
+      "period": 0
+    },
+    {
+      "id": "l175-0-0",
+      "assignmentId": "a176",
+      "day": 0,
+      "period": 0
+    },
+    {
+      "id": "l175-1-6",
+      "assignmentId": "a176",
+      "day": 1,
+      "period": 6
+    },
+    {
+      "id": "l175-2-2",
+      "assignmentId": "a176",
+      "day": 2,
+      "period": 2
+    },
+    {
+      "id": "l175-3-4",
+      "assignmentId": "a176",
+      "day": 3,
+      "period": 4
+    },
+    {
+      "id": "l175-4-6",
+      "assignmentId": "a176",
+      "day": 4,
+      "period": 6
+    },
+    {
+      "id": "l176-1-1",
+      "assignmentId": "a177",
+      "day": 1,
+      "period": 1
+    },
+    {
+      "id": "l176-3-5",
+      "assignmentId": "a177",
+      "day": 3,
+      "period": 5
+    },
+    {
+      "id": "l177-0-5",
+      "assignmentId": "a178",
+      "day": 0,
+      "period": 5
+    },
+    {
+      "id": "l177-2-4",
+      "assignmentId": "a178",
+      "day": 2,
+      "period": 4
+    },
+    {
+      "id": "l177-4-5",
+      "assignmentId": "a178",
+      "day": 4,
+      "period": 5
+    },
+    {
+      "id": "l178-2-5",
+      "assignmentId": "a179",
+      "day": 2,
+      "period": 5
+    },
+    {
+      "id": "l178-4-1",
+      "assignmentId": "a179",
+      "day": 4,
+      "period": 1
+    },
+    {
+      "id": "l179-1-0",
+      "assignmentId": "a180",
+      "day": 1,
+      "period": 0
+    },
+    {
+      "id": "l180-1-5",
+      "assignmentId": "a181",
+      "day": 1,
+      "period": 5
+    },
+    {
+      "id": "l180-2-2",
+      "assignmentId": "a181",
+      "day": 2,
+      "period": 2
+    },
+    {
+      "id": "l180-3-3",
+      "assignmentId": "a181",
+      "day": 3,
+      "period": 3
+    },
+    {
+      "id": "l180-4-4",
+      "assignmentId": "a181",
+      "day": 4,
+      "period": 4
+    },
+    {
+      "id": "l181-4-2",
+      "assignmentId": "a182",
+      "day": 4,
+      "period": 2
+    },
+    {
+      "id": "l182-0-2",
+      "assignmentId": "a183",
+      "day": 0,
+      "period": 2
+    },
+    {
+      "id": "l182-0-6",
+      "assignmentId": "a183",
+      "day": 0,
+      "period": 6
+    },
+    {
+      "id": "l182-1-3",
+      "assignmentId": "a183",
+      "day": 1,
+      "period": 3
+    },
+    {
+      "id": "l182-2-1",
+      "assignmentId": "a183",
+      "day": 2,
+      "period": 1
+    },
+    {
+      "id": "l182-3-0",
+      "assignmentId": "a183",
+      "day": 3,
+      "period": 0
+    },
+    {
+      "id": "l182-4-6",
+      "assignmentId": "a183",
+      "day": 4,
+      "period": 6
+    },
+    {
+      "id": "l183-0-3",
+      "assignmentId": "a184",
+      "day": 0,
+      "period": 3
+    },
+    {
+      "id": "l183-1-6",
+      "assignmentId": "a184",
+      "day": 1,
+      "period": 6
+    },
+    {
+      "id": "l183-2-3",
+      "assignmentId": "a184",
+      "day": 2,
+      "period": 3
+    },
+    {
+      "id": "l183-3-6",
+      "assignmentId": "a184",
+      "day": 3,
+      "period": 6
+    },
+    {
+      "id": "l183-4-0",
+      "assignmentId": "a184",
+      "day": 4,
+      "period": 0
+    },
+    {
+      "id": "l184-0-0",
+      "assignmentId": "a185",
+      "day": 0,
+      "period": 0
+    },
+    {
+      "id": "l184-3-1",
+      "assignmentId": "a185",
+      "day": 3,
+      "period": 1
+    },
+    {
+      "id": "l185-0-1",
+      "assignmentId": "a186",
+      "day": 0,
+      "period": 1
+    },
+    {
+      "id": "l185-1-4",
+      "assignmentId": "a186",
+      "day": 1,
+      "period": 4
+    },
+    {
+      "id": "l185-2-6",
+      "assignmentId": "a186",
+      "day": 2,
+      "period": 6
+    },
+    {
+      "id": "l185-3-4",
+      "assignmentId": "a186",
+      "day": 3,
+      "period": 4
+    },
+    {
+      "id": "l186-0-4",
+      "assignmentId": "a187",
+      "day": 0,
+      "period": 4
+    },
+    {
+      "id": "l186-1-2",
+      "assignmentId": "a187",
+      "day": 1,
+      "period": 2
+    },
+    {
+      "id": "l186-2-0",
+      "assignmentId": "a187",
+      "day": 2,
+      "period": 0
+    },
+    {
+      "id": "l186-3-2",
+      "assignmentId": "a187",
+      "day": 3,
+      "period": 2
+    },
+    {
+      "id": "l186-4-3",
+      "assignmentId": "a187",
+      "day": 4,
+      "period": 3
+    },
+    {
+      "id": "l187-1-0",
+      "assignmentId": "a188",
+      "day": 1,
+      "period": 0
+    },
+    {
+      "id": "l187-3-4",
+      "assignmentId": "a188",
+      "day": 3,
+      "period": 4
+    },
+    {
+      "id": "l188-0-3",
+      "assignmentId": "a189",
+      "day": 0,
+      "period": 3
+    },
+    {
+      "id": "l188-1-2",
+      "assignmentId": "a189",
+      "day": 1,
+      "period": 2
+    },
+    {
+      "id": "l188-2-6",
+      "assignmentId": "a189",
+      "day": 2,
+      "period": 6
+    },
+    {
+      "id": "l188-3-6",
+      "assignmentId": "a189",
+      "day": 3,
+      "period": 6
+    },
+    {
+      "id": "l189-4-3",
+      "assignmentId": "a190",
+      "day": 4,
+      "period": 3
+    },
+    {
+      "id": "l190-0-5",
+      "assignmentId": "a191",
+      "day": 0,
+      "period": 5
+    },
+    {
+      "id": "l190-1-5",
+      "assignmentId": "a191",
+      "day": 1,
+      "period": 5
+    },
+    {
+      "id": "l190-2-2",
+      "assignmentId": "a191",
+      "day": 2,
+      "period": 2
+    },
+    {
+      "id": "l190-3-2",
+      "assignmentId": "a191",
+      "day": 3,
+      "period": 2
+    },
+    {
+      "id": "l190-3-3",
+      "assignmentId": "a191",
+      "day": 3,
+      "period": 3
+    },
+    {
+      "id": "l190-4-2",
+      "assignmentId": "a191",
+      "day": 4,
+      "period": 2
+    },
+    {
+      "id": "l191-0-4",
+      "assignmentId": "a192",
+      "day": 0,
+      "period": 4
+    },
+    {
+      "id": "l191-1-3",
+      "assignmentId": "a192",
+      "day": 1,
+      "period": 3
+    },
+    {
+      "id": "l191-2-4",
+      "assignmentId": "a192",
+      "day": 2,
+      "period": 4
+    },
+    {
+      "id": "l191-3-0",
+      "assignmentId": "a192",
+      "day": 3,
+      "period": 0
+    },
+    {
+      "id": "l192-4-5",
+      "assignmentId": "a193",
+      "day": 4,
+      "period": 5
+    },
+    {
+      "id": "l193-2-1",
+      "assignmentId": "a194",
+      "day": 2,
+      "period": 1
+    },
+    {
+      "id": "l193-4-0",
+      "assignmentId": "a194",
+      "day": 4,
+      "period": 0
+    },
+    {
+      "id": "l194-0-2",
+      "assignmentId": "a195",
+      "day": 0,
+      "period": 2
+    },
+    {
+      "id": "l194-1-1",
+      "assignmentId": "a195",
+      "day": 1,
+      "period": 1
+    },
+    {
+      "id": "l194-2-0",
+      "assignmentId": "a195",
+      "day": 2,
+      "period": 0
+    },
+    {
+      "id": "l194-4-6",
+      "assignmentId": "a195",
+      "day": 4,
+      "period": 6
+    },
+    {
+      "id": "l195-0-6",
+      "assignmentId": "a196",
+      "day": 0,
+      "period": 6
+    },
+    {
+      "id": "l195-1-4",
+      "assignmentId": "a196",
+      "day": 1,
+      "period": 4
+    },
+    {
+      "id": "l195-2-3",
+      "assignmentId": "a196",
+      "day": 2,
+      "period": 3
+    },
+    {
+      "id": "l195-3-1",
+      "assignmentId": "a196",
+      "day": 3,
+      "period": 1
+    },
+    {
+      "id": "l195-4-4",
+      "assignmentId": "a196",
+      "day": 4,
+      "period": 4
+    },
+    {
+      "id": "l196-0-1",
+      "assignmentId": "a197",
+      "day": 0,
+      "period": 1
+    },
+    {
+      "id": "l196-4-1",
+      "assignmentId": "a197",
+      "day": 4,
+      "period": 1
+    },
+    {
+      "id": "l197-1-6",
+      "assignmentId": "a198",
+      "day": 1,
+      "period": 6
+    },
+    {
+      "id": "l197-2-5",
+      "assignmentId": "a198",
+      "day": 2,
+      "period": 5
+    },
+    {
+      "id": "l198-0-0",
+      "assignmentId": "a199",
+      "day": 0,
+      "period": 0
+    },
+    {
+      "id": "l198-3-5",
+      "assignmentId": "a199",
+      "day": 3,
+      "period": 5
+    },
+    {
+      "id": "l199-0-0",
+      "assignmentId": "a200",
+      "day": 0,
+      "period": 0
+    },
+    {
+      "id": "l199-2-2",
+      "assignmentId": "a200",
+      "day": 2,
+      "period": 2
+    },
+    {
+      "id": "l200-1-1",
+      "assignmentId": "a201",
+      "day": 1,
+      "period": 1
+    },
+    {
+      "id": "l200-2-5",
+      "assignmentId": "a201",
+      "day": 2,
+      "period": 5
+    },
+    {
+      "id": "l200-3-2",
+      "assignmentId": "a201",
+      "day": 3,
+      "period": 2
+    },
+    {
+      "id": "l200-4-4",
+      "assignmentId": "a201",
+      "day": 4,
+      "period": 4
+    },
+    {
+      "id": "l201-3-5",
+      "assignmentId": "a202",
+      "day": 3,
+      "period": 5
+    },
+    {
+      "id": "l202-0-1",
+      "assignmentId": "a203",
+      "day": 0,
+      "period": 1
+    },
+    {
+      "id": "l202-0-4",
+      "assignmentId": "a203",
+      "day": 0,
+      "period": 4
+    },
+    {
+      "id": "l202-1-6",
+      "assignmentId": "a203",
+      "day": 1,
+      "period": 6
+    },
+    {
+      "id": "l202-2-3",
+      "assignmentId": "a203",
+      "day": 2,
+      "period": 3
+    },
+    {
+      "id": "l202-3-6",
+      "assignmentId": "a203",
+      "day": 3,
+      "period": 6
+    },
+    {
+      "id": "l202-4-1",
+      "assignmentId": "a203",
+      "day": 4,
+      "period": 1
+    },
+    {
+      "id": "l203-0-5",
+      "assignmentId": "a204",
+      "day": 0,
+      "period": 5
+    },
+    {
+      "id": "l203-1-0",
+      "assignmentId": "a204",
+      "day": 1,
+      "period": 0
+    },
+    {
+      "id": "l203-3-1",
+      "assignmentId": "a204",
+      "day": 3,
+      "period": 1
+    },
+    {
+      "id": "l203-4-5",
+      "assignmentId": "a204",
+      "day": 4,
+      "period": 5
+    },
+    {
+      "id": "l204-4-3",
+      "assignmentId": "a205",
+      "day": 4,
+      "period": 3
+    },
+    {
+      "id": "l205-0-2",
+      "assignmentId": "a206",
+      "day": 0,
+      "period": 2
+    },
+    {
+      "id": "l205-1-5",
+      "assignmentId": "a206",
+      "day": 1,
+      "period": 5
+    },
+    {
+      "id": "l206-1-2",
+      "assignmentId": "a207",
+      "day": 1,
+      "period": 2
+    },
+    {
+      "id": "l206-2-6",
+      "assignmentId": "a207",
+      "day": 2,
+      "period": 6
+    },
+    {
+      "id": "l206-3-3",
+      "assignmentId": "a207",
+      "day": 3,
+      "period": 3
+    },
+    {
+      "id": "l206-4-0",
+      "assignmentId": "a207",
+      "day": 4,
+      "period": 0
+    },
+    {
+      "id": "l207-0-3",
+      "assignmentId": "a208",
+      "day": 0,
+      "period": 3
+    },
+    {
+      "id": "l207-1-3",
+      "assignmentId": "a208",
+      "day": 1,
+      "period": 3
+    },
+    {
+      "id": "l207-2-0",
+      "assignmentId": "a208",
+      "day": 2,
+      "period": 0
+    },
+    {
+      "id": "l207-3-4",
+      "assignmentId": "a208",
+      "day": 3,
+      "period": 4
+    },
+    {
+      "id": "l207-4-6",
+      "assignmentId": "a208",
+      "day": 4,
+      "period": 6
+    },
+    {
+      "id": "l208-2-1",
+      "assignmentId": "a209",
+      "day": 2,
+      "period": 1
+    },
+    {
+      "id": "l208-3-0",
+      "assignmentId": "a209",
+      "day": 3,
+      "period": 0
+    },
+    {
+      "id": "l209-2-4",
+      "assignmentId": "a210",
+      "day": 2,
+      "period": 4
+    },
+    {
+      "id": "l209-4-2",
+      "assignmentId": "a210",
+      "day": 4,
+      "period": 2
+    },
+    {
+      "id": "l210-0-6",
+      "assignmentId": "a211",
+      "day": 0,
+      "period": 6
+    },
+    {
+      "id": "l210-1-4",
+      "assignmentId": "a211",
+      "day": 1,
+      "period": 4
+    },
+    {
+      "id": "l211-2-6",
+      "assignmentId": "a212",
+      "day": 2,
+      "period": 6
+    },
+    {
+      "id": "l211-4-3",
+      "assignmentId": "a212",
+      "day": 4,
+      "period": 3
+    },
+    {
+      "id": "l212-0-6",
+      "assignmentId": "a213",
+      "day": 0,
+      "period": 6
+    },
+    {
+      "id": "l212-1-6",
+      "assignmentId": "a213",
+      "day": 1,
+      "period": 6
+    },
+    {
+      "id": "l212-3-3",
+      "assignmentId": "a213",
+      "day": 3,
+      "period": 3
+    },
+    {
+      "id": "l212-4-2",
+      "assignmentId": "a213",
+      "day": 4,
+      "period": 2
+    },
+    {
+      "id": "l213-0-2",
+      "assignmentId": "a214",
+      "day": 0,
+      "period": 2
+    },
+    {
+      "id": "l214-0-0",
+      "assignmentId": "a215",
+      "day": 0,
+      "period": 0
+    },
+    {
+      "id": "l214-1-1",
+      "assignmentId": "a215",
+      "day": 1,
+      "period": 1
+    },
+    {
+      "id": "l214-1-3",
+      "assignmentId": "a215",
+      "day": 1,
+      "period": 3
+    },
+    {
+      "id": "l214-2-4",
+      "assignmentId": "a215",
+      "day": 2,
+      "period": 4
+    },
+    {
+      "id": "l214-3-0",
+      "assignmentId": "a215",
+      "day": 3,
+      "period": 0
+    },
+    {
+      "id": "l214-4-0",
+      "assignmentId": "a215",
+      "day": 4,
+      "period": 0
+    },
+    {
+      "id": "l215-0-5",
+      "assignmentId": "a216",
+      "day": 0,
+      "period": 5
+    },
+    {
+      "id": "l215-1-0",
+      "assignmentId": "a216",
+      "day": 1,
+      "period": 0
+    },
+    {
+      "id": "l215-2-1",
+      "assignmentId": "a216",
+      "day": 2,
+      "period": 1
+    },
+    {
+      "id": "l215-3-5",
+      "assignmentId": "a216",
+      "day": 3,
+      "period": 5
+    },
+    {
+      "id": "l215-4-5",
+      "assignmentId": "a216",
+      "day": 4,
+      "period": 5
+    },
+    {
+      "id": "l216-3-1",
+      "assignmentId": "a217",
+      "day": 3,
+      "period": 1
+    },
+    {
+      "id": "l216-4-4",
+      "assignmentId": "a217",
+      "day": 4,
+      "period": 4
+    },
+    {
+      "id": "l217-0-1",
+      "assignmentId": "a218",
+      "day": 0,
+      "period": 1
+    },
+    {
+      "id": "l217-1-2",
+      "assignmentId": "a218",
+      "day": 1,
+      "period": 2
+    },
+    {
+      "id": "l217-2-0",
+      "assignmentId": "a218",
+      "day": 2,
+      "period": 0
+    },
+    {
+      "id": "l217-4-6",
+      "assignmentId": "a218",
+      "day": 4,
+      "period": 6
+    },
+    {
+      "id": "l218-1-4",
+      "assignmentId": "a219",
+      "day": 1,
+      "period": 4
+    },
+    {
+      "id": "l219-2-2",
+      "assignmentId": "a220",
+      "day": 2,
+      "period": 2
+    },
+    {
+      "id": "l219-4-1",
+      "assignmentId": "a220",
+      "day": 4,
+      "period": 1
+    },
+    {
+      "id": "l220-0-3",
+      "assignmentId": "a221",
+      "day": 0,
+      "period": 3
+    },
+    {
+      "id": "l220-1-5",
+      "assignmentId": "a221",
+      "day": 1,
+      "period": 5
+    },
+    {
+      "id": "l220-2-5",
+      "assignmentId": "a221",
+      "day": 2,
+      "period": 5
+    },
+    {
+      "id": "l220-3-2",
+      "assignmentId": "a221",
+      "day": 3,
+      "period": 2
+    },
+    {
+      "id": "l221-0-4",
+      "assignmentId": "a222",
+      "day": 0,
+      "period": 4
+    },
+    {
+      "id": "l221-3-6",
+      "assignmentId": "a222",
+      "day": 3,
+      "period": 6
+    },
+    {
+      "id": "l222-2-3",
+      "assignmentId": "a223",
+      "day": 2,
+      "period": 3
+    },
+    {
+      "id": "l222-3-4",
+      "assignmentId": "a223",
+      "day": 3,
+      "period": 4
+    },
+    {
+      "id": "l223-1-1",
+      "assignmentId": "a224",
+      "day": 1,
+      "period": 1
+    },
+    {
+      "id": "l223-4-0",
+      "assignmentId": "a224",
+      "day": 4,
+      "period": 0
+    },
+    {
+      "id": "l224-0-4",
+      "assignmentId": "a225",
+      "day": 0,
+      "period": 4
+    },
+    {
+      "id": "l224-1-5",
+      "assignmentId": "a225",
+      "day": 1,
+      "period": 5
+    },
+    {
+      "id": "l224-2-0",
+      "assignmentId": "a225",
+      "day": 2,
+      "period": 0
+    },
+    {
+      "id": "l224-3-2",
+      "assignmentId": "a225",
+      "day": 3,
+      "period": 2
+    },
+    {
+      "id": "l224-4-3",
+      "assignmentId": "a225",
+      "day": 4,
+      "period": 3
+    },
+    {
+      "id": "l225-0-1",
+      "assignmentId": "a226",
+      "day": 0,
+      "period": 1
+    },
+    {
+      "id": "l225-2-2",
+      "assignmentId": "a226",
+      "day": 2,
+      "period": 2
+    },
+    {
+      "id": "l226-2-1",
+      "assignmentId": "a227",
+      "day": 2,
+      "period": 1
+    },
+    {
+      "id": "l227-4-4",
+      "assignmentId": "a228",
+      "day": 4,
+      "period": 4
+    },
+    {
+      "id": "l228-0-5",
+      "assignmentId": "a229",
+      "day": 0,
+      "period": 5
+    },
+    {
+      "id": "l228-3-6",
+      "assignmentId": "a229",
+      "day": 3,
+      "period": 6
+    },
+    {
+      "id": "l229-0-2",
+      "assignmentId": "a230",
+      "day": 0,
+      "period": 2
+    },
+    {
+      "id": "l229-1-4",
+      "assignmentId": "a230",
+      "day": 1,
+      "period": 4
+    },
+    {
+      "id": "l229-2-5",
+      "assignmentId": "a230",
+      "day": 2,
+      "period": 5
+    },
+    {
+      "id": "l229-3-1",
+      "assignmentId": "a230",
+      "day": 3,
+      "period": 1
+    },
+    {
+      "id": "l229-3-4",
+      "assignmentId": "a230",
+      "day": 3,
+      "period": 4
+    },
+    {
+      "id": "l229-4-6",
+      "assignmentId": "a230",
+      "day": 4,
+      "period": 6
+    },
+    {
+      "id": "l230-0-6",
+      "assignmentId": "a231",
+      "day": 0,
+      "period": 6
+    },
+    {
+      "id": "l230-1-3",
+      "assignmentId": "a231",
+      "day": 1,
+      "period": 3
+    },
+    {
+      "id": "l230-2-4",
+      "assignmentId": "a231",
+      "day": 2,
+      "period": 4
+    },
+    {
+      "id": "l230-4-2",
+      "assignmentId": "a231",
+      "day": 4,
+      "period": 2
+    },
+    {
+      "id": "l231-0-0",
+      "assignmentId": "a232",
+      "day": 0,
+      "period": 0
+    },
+    {
+      "id": "l231-2-3",
+      "assignmentId": "a232",
+      "day": 2,
+      "period": 3
+    },
+    {
+      "id": "l231-3-0",
+      "assignmentId": "a232",
+      "day": 3,
+      "period": 0
+    },
+    {
+      "id": "l231-4-1",
+      "assignmentId": "a232",
+      "day": 4,
+      "period": 1
+    },
+    {
+      "id": "l232-1-2",
+      "assignmentId": "a233",
+      "day": 1,
+      "period": 2
+    },
+    {
+      "id": "l232-3-5",
+      "assignmentId": "a233",
+      "day": 3,
+      "period": 5
+    },
+    {
+      "id": "l233-1-0",
+      "assignmentId": "a234",
+      "day": 1,
+      "period": 0
+    },
+    {
+      "id": "l233-2-6",
+      "assignmentId": "a234",
+      "day": 2,
+      "period": 6
+    },
+    {
+      "id": "l233-3-3",
+      "assignmentId": "a234",
+      "day": 3,
+      "period": 3
+    },
+    {
+      "id": "l233-4-5",
+      "assignmentId": "a234",
+      "day": 4,
+      "period": 5
+    },
+    {
+      "id": "l234-0-3",
+      "assignmentId": "a235",
+      "day": 0,
+      "period": 3
+    },
+    {
+      "id": "l234-1-6",
+      "assignmentId": "a235",
+      "day": 1,
+      "period": 6
+    },
+    {
+      "id": "l235-2-0",
+      "assignmentId": "a236",
+      "day": 2,
+      "period": 0
+    },
+    {
+      "id": "l235-4-2",
+      "assignmentId": "a236",
+      "day": 4,
+      "period": 2
+    },
+    {
+      "id": "l236-2-1",
+      "assignmentId": "a237",
+      "day": 2,
+      "period": 1
+    },
+    {
+      "id": "l237-0-6",
+      "assignmentId": "a238",
+      "day": 0,
+      "period": 6
+    },
+    {
+      "id": "l237-1-3",
+      "assignmentId": "a238",
+      "day": 1,
+      "period": 3
+    },
+    {
+      "id": "l238-0-5",
+      "assignmentId": "a239",
+      "day": 0,
+      "period": 5
+    },
+    {
+      "id": "l238-1-4",
+      "assignmentId": "a239",
+      "day": 1,
+      "period": 4
+    },
+    {
+      "id": "l238-2-2",
+      "assignmentId": "a239",
+      "day": 2,
+      "period": 2
+    },
+    {
+      "id": "l238-3-6",
+      "assignmentId": "a239",
+      "day": 3,
+      "period": 6
+    },
+    {
+      "id": "l238-4-3",
+      "assignmentId": "a239",
+      "day": 4,
+      "period": 3
+    },
+    {
+      "id": "l239-0-4",
+      "assignmentId": "a240",
+      "day": 0,
+      "period": 4
+    },
+    {
+      "id": "l239-1-2",
+      "assignmentId": "a240",
+      "day": 1,
+      "period": 2
+    },
+    {
+      "id": "l240-0-0",
+      "assignmentId": "a241",
+      "day": 0,
+      "period": 0
+    },
+    {
+      "id": "l240-0-3",
+      "assignmentId": "a241",
+      "day": 0,
+      "period": 3
+    },
+    {
+      "id": "l240-1-1",
+      "assignmentId": "a241",
+      "day": 1,
+      "period": 1
+    },
+    {
+      "id": "l240-2-6",
+      "assignmentId": "a241",
+      "day": 2,
+      "period": 6
+    },
+    {
+      "id": "l240-3-5",
+      "assignmentId": "a241",
+      "day": 3,
+      "period": 5
+    },
+    {
+      "id": "l240-4-0",
+      "assignmentId": "a241",
+      "day": 4,
+      "period": 0
+    },
+    {
+      "id": "l241-1-6",
+      "assignmentId": "a242",
+      "day": 1,
+      "period": 6
+    },
+    {
+      "id": "l241-2-3",
+      "assignmentId": "a242",
+      "day": 2,
+      "period": 3
+    },
+    {
+      "id": "l241-3-4",
+      "assignmentId": "a242",
+      "day": 3,
+      "period": 4
+    },
+    {
+      "id": "l241-4-4",
+      "assignmentId": "a242",
+      "day": 4,
+      "period": 4
+    },
+    {
+      "id": "l242-0-2",
+      "assignmentId": "a243",
+      "day": 0,
+      "period": 2
+    },
+    {
+      "id": "l242-2-5",
+      "assignmentId": "a243",
+      "day": 2,
+      "period": 5
+    },
+    {
+      "id": "l242-3-1",
+      "assignmentId": "a243",
+      "day": 3,
+      "period": 1
+    },
+    {
+      "id": "l242-4-5",
+      "assignmentId": "a243",
+      "day": 4,
+      "period": 5
+    },
+    {
+      "id": "l243-1-0",
+      "assignmentId": "a244",
+      "day": 1,
+      "period": 0
+    },
+    {
+      "id": "l243-3-0",
+      "assignmentId": "a244",
+      "day": 3,
+      "period": 0
+    },
+    {
+      "id": "l244-1-5",
+      "assignmentId": "a245",
+      "day": 1,
+      "period": 5
+    },
+    {
+      "id": "l245-0-1",
+      "assignmentId": "a246",
+      "day": 0,
+      "period": 1
+    },
+    {
+      "id": "l245-2-4",
+      "assignmentId": "a246",
+      "day": 2,
+      "period": 4
+    },
+    {
+      "id": "l245-3-2",
+      "assignmentId": "a246",
+      "day": 3,
+      "period": 2
+    },
+    {
+      "id": "l245-4-6",
+      "assignmentId": "a246",
+      "day": 4,
+      "period": 6
+    },
+    {
+      "id": "l246-3-3",
+      "assignmentId": "a247",
+      "day": 3,
+      "period": 3
+    },
+    {
+      "id": "l246-4-1",
+      "assignmentId": "a247",
+      "day": 4,
+      "period": 1
+    },
+    {
+      "id": "l247-0-4",
+      "assignmentId": "a248",
+      "day": 0,
+      "period": 4
+    },
+    {
+      "id": "l247-4-6",
+      "assignmentId": "a248",
+      "day": 4,
+      "period": 6
+    },
+    {
+      "id": "l248-2-2",
+      "assignmentId": "a249",
+      "day": 2,
+      "period": 2
+    },
+    {
+      "id": "l249-3-0",
+      "assignmentId": "a250",
+      "day": 3,
+      "period": 0
+    },
+    {
+      "id": "l249-4-3",
+      "assignmentId": "a250",
+      "day": 4,
+      "period": 3
+    },
+    {
+      "id": "l250-0-0",
+      "assignmentId": "a251",
+      "day": 0,
+      "period": 0
+    },
+    {
+      "id": "l250-1-0",
+      "assignmentId": "a251",
+      "day": 1,
+      "period": 0
+    },
+    {
+      "id": "l250-2-0",
+      "assignmentId": "a251",
+      "day": 2,
+      "period": 0
+    },
+    {
+      "id": "l250-3-5",
+      "assignmentId": "a251",
+      "day": 3,
+      "period": 5
+    },
+    {
+      "id": "l250-4-1",
+      "assignmentId": "a251",
+      "day": 4,
+      "period": 1
+    },
+    {
+      "id": "l251-0-1",
+      "assignmentId": "a252",
+      "day": 0,
+      "period": 1
+    },
+    {
+      "id": "l251-1-1",
+      "assignmentId": "a252",
+      "day": 1,
+      "period": 1
+    },
+    {
+      "id": "l252-0-2",
+      "assignmentId": "a253",
+      "day": 0,
+      "period": 2
+    },
+    {
+      "id": "l252-1-2",
+      "assignmentId": "a253",
+      "day": 1,
+      "period": 2
+    },
+    {
+      "id": "l252-2-5",
+      "assignmentId": "a253",
+      "day": 2,
+      "period": 5
+    },
+    {
+      "id": "l252-3-6",
+      "assignmentId": "a253",
+      "day": 3,
+      "period": 6
+    },
+    {
+      "id": "l253-0-5",
+      "assignmentId": "a254",
+      "day": 0,
+      "period": 5
+    },
+    {
+      "id": "l253-1-3",
+      "assignmentId": "a254",
+      "day": 1,
+      "period": 3
+    },
+    {
+      "id": "l253-2-3",
+      "assignmentId": "a254",
+      "day": 2,
+      "period": 3
+    },
+    {
+      "id": "l253-3-2",
+      "assignmentId": "a254",
+      "day": 3,
+      "period": 2
+    },
+    {
+      "id": "l253-4-4",
+      "assignmentId": "a254",
+      "day": 4,
+      "period": 4
+    },
+    {
+      "id": "l253-4-5",
+      "assignmentId": "a254",
+      "day": 4,
+      "period": 5
+    },
+    {
+      "id": "l254-0-6",
+      "assignmentId": "a255",
+      "day": 0,
+      "period": 6
+    },
+    {
+      "id": "l254-1-4",
+      "assignmentId": "a255",
+      "day": 1,
+      "period": 4
+    },
+    {
+      "id": "l254-3-3",
+      "assignmentId": "a255",
+      "day": 3,
+      "period": 3
+    },
+    {
+      "id": "l254-4-0",
+      "assignmentId": "a255",
+      "day": 4,
+      "period": 0
+    },
+    {
+      "id": "l255-0-3",
+      "assignmentId": "a256",
+      "day": 0,
+      "period": 3
+    },
+    {
+      "id": "l255-3-1",
+      "assignmentId": "a256",
+      "day": 3,
+      "period": 1
+    },
+    {
+      "id": "l256-2-6",
+      "assignmentId": "a257",
+      "day": 2,
+      "period": 6
+    },
+    {
+      "id": "l257-1-6",
+      "assignmentId": "a258",
+      "day": 1,
+      "period": 6
+    },
+    {
+      "id": "l257-2-1",
+      "assignmentId": "a258",
+      "day": 2,
+      "period": 1
+    },
+    {
+      "id": "l257-3-4",
+      "assignmentId": "a258",
+      "day": 3,
+      "period": 4
+    },
+    {
+      "id": "l257-4-2",
+      "assignmentId": "a258",
+      "day": 4,
+      "period": 2
+    },
+    {
+      "id": "l258-1-5",
+      "assignmentId": "a259",
+      "day": 1,
+      "period": 5
+    },
+    {
+      "id": "l258-2-4",
+      "assignmentId": "a259",
+      "day": 2,
+      "period": 4
+    },
+    {
+      "id": "l259-0-1",
+      "assignmentId": "a260",
+      "day": 0,
+      "period": 1
+    },
+    {
+      "id": "l259-2-3",
+      "assignmentId": "a260",
+      "day": 2,
+      "period": 3
+    },
+    {
+      "id": "l260-1-2",
+      "assignmentId": "a261",
+      "day": 1,
+      "period": 2
+    },
+    {
+      "id": "l260-2-5",
+      "assignmentId": "a261",
+      "day": 2,
+      "period": 5
+    },
+    {
+      "id": "l260-3-4",
+      "assignmentId": "a261",
+      "day": 3,
+      "period": 4
+    },
+    {
+      "id": "l260-4-5",
+      "assignmentId": "a261",
+      "day": 4,
+      "period": 5
+    },
+    {
+      "id": "l261-0-0",
+      "assignmentId": "a262",
+      "day": 0,
+      "period": 0
+    },
+    {
+      "id": "l261-1-6",
+      "assignmentId": "a262",
+      "day": 1,
+      "period": 6
+    },
+    {
+      "id": "l261-2-2",
+      "assignmentId": "a262",
+      "day": 2,
+      "period": 2
+    },
+    {
+      "id": "l261-3-2",
+      "assignmentId": "a262",
+      "day": 3,
+      "period": 2
+    },
+    {
+      "id": "l261-4-0",
+      "assignmentId": "a262",
+      "day": 4,
+      "period": 0
+    },
+    {
+      "id": "l262-0-2",
+      "assignmentId": "a263",
+      "day": 0,
+      "period": 2
+    },
+    {
+      "id": "l262-2-0",
+      "assignmentId": "a263",
+      "day": 2,
+      "period": 0
+    },
+    {
+      "id": "l263-3-1",
+      "assignmentId": "a264",
+      "day": 3,
+      "period": 1
+    },
+    {
+      "id": "l264-1-1",
+      "assignmentId": "a265",
+      "day": 1,
+      "period": 1
+    },
+    {
+      "id": "l265-1-4",
+      "assignmentId": "a266",
+      "day": 1,
+      "period": 4
+    },
+    {
+      "id": "l265-2-6",
+      "assignmentId": "a266",
+      "day": 2,
+      "period": 6
+    },
+    {
+      "id": "l266-0-6",
+      "assignmentId": "a267",
+      "day": 0,
+      "period": 6
+    },
+    {
+      "id": "l266-2-1",
+      "assignmentId": "a267",
+      "day": 2,
+      "period": 1
+    },
+    {
+      "id": "l266-3-5",
+      "assignmentId": "a267",
+      "day": 3,
+      "period": 5
+    },
+    {
+      "id": "l266-4-4",
+      "assignmentId": "a267",
+      "day": 4,
+      "period": 4
+    },
+    {
+      "id": "l267-0-4",
+      "assignmentId": "a268",
+      "day": 0,
+      "period": 4
+    },
+    {
+      "id": "l267-1-5",
+      "assignmentId": "a268",
+      "day": 1,
+      "period": 5
+    },
+    {
+      "id": "l267-2-4",
+      "assignmentId": "a268",
+      "day": 2,
+      "period": 4
+    },
+    {
+      "id": "l267-3-0",
+      "assignmentId": "a268",
+      "day": 3,
+      "period": 0
+    },
+    {
+      "id": "l267-3-6",
+      "assignmentId": "a268",
+      "day": 3,
+      "period": 6
+    },
+    {
+      "id": "l267-4-3",
+      "assignmentId": "a268",
+      "day": 4,
+      "period": 3
+    },
+    {
+      "id": "l268-0-5",
+      "assignmentId": "a269",
+      "day": 0,
+      "period": 5
+    },
+    {
+      "id": "l268-4-1",
+      "assignmentId": "a269",
+      "day": 4,
+      "period": 1
+    },
+    {
+      "id": "l269-0-3",
+      "assignmentId": "a270",
+      "day": 0,
+      "period": 3
+    },
+    {
+      "id": "l269-1-3",
+      "assignmentId": "a270",
+      "day": 1,
+      "period": 3
+    },
+    {
+      "id": "l269-3-3",
+      "assignmentId": "a270",
+      "day": 3,
+      "period": 3
+    },
+    {
+      "id": "l269-4-2",
+      "assignmentId": "a270",
+      "day": 4,
+      "period": 2
+    },
+    {
+      "id": "l270-1-0",
+      "assignmentId": "a271",
+      "day": 1,
+      "period": 0
+    },
+    {
+      "id": "l270-4-6",
+      "assignmentId": "a271",
+      "day": 4,
+      "period": 6
+    },
+    {
+      "id": "l271-0-2",
+      "assignmentId": "a272",
+      "day": 0,
+      "period": 2
+    },
+    {
+      "id": "l271-4-5",
+      "assignmentId": "a272",
+      "day": 4,
+      "period": 5
+    },
+    {
+      "id": "l272-4-1",
+      "assignmentId": "a273",
+      "day": 4,
+      "period": 1
+    },
+    {
+      "id": "l273-0-6",
+      "assignmentId": "a274",
+      "day": 0,
+      "period": 6
+    },
+    {
+      "id": "l273-1-1",
+      "assignmentId": "a274",
+      "day": 1,
+      "period": 1
+    },
+    {
+      "id": "l273-2-6",
+      "assignmentId": "a274",
+      "day": 2,
+      "period": 6
+    },
+    {
+      "id": "l273-3-6",
+      "assignmentId": "a274",
+      "day": 3,
+      "period": 6
+    },
+    {
+      "id": "l273-4-6",
+      "assignmentId": "a274",
+      "day": 4,
+      "period": 6
+    },
+    {
+      "id": "l274-1-0",
+      "assignmentId": "a275",
+      "day": 1,
+      "period": 0
+    },
+    {
+      "id": "l274-2-4",
+      "assignmentId": "a275",
+      "day": 2,
+      "period": 4
+    },
+    {
+      "id": "l275-0-0",
+      "assignmentId": "a276",
+      "day": 0,
+      "period": 0
+    },
+    {
+      "id": "l276-3-3",
+      "assignmentId": "a277",
+      "day": 3,
+      "period": 3
+    },
+    {
+      "id": "l276-4-4",
+      "assignmentId": "a277",
+      "day": 4,
+      "period": 4
+    },
+    {
+      "id": "l277-0-1",
+      "assignmentId": "a278",
+      "day": 0,
+      "period": 1
+    },
+    {
+      "id": "l277-1-4",
+      "assignmentId": "a278",
+      "day": 1,
+      "period": 4
+    },
+    {
+      "id": "l277-3-2",
+      "assignmentId": "a278",
+      "day": 3,
+      "period": 2
+    },
+    {
+      "id": "l277-4-0",
+      "assignmentId": "a278",
+      "day": 4,
+      "period": 0
+    },
+    {
+      "id": "l278-0-4",
+      "assignmentId": "a279",
+      "day": 0,
+      "period": 4
+    },
+    {
+      "id": "l278-1-6",
+      "assignmentId": "a279",
+      "day": 1,
+      "period": 6
+    },
+    {
+      "id": "l278-2-0",
+      "assignmentId": "a279",
+      "day": 2,
+      "period": 0
+    },
+    {
+      "id": "l278-3-5",
+      "assignmentId": "a279",
+      "day": 3,
+      "period": 5
+    },
+    {
+      "id": "l279-2-1",
+      "assignmentId": "a280",
+      "day": 2,
+      "period": 1
+    },
+    {
+      "id": "l279-3-4",
+      "assignmentId": "a280",
+      "day": 3,
+      "period": 4
+    },
+    {
+      "id": "l280-0-3",
+      "assignmentId": "a281",
+      "day": 0,
+      "period": 3
+    },
+    {
+      "id": "l280-0-5",
+      "assignmentId": "a281",
+      "day": 0,
+      "period": 5
+    },
+    {
+      "id": "l280-1-2",
+      "assignmentId": "a281",
+      "day": 1,
+      "period": 2
+    },
+    {
+      "id": "l280-2-3",
+      "assignmentId": "a281",
+      "day": 2,
+      "period": 3
+    },
+    {
+      "id": "l280-3-0",
+      "assignmentId": "a281",
+      "day": 3,
+      "period": 0
+    },
+    {
+      "id": "l280-4-2",
+      "assignmentId": "a281",
+      "day": 4,
+      "period": 2
+    },
+    {
+      "id": "l281-1-5",
+      "assignmentId": "a282",
+      "day": 1,
+      "period": 5
+    },
+    {
+      "id": "l281-2-5",
+      "assignmentId": "a282",
+      "day": 2,
+      "period": 5
+    },
+    {
+      "id": "l281-3-1",
+      "assignmentId": "a282",
+      "day": 3,
+      "period": 1
+    },
+    {
+      "id": "l281-4-3",
+      "assignmentId": "a282",
+      "day": 4,
+      "period": 3
+    },
+    {
+      "id": "l282-1-3",
+      "assignmentId": "a283",
+      "day": 1,
+      "period": 3
+    },
+    {
+      "id": "l282-2-2",
+      "assignmentId": "a283",
+      "day": 2,
+      "period": 2
+    }
+  ],
+  "sourceImport": "assignments-1448-term1-v1"
+}
