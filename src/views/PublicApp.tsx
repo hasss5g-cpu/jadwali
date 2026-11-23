@@ -15,16 +15,28 @@ function useHash(): string {
   return hash;
 }
 
-function Shell({ data, title, subtitle, children }: { data: SchoolData; title: string; subtitle?: string; children: React.ReactNode }) {
+function Shell({
+  data,
+  title,
+  subtitle,
+  landscape,
+  children,
+}: {
+  data: SchoolData;
+  title: string;
+  subtitle?: string;
+  landscape?: boolean;
+  children: React.ReactNode;
+}) {
   return (
-    <div className="mx-auto max-w-4xl px-3 py-6">
+    <div className={`mx-auto max-w-4xl px-3 py-6 ${landscape ? 'print-landscape' : ''}`}>
       <header className="mb-4 flex flex-wrap items-center justify-between gap-2">
         <div>
           <p className="m-0 text-[11px] font-bold text-[var(--brand)]">جدولي · {data.school}</p>
           <h1 className="m-0 text-xl font-extrabold">{title}</h1>
           {subtitle && <p className="m-0 mt-0.5 text-[12px] text-[var(--muted)]">{subtitle}</p>}
         </div>
-        <a className="btn btn-sm" href="#/classes">
+        <a className="btn btn-sm no-print" href="#/classes">
           كل الفصول
         </a>
       </header>
@@ -138,8 +150,8 @@ export function PublicApp() {
 
   if (activeClass) {
     return (
-      <Shell data={data} title={`جدول ${activeClass.name}`} subtitle={`${data.term} · ${activeClass.room}`}>
-        <button className="btn btn-sm mb-2" onClick={() => window.print()}>
+      <Shell data={data} title={`جدول ${activeClass.name}`} subtitle={`${data.term} · ${activeClass.room}`} landscape>
+        <button className="btn btn-sm no-print mb-2" onClick={() => window.print()}>
           <Icon name="printer" size={15} /> طباعة
         </button>
         <ScheduleTable

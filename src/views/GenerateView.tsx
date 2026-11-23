@@ -84,6 +84,12 @@ export function GenerateView() {
             onChange={(v) => set('balanceSeventh', v)}
           />
           <Toggle
+            label="كل أيام الأسبوع"
+            hint="لا يبقى لأي معلم يوم خالٍ من الحصص (مفعّل افتراضيًا)."
+            checked={options.allDays}
+            onChange={(v) => set('allDays', v)}
+          />
+          <Toggle
             label="السماح بتجاوز النصاب"
             hint="عند تعذّر التوزيع ضمن النصاب، يرفعه ويذكر ذلك في التقرير."
             checked={options.relaxLoad}
@@ -167,6 +173,12 @@ export function GenerateView() {
                 tone={report.artPairsIntact === report.artPairs ? 'ok' : 'warn'}
               />
               <Stat
+                label="أيام خالية"
+                value={numberAr(report.missingDays)}
+                hint="أيام بلا حصص لأي معلم"
+                tone={report.missingDays === 0 ? 'ok' : 'warn'}
+              />
+              <Stat
                 label="زمن التوليد"
                 value={`${(report.ms / 1000).toFixed(1)}s`}
                 hint={`${numberAr(report.iterations)} محاولة`}
@@ -193,6 +205,7 @@ export function GenerateView() {
                       <th>النصاب</th>
                       <th>الفراغات</th>
                       <th>التتابع</th>
+                      <th>الأيام</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -205,6 +218,9 @@ export function GenerateView() {
                         </td>
                         <td>{numberAr(teacher.holes)}</td>
                         <td>{numberAr(teacher.longRuns)}</td>
+                        <td className={teacher.missingDays ? 'font-bold text-[var(--warn)]' : ''}>
+                          {teacher.activeDays}/{data.days}
+                        </td>
                       </tr>
                     ))}
                   </tbody>

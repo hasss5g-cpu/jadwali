@@ -53,7 +53,9 @@ export function ScheduleView() {
 
   const printSheet = () => {
     if (mode === 'class') {
-      print(`جدول الفصل — ${className(data, classId)}`, <ClassSheet data={data} classId={classId} />);
+      print(`جدول الفصل — ${className(data, classId)}`, <ClassSheet data={data} classId={classId} />, {
+        orientation: 'landscape',
+      });
     } else {
       print(`جدول المعلم — ${teacherName(data, teacherId)}`, <TeacherSheet data={data} teacherId={teacherId} />);
     }

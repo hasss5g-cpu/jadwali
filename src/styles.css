@@ -429,6 +429,19 @@ body {
     margin: 8mm;
   }
 
+  @page public-landscape {
+    size: A4 landscape;
+    margin: 8mm;
+  }
+
+  .print-landscape {
+    page: public-landscape;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
   .print-sheet[data-orientation='portrait'][data-size='A4'] {
     page: p-a4;
   }

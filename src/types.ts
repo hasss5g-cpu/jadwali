@@ -75,6 +75,8 @@ export interface GenerationOptions {
   goldenDay: boolean;
   /** يوازن حصص الحصة الأخيرة بين المعلمين */
   balanceSeventh: boolean;
+  /** يجعل كل معلم يعمل في كل أيام الأسبوع بلا يوم خالٍ */
+  allDays: boolean;
   /** يسمح بتجاوز نصاب المعلم عند الضرورة، مع تقرير */
   relaxLoad: boolean;
 }
@@ -86,6 +88,7 @@ export const DEFAULT_OPTIONS: GenerationOptions = {
   maxRun: 3,
   goldenDay: true,
   balanceSeventh: true,
+  allDays: true,
   relaxLoad: true,
 };
 
@@ -120,6 +123,8 @@ export interface TeacherReport {
   longRuns: number;
   maxRun: number;
   activeDays: number;
+  /** أيام الأسبوع التي ليس للمعلم فيها حصة */
+  missingDays: number;
   seventh: number;
   goldenDays: number;
 }
@@ -134,6 +139,8 @@ export interface SolveReport {
   holes: number;
   longRuns: number;
   seventh: number;
+  /** عدد أيام المعلمين الخالية (المعلم موجود ولا حصة له في يوم) */
+  missingDays: number;
   score: number;
   seed: number;
   ms: number;

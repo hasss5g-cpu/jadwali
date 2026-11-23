@@ -21,6 +21,7 @@ describe('محرك التوزيع على بيانات المدرسة الحقي�
       longRuns: report.longRuns,
       repeats: report.dailyRepeats,
       seventh: report.seventh,
+      missingDays: report.missingDays,
       ms: report.ms,
       iters: report.iterations,
     }));
@@ -28,6 +29,11 @@ describe('محرك التوزيع على بيانات المدرسة الحقي�
     expect(report.placed).toBe(875);
     expect(report.conflicts).toBe(0);
     expect(report.artPairsIntact).toBe(report.artPairs);
+    // كل معلم يكفيه نصابه يعمل في كل أيام الأسبوع.
+    expect(report.missingDays).toBe(0);
+    for (const teacher of report.teachers) {
+      if (teacher.quota >= 5) expect(teacher.activeDays).toBe(5);
+    }
     expect(validate({ ...data, lessons: result.lessons })).toEqual([]);
   });
 });

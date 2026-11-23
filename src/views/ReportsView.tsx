@@ -57,7 +57,7 @@ function ReportCard({ title, description, icon, badge, controls, disabled, onPri
 
 export function ReportsView() {
   const { data, print } = useStore();
-  const [orientation, setOrientation] = useState<Orientation>('portrait');
+  const [orientation, setOrientation] = useState<Orientation>('landscape');
   const [size, setSize] = useState<PaperSize>('A4');
   const [compact, setCompact] = useState(false);
   const [classId, setClassId] = useState(data.classes[0]?.id ?? '');
@@ -120,7 +120,7 @@ export function ReportsView() {
       <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
         <ReportCard
           title="جدول فصل"
-          description="جدول أسبوعي كامل لفصل واحد على صفحة A4."
+          description="جدول أسبوعي كامل لفصل واحد — أفقي افتراضيًا على A4."
           icon="calendar"
           controls={
             <Field label="الفصل">

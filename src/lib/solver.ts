@@ -60,6 +60,7 @@ function emptyReport(seed: number, ms: number, total = 0): SolveReport {
     holes: 0,
     longRuns: 0,
     seventh: 0,
+    missingDays: 0,
     score: 0,
     seed,
     ms,
@@ -270,7 +271,12 @@ export function solve(
     compact: options.compact ? 4 : 0,
     seventh: options.balanceSeventh ? 0.5 : 0,
     golden: options.goldenDay ? 2.5 : 0,
+    // يوم خالٍ لمعلم = مخالفة شبه صارمة (أقل من تعارض المعلم، وأعلى من كل قيود الجودة).
+    allDays: options.allDays ? 260 : 0,
   };
+
+  // لا يمكن أن يعمل كل الأيام من حصصه أقل من عدد الأيام أصلًا.
+  const allDaysEligible = data.teachers.map((_, index) => demandOfTeacher[index] >= D);
 
   const classCost = (ci: number): number => {
     const list = byClassTasks[ci];
@@ -315,7 +321,10 @@ export function solve(
     for (let day = 0; day < D; day++) {
       const periods: number[] = [];
       for (const t of own) if (t.day === day) periods.push(t.period);
-      if (!periods.length) continue;
+      if (!periods.length) {
+        if (W.allDays && allDaysEligible[ti]) cost += W.allDays;
+        continue;
+      }
       periods.sort((a, b) => a - b);
       if (W.spread) cost += periods.length * periods.length * W.spread;
       cost += (periods[periods.length - 1] - periods[0] + 1 - periods.length) * W.hole;
@@ -505,6 +514,7 @@ function buildReport(
   let holes = 0;
   let longRuns = 0;
   let seventh = 0;
+  let missingDays = 0;
   const teachers: TeacherReport[] = data.teachers.map((teacher, ti) => {
     const own = meta.byTeacherTasks[ti];
     let localHoles = 0;
@@ -536,6 +546,9 @@ function buildReport(
     longRuns += localRuns;
     seventh += seventhCount;
     const demand = data.assignments.filter((a) => a.teacherId === teacher.id).reduce((n, a) => n + a.count, 0);
+    // الأيام الخالية تُحسب فقط لمن يكفيه نصابه لتغطية الأسبوع.
+    const missing = demand >= data.days ? data.days - activeDays : 0;
+    missingDays += missing;
     return {
       id: teacher.id,
       name: teacher.name,
@@ -546,6 +559,7 @@ function buildReport(
       longRuns: localRuns,
       maxRun: localMax,
       activeDays,
+      missingDays: missing,
       seventh: seventhCount,
       goldenDays,
     };
@@ -561,11 +575,22 @@ function buildReport(
     for (const n of bySubject.values()) if (n > data.days) floorRepeats += n - data.days;
   }
   const avoidableRepeats = Math.max(0, repeats - floorRepeats);
+  if (missingDays > 0) {
+    meta.notes.push(`${missingDays} يومًا بلا حصص لبعض المعلمين — تعذّر إشغالها ضمن القيود الحالية.`);
+  }
   const score = Math.max(
     0,
     Math.min(
       100,
-      Math.round(100 - conflicts * 25 - brokenArt * 4 - longRuns * 1.5 - avoidableRepeats * 2 - holes * 0.12),
+      Math.round(
+        100 -
+          conflicts * 25 -
+          brokenArt * 4 -
+          longRuns * 1.5 -
+          avoidableRepeats * 2 -
+          holes * 0.12 -
+          missingDays * 3,
+      ),
     ),
   );
 
@@ -579,6 +604,7 @@ function buildReport(
     holes,
     longRuns,
     seventh,
+    missingDays,
     score,
     seed: meta.seed,
     ms: meta.ms,
