@@ -34,6 +34,7 @@
 ![تقرير التوليد](docs/screenshots/generate-report.png)
 ![الانتظار](docs/screenshots/coverage.png)
 ![الطباعة](docs/screenshots/print-preview.png)
+![استعلام المعلم](docs/screenshots/lookup-result.png)
 
 ## التشغيل
 
