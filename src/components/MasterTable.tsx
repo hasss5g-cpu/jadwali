@@ -188,7 +188,7 @@ export function masterSubtitle(data: SchoolData, mode: MasterMode): string {
  * بهوامش 4مم، عبر ضبط zoom حسب القياس الفعلي للجدول.
  */
 /** هوامش صفحة الجدول العام: صفر من كل الجهات عدا يمين 12مم (يُطابق CSS @page). */
-export const MASTER_RIGHT_MARGIN_MM = 12;
+export const MASTER_RIGHT_MARGIN_MM = 8;
 
 export function FitToPage({ orientation, children }: { orientation: 'portrait' | 'landscape'; children: ReactNode }) {
   const outerRef = useRef<HTMLDivElement>(null);
@@ -237,3 +237,4 @@ export function FitToPage({ orientation, children }: { orientation: 'portrait' |
     </div>
   );
 }
+
