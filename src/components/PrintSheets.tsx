@@ -33,23 +33,23 @@ export function ClassSheet({ data, classId }: { data: SchoolData; classId: strin
       <table>
         <thead>
           <tr>
-            <th style={{ width: 72 }}>الحصة</th>
-            {DAY_NAMES.slice(0, data.days).map((d) => (
-              <th key={d}>{d}</th>
+            <th style={{ width: 92 }}>اليوم</th>
+            {Array.from({ length: data.periods }, (_, p) => (
+              <th key={p}>
+                {p + 1}
+                <div style={{ fontSize: 9, color: '#64748b' }}>{times(data)[p]}</div>
+              </th>
             ))}
           </tr>
         </thead>
         <tbody>
-          {Array.from({ length: data.periods }, (_, p) => (
-            <tr key={p}>
-              <th>
-                {p + 1}
-                <div style={{ fontSize: 9, color: '#64748b' }}>{times(data)[p]}</div>
-              </th>
-              {DAY_NAMES.slice(0, data.days).map((_, d) => {
+          {DAY_NAMES.slice(0, data.days).map((day, d) => (
+            <tr key={day}>
+              <th style={{ whiteSpace: 'nowrap' }}>{day}</th>
+              {Array.from({ length: data.periods }, (_, p) => {
                 const cell = find(d, p);
                 return (
-                  <td key={d}>
+                  <td key={p}>
                     {cell ? (
                       <>
                         <div style={{ fontWeight: 700 }}>{cell.subject}</div>
@@ -89,23 +89,23 @@ export function TeacherSheet({ data, teacherId }: { data: SchoolData; teacherId:
       <table>
         <thead>
           <tr>
-            <th style={{ width: 72 }}>الحصة</th>
-            {DAY_NAMES.slice(0, data.days).map((d) => (
-              <th key={d}>{d}</th>
+            <th style={{ width: 92 }}>اليوم</th>
+            {Array.from({ length: data.periods }, (_, p) => (
+              <th key={p}>
+                {p + 1}
+                <div style={{ fontSize: 9, color: '#64748b' }}>{times(data)[p]}</div>
+              </th>
             ))}
           </tr>
         </thead>
         <tbody>
-          {Array.from({ length: data.periods }, (_, p) => (
-            <tr key={p}>
-              <th>
-                {p + 1}
-                <div style={{ fontSize: 9, color: '#64748b' }}>{times(data)[p]}</div>
-              </th>
-              {DAY_NAMES.slice(0, data.days).map((_, d) => {
+          {DAY_NAMES.slice(0, data.days).map((day, d) => (
+            <tr key={day}>
+              <th style={{ whiteSpace: 'nowrap' }}>{day}</th>
+              {Array.from({ length: data.periods }, (_, p) => {
                 const cell = find(d, p);
                 return (
-                  <td key={d}>
+                  <td key={p}>
                     {cell ? (
                       <>
                         <div style={{ fontWeight: 700 }}>{cell.subject}</div>

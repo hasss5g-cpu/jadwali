@@ -56,23 +56,24 @@ function ScheduleTable({ data, filter }: { data: SchoolData; filter: (assignment
   return (
     <div className="card overflow-hidden p-2">
       <div className="scroll-x">
-        <div className="schedule-grid">
-          <div />
-          {DAY_NAMES.slice(0, data.days).map((day) => (
-            <div key={day} className="pb-1 text-center text-[12.5px] font-extrabold text-[var(--muted)]">
-              {day}
+        <div
+          className="schedule-grid"
+          style={{ gridTemplateColumns: `88px repeat(${data.periods}, minmax(0, 1fr))` }}
+        >
+          <div className="schedule-corner">الحصة</div>
+          {Array.from({ length: data.periods }, (_, period) => (
+            <div key={period} className="schedule-period-head">
+              <span className="text-[13px] font-extrabold">{period + 1}</span>
+              <span className="text-[9.5px] text-[var(--muted)]">{times[period]}</span>
             </div>
           ))}
-          {Array.from({ length: data.periods }, (_, period) => (
-            <div key={period} className="contents">
-              <div className="flex flex-col items-center justify-center rounded-lg bg-[#f3f7f5] px-1 py-2 text-center">
-                <span className="text-[13px] font-extrabold">{period + 1}</span>
-                <span className="text-[9.5px] text-[var(--muted)]">{times[period]}</span>
-              </div>
-              {DAY_NAMES.slice(0, data.days).map((_, day) => {
-                const assignment = cell(day, period);
+          {DAY_NAMES.slice(0, data.days).map((day, dayIndex) => (
+            <div key={day} className="contents">
+              <div className="schedule-day">{day}</div>
+              {Array.from({ length: data.periods }, (_, period) => {
+                const assignment = cell(dayIndex, period);
                 return (
-                  <div key={day} className="schedule-cell" data-empty={!assignment}>
+                  <div key={period} className="schedule-cell" data-empty={!assignment}>
                     {assignment ? (
                       <>
                         <div className="lesson-subject">{subjectName(data, assignment.subjectId)}</div>
