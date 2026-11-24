@@ -27,11 +27,20 @@ try {
 } catch {
   console.log('لا تغييرات جديدة للنشر.');
 }
-execFileSync('git', [
-  '-C', 'dist',
-  '-c', 'user.name=jadwali-deploy',
-  '-c', 'user.email=deploy@users.noreply.github.com',
-  'push', '-f', remote, 'HEAD:gh-pages',
-], { stdio: 'inherit' });
+const push = () =>
+  execFileSync('git', [
+    '-C', 'dist',
+    '-c', 'user.name=jadwali-deploy',
+    '-c', 'user.email=deploy@users.noreply.github.com',
+    'push', '-f', remote, 'HEAD:gh-pages',
+  ], { stdio: 'inherit' });
+
+try {
+  push();
+} catch (error) {
+  console.warn('تعذّر الدفع، إعادة المحاولة بعد ثانيتين…');
+  await new Promise((resolve) => setTimeout(resolve, 2000));
+  push();
+}
 
 console.log('نُشر البناء على فرع gh-pages.');
