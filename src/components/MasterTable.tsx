@@ -187,6 +187,9 @@ export function masterSubtitle(data: SchoolData, mode: MasterMode): string {
  * يصغّر المحتوى تلقائيًا ليدخل في صفحة واحدة بمقاس A3 (طولية أو عرضية)
  * بهوامش 4مم، عبر ضبط zoom حسب القياس الفعلي للجدول.
  */
+/** هوامش صفحة الجدول العام: صفر من كل الجهات عدا يمين 12مم (يُطابق CSS @page). */
+export const MASTER_RIGHT_MARGIN_MM = 12;
+
 export function FitToPage({ orientation, children }: { orientation: 'portrait' | 'landscape'; children: ReactNode }) {
   const outerRef = useRef<HTMLDivElement>(null);
   const innerRef = useRef<HTMLDivElement>(null);
@@ -198,8 +201,8 @@ export function FitToPage({ orientation, children }: { orientation: 'portrait' |
     if (!outer || !inner) return;
     const toPx = (mm: number) => (mm * 96) / 25.4;
     const [pageWidth, pageHeight] = orientation === 'portrait' ? [297, 420] : [420, 297];
-    // هوامش الصفحة صفر؛ نترك هامش أمان 2مم لتفادي الكسر أو القص عند الطباعة.
-    const availableWidth = toPx(pageWidth - 2);
+    // هامش أيمن 12مم حسب CSS، مع 2مم أمان لتفادي الكسر أو القص.
+    const availableWidth = toPx(pageWidth - MASTER_RIGHT_MARGIN_MM - 2);
     const availableHeight = toPx(pageHeight - 2);
 
     // نقيس على أرض الواقع ثم نصحّح: عرض الجدول الداخلي يتغيّر قليلًا مع نسبة التصغير
