@@ -152,6 +152,7 @@ export function PrintOverlay() {
         data-orientation={options.orientation ?? 'portrait'}
         data-size={size}
         data-compact={options.compact ? 'true' : 'false'}
+        data-edge={options.edge ? 'true' : 'false'}
       >
         {printDoc.content}
       </div>

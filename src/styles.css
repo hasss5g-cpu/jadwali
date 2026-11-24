@@ -165,7 +165,6 @@ body {
 
 .master-print table {
   width: max-content;
-  min-width: 100%;
   font-size: 7px;
 }
 
@@ -548,6 +547,11 @@ body {
 }
 
 @media screen {
+  .print-sheet[data-edge='true'] {
+    padding: 0;
+    overflow: hidden;
+  }
+
   .print-sheet[data-orientation='landscape'] {
     width: 297mm;
     min-height: 210mm;
@@ -627,12 +631,12 @@ body {
 
   @page p-a3 {
     size: A3 portrait;
-    margin: 4mm;
+    margin: 0;
   }
 
   @page l-a3 {
     size: A3 landscape;
-    margin: 4mm;
+    margin: 0;
   }
 
   @page public-landscape {

@@ -44,6 +44,7 @@ export function MasterView() {
                     orientation: mode === 'teacher' ? 'portrait' : 'landscape',
                     size: 'A3',
                     compact: true,
+                    edge: true,
                   },
                 )
               }

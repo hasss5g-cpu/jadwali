@@ -21,6 +21,8 @@ export interface PrintOptions {
   orientation?: 'portrait' | 'landscape';
   size?: 'A4' | 'A3';
   compact?: boolean;
+  /** بلا هوامش داخلية (لجداول تملأ الصفحة بالكامل). */
+  edge?: boolean;
 }
 
 interface StoreValue {

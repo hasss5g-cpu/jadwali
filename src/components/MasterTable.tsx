@@ -171,20 +171,32 @@ export function FitToPage({ orientation, children }: { orientation: 'portrait' |
     if (!outer || !inner) return;
     const toPx = (mm: number) => (mm * 96) / 25.4;
     const [pageWidth, pageHeight] = orientation === 'portrait' ? [297, 420] : [420, 297];
-    const availableWidth = toPx(pageWidth - 8);
-    const availableHeight = toPx(pageHeight - 8);
+    // هوامش الصفحة صفر؛ نترك هامش أمان 2مم لتفادي الكسر أو القص عند الطباعة.
+    const availableWidth = toPx(pageWidth - 2);
+    const availableHeight = toPx(pageHeight - 2);
 
-    // قياس المحتوى بحجمه الطبيعي (بدون تكبير) لتفادي التغذية الراجعة.
+    // نقيس على أرض الواقع ثم نصحّح: عرض الجدول الداخلي يتغيّر قليلًا مع نسبة التصغير
+    // بسبب تقريب عرض الأعمدة، لذا نكرّر الضبط حتى يدخل فعلًا.
     const previousZoom = outer.style.zoom;
     outer.style.zoom = '1';
-    const naturalWidth = inner.scrollWidth || inner.getBoundingClientRect().width;
-    const naturalHeight = inner.scrollHeight || inner.getBoundingClientRect().height;
+    let width = inner.getBoundingClientRect().width;
+    let height = inner.getBoundingClientRect().height;
+    if (!width || !height) {
+      outer.style.zoom = previousZoom || '1';
+      return;
+    }
+    let scale = Math.min(availableWidth / width, availableHeight / height, 1);
+    for (let attempt = 0; attempt < 6; attempt++) {
+      outer.style.zoom = String(scale);
+      width = inner.getBoundingClientRect().width;
+      height = inner.getBoundingClientRect().height;
+      if (width <= availableWidth && height <= availableHeight) break;
+      scale *= Math.min(availableWidth / width, availableHeight / height) * 0.998;
+    }
     outer.style.zoom = previousZoom || '1';
 
-    if (!naturalWidth || !naturalHeight) return;
-    const next = Math.min(availableWidth / naturalWidth, availableHeight / naturalHeight, 1);
-    const rounded = Number(next.toFixed(4));
-    if (Math.abs(rounded - zoom) > 0.001) setZoom(rounded);
+    const rounded = Number(scale.toFixed(4));
+    if (Math.abs(rounded - zoom) > 0.002) setZoom(rounded);
   }, [orientation, zoom, children]);
 
   return (
