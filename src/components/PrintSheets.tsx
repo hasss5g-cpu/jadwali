@@ -363,7 +363,7 @@ export function AuditSheet({ data }: { data: SchoolData }) {
     const assignment = data.assignments.find((a) => a.id === lesson.assignmentId);
     return assignment && peIds.has(assignment.subjectId);
   }).length;
-  const peCapacity = capacity * 2;
+  const peCapacity = capacity * Math.max(2, data.options?.peCapacity ?? 3);
 
   return (
     <div>
@@ -474,7 +474,8 @@ export function AuditSheet({ data }: { data: SchoolData }) {
         </tbody>
       </table>
       <p className="print-totals">
-        حصص التربية البدنية: {numberAr(peLessons)} من سقف {numberAr(peCapacity)} حصة أسبوعيًا (فصلان في الحصة).
+        حصص التربية البدنية: {numberAr(peLessons)} من سقف {numberAr(peCapacity)} حصة أسبوعيًا (حتى{' '}
+        {data.options?.peCapacity ?? 3} فصول في الحصة، مع فصل الثالث المتوسط عن المجموعات).
       </p>
     </div>
   );

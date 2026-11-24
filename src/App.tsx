@@ -57,16 +57,18 @@ function Admin() {
           </div>
         </div>
 
-        <nav className="scroll-x mt-2 flex gap-1">
+        <nav className="scroll-x mt-3 flex gap-1.5 pb-1">
           {TABS.map((item) => (
             <button
               key={item.id}
               onClick={() => setTab(item.id)}
-              className={`inline-flex shrink-0 items-center gap-1.5 rounded-xl px-2.5 py-1.5 text-[12.5px] font-bold transition ${
-                tab === item.id ? 'bg-white text-[var(--brand)] shadow-sm' : 'text-[var(--muted)] hover:bg-white/60'
+              className={`inline-flex shrink-0 items-center gap-2 rounded-xl border px-4 py-2.5 text-[14px] font-extrabold transition ${
+                tab === item.id
+                  ? 'border-[var(--brand)] bg-[var(--brand)] text-white shadow-[0_8px_18px_-10px_rgba(15,118,110,0.9)]'
+                  : 'border-[var(--line)] bg-white/85 text-[var(--ink-600)] hover:border-[#a7d8cf] hover:bg-white hover:text-[var(--brand)]'
               }`}
             >
-              <Icon name={item.icon} size={15} />
+              <Icon name={item.icon} size={17} />
               {item.label}
             </button>
           ))}

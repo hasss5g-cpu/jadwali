@@ -77,6 +77,10 @@ export interface GenerationOptions {
   balanceSeventh: boolean;
   /** يجعل كل معلم يعمل في كل أيام الأسبوع بلا يوم خالٍ */
   allDays: boolean;
+  /** أقصى عدد فصول في حصة التربية البدنية الواحدة */
+  peCapacity: number;
+  /** يمنع اجتماع الثالث المتوسط مع الأول والثاني في حصة البدنية */
+  peSeparateGrade3: boolean;
   /** يسمح بتجاوز نصاب المعلم عند الضرورة، مع تقرير */
   relaxLoad: boolean;
 }
@@ -89,6 +93,8 @@ export const DEFAULT_OPTIONS: GenerationOptions = {
   goldenDay: true,
   balanceSeventh: true,
   allDays: true,
+  peCapacity: 3,
+  peSeparateGrade3: true,
   relaxLoad: true,
 };
 

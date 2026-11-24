@@ -107,6 +107,22 @@ export function GenerateView() {
               ))}
             </select>
           </Field>
+          <Field
+            label="سقف فصول التربية البدنية في الحصة"
+            hint="يمكن أن يجتمع أكثر من فصلين، مع فصل الثالث المتوسط عنهم."
+          >
+            <select
+              className="select"
+              value={options.peCapacity}
+              onChange={(e) => set('peCapacity', Number(e.target.value))}
+            >
+              {[2, 3, 4, 5].map((n) => (
+                <option key={n} value={n}>
+                  {n} فصول
+                </option>
+              ))}
+            </select>
+          </Field>
           <Field label="مفتاح النتيجة (Seed)" hint="المفتاح نفسه يعطي النتيجة نفسها دائمًا.">
             <div className="flex gap-2">
               <input
@@ -120,6 +136,15 @@ export function GenerateView() {
               </button>
             </div>
           </Field>
+        </div>
+
+        <div className="mt-2">
+          <Toggle
+            label="فصل الثالث المتوسط في البدنية"
+            hint="يُسمح بأكثر من فصلين في الحصة، لكن لا يكون الثالث المتوسط ضمن مجموعة من ثلاثة فأكثر."
+            checked={options.peSeparateGrade3}
+            onChange={(v) => set('peSeparateGrade3', v)}
+          />
         </div>
 
         <div className="mt-4 flex flex-wrap items-center gap-2">

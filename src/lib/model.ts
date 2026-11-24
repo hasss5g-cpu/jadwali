@@ -15,6 +15,14 @@ export function isArt(name: string): boolean {
   return /فني|رسم/.test(clean);
 }
 
+/** صف الفصل من اسمه: 1 = الأول، 2 = الثاني، 3 = الثالث، null = غير معروف. */
+export function gradeOf(className: string): 1 | 2 | 3 | null {
+  if (/الثالث|ثالث/.test(className)) return 3;
+  if (/الثاني|ثاني/.test(className)) return 2;
+  if (/الأول|الاول|أول|اول/.test(className)) return 1;
+  return null;
+}
+
 export function assignmentOf(data: SchoolData, id: ID): Assignment | undefined {
   return data.assignments.find((a) => a.id === id);
 }
@@ -154,6 +162,9 @@ export function validate(data: SchoolData, lessons: Lesson[] = data.lessons): Vi
   const slots = new Map<string, Lesson>();
   const teacherSlots = new Set<string>();
   const peSlots = new Map<string, number>();
+  const peGrades = new Map<string, { third: number; other: number }>();
+  const peCapacity = Math.max(2, data.options?.peCapacity ?? 3);
+  const separateGrade3 = data.options?.peSeparateGrade3 ?? true;
   const assignmentById = new Map(data.assignments.map((a) => [a.id, a]));
   const teacherById = new Map(data.teachers.map((t) => [t.id, t]));
 
@@ -188,10 +199,27 @@ export function validate(data: SchoolData, lessons: Lesson[] = data.lessons): Vi
       out.push({ kind: 'off-day', message: `${teacher.name}: حصة في يوم راحته (${DAY_NAMES[lesson.day]})` });
     }
     const subject = data.subjects.find((s) => s.id === a.subjectId);
-    if (subject && isPE(subject.name)) {      const n = (peSlots.get(key) ?? 0) + 1;
+    if (subject && isPE(subject.name)) {
+      const n = (peSlots.get(key) ?? 0) + 1;
       peSlots.set(key, n);
-      if (n > 2) {
-        out.push({ kind: 'pe-cap', message: `التربية البدنية: أكثر من فصلين في ${DAY_NAMES[lesson.day]} — ${lesson.period + 1}` });
+      if (n > peCapacity) {
+        out.push({
+          kind: 'pe-cap',
+          message: `التربية البدنية: أكثر من ${peCapacity} فصول في ${DAY_NAMES[lesson.day]} — ${lesson.period + 1}`,
+        });
+      }
+      if (separateGrade3) {
+        const grade = gradeOf(className(data, a.classId));
+        const group = peGrades.get(key) ?? { third: 0, other: 0 };
+        if (grade === 3) group.third++;
+        else group.other++;
+        peGrades.set(key, group);
+        if (n >= 3 && group.third > 0) {
+          out.push({
+            kind: 'pe-cap',
+            message: `التربية البدنية: الثالث المتوسط ضمن أكثر من فصلين في ${DAY_NAMES[lesson.day]} — ${lesson.period + 1}`,
+          });
+        }
       }
     }
   }
@@ -222,5 +250,5 @@ export function validate(data: SchoolData, lessons: Lesson[] = data.lessons): Vi
       });
     }
   }
-  return out;
+  return [...new Map(out.map((violation) => [violation.kind + '|' + violation.message, violation])).values()];
 }

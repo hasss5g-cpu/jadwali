@@ -7,7 +7,7 @@ import {
   type SchoolData,
   type TeacherReport,
 } from '../types';
-import { isArt, isPE } from './model';
+import { gradeOf, isArt, isPE } from './model';
 
 /**
  * محرك التوزيع: يبني جدولاً كاملاً ثم يحسّنه بالتلدين المحاكى عبر تبديلات داخل الفصل،
@@ -169,8 +169,14 @@ export function solve(
   // ── عدّادات القيود الصارمة ───────────────────────────────────────────────
   const teacherSlotCount = new Int16Array(nTeachers * S);
   const peSlotCount = new Int16Array(S);
+  const peThird = new Int16Array(S);
+  const peOther = new Int16Array(S);
+  const classGrade = data.classes.map((cls) => gradeOf(cls.name));
+  const peCapacity = Math.max(2, options.peCapacity ?? 3);
+  const peSeparate = options.peSeparateGrade3 ?? true;
   let dup = 0;
   let peOver = 0;
+  let peMix = 0;
   let offDay = 0;
 
   const place = (t: Task, day: number, period: number) => {
@@ -180,9 +186,16 @@ export function solve(
     teacherSlotCount[key] = before + 1;
     if (before === 1) dup++;
     if (t.pe) {
+      const mixedBefore = peSlotCount[slot] >= 3 && peThird[slot] > 0;
       const n = peSlotCount[slot];
       peSlotCount[slot] = n + 1;
-      if (n === 2) peOver++;
+      if (n + 1 > peCapacity) peOver++;
+      if (peSeparate) {
+        if (classGrade[t.cls] === 3) peThird[slot]++;
+        else peOther[slot]++;
+      }
+      const mixedAfter = peSlotCount[slot] >= 3 && peThird[slot] > 0;
+      if (peSeparate && mixedAfter !== mixedBefore) peMix += mixedAfter ? 1 : -1;
     }
     if (data.teachers[t.teacher].off.includes(day)) offDay++;
     t.day = day;
@@ -196,9 +209,16 @@ export function solve(
     teacherSlotCount[key] = before - 1;
     if (before === 2) dup--;
     if (t.pe) {
+      const mixedBefore = peSlotCount[slot] >= 3 && peThird[slot] > 0;
       const n = peSlotCount[slot];
       peSlotCount[slot] = n - 1;
-      if (n === 3) peOver--;
+      if (n > peCapacity) peOver--;
+      if (peSeparate) {
+        if (classGrade[t.cls] === 3) peThird[slot]--;
+        else peOther[slot]--;
+      }
+      const mixedAfter = peSlotCount[slot] >= 3 && peThird[slot] > 0;
+      if (peSeparate && mixedAfter !== mixedBefore) peMix += mixedAfter ? 1 : -1;
     }
     if (data.teachers[t.teacher].off.includes(t.day)) offDay--;
     t.day = -1;
@@ -244,7 +264,14 @@ export function solve(
       const day = Math.floor(slot / P);
       if (offDays.includes(day)) continue;
       let cost = teacherSlotCount[t.teacher * S + slot] * HARD;
-      if (t.pe) cost += Math.max(0, peSlotCount[slot] - 1) * HARD;
+      if (t.pe) {
+        cost += Math.max(0, peSlotCount[slot] - (peCapacity - 1)) * HARD;
+        if (peSeparate) {
+          const afterCount = peSlotCount[slot] + 1;
+          const afterThird = peThird[slot] + (classGrade[t.cls] === 3 ? 1 : 0);
+          if (afterCount >= 3 && afterThird > 0) cost += HARD;
+        }
+      }
       const period = slot % P;
       if (options.spread) cost += Math.abs(period - 3) * 0.1;
       cost += rand() * 3;
@@ -351,7 +378,7 @@ export function solve(
   let hardScore = 0;
   for (let ti = 0; ti < nTeachers; ti++) hardScore += teacherCost(ti);
   for (let ci = 0; ci < nClasses; ci++) hardScore += classCost(ci);
-  let current = hardScore + (dup + peOver + offDay) * HARD;
+  let current = hardScore + (dup + peOver + peMix + offDay) * HARD;
   let bestCost = current;
   let bestSnapshot: [number, number][] = tasks.map((t) => [t.day, t.period]);
 
@@ -379,7 +406,7 @@ export function solve(
       const beforeClass = classCost(ci);
       const beforeA = teacherCost(a.teacher);
       const beforeB = b.teacher === a.teacher ? 0 : teacherCost(b.teacher);
-      const beforeHard = dup + peOver + offDay;
+      const beforeHard = dup + peOver + peMix + offDay;
 
       const aDay = a.day;
       const aPeriod = a.period;
@@ -391,7 +418,7 @@ export function solve(
       lift(b);
       place(b, aDay, aPeriod);
 
-      const afterHard = dup + peOver + offDay;
+      const afterHard = dup + peOver + peMix + offDay;
       const afterClass = classCost(ci);
       const afterA = teacherCost(a.teacher);
       const afterB = b.teacher === a.teacher ? 0 : teacherCost(b.teacher);
@@ -443,7 +470,7 @@ export function solve(
   }));
 
   return {
-    ok: dup + peOver + offDay === 0,
+    ok: dup + peOver + peMix + offDay === 0,
     lessons,
     report: buildReport(data, tasks, {
       seed,
@@ -473,9 +500,15 @@ function buildReport(
   const P = data.periods;
   let dup = 0;
   let peOver = 0;
+  let peMix = 0;
   let off = 0;
+  const peCapacity = Math.max(2, data.options?.peCapacity ?? 3);
+  const peSeparate = data.options?.peSeparateGrade3 ?? true;
+  const classGradeById = new Map(data.classes.map((cls) => [cls.id, gradeOf(cls.name)]));
   const teacherSlots = new Map<number, number>();
   const peSlots = new Map<number, number>();
+  const peThird = new Map<number, number>();
+  const peOther = new Map<number, number>();
   for (const t of tasks) {
     const key = t.teacher * 100 + t.day * P + t.period;
     const n = (teacherSlots.get(key) ?? 0) + 1;
@@ -485,9 +518,17 @@ function buildReport(
       const pk = t.day * P + t.period;
       const m = (peSlots.get(pk) ?? 0) + 1;
       peSlots.set(pk, m);
-      if (m === 3) peOver++;
+      const grade = classGradeById.get(data.classes[t.cls].id);
+      if (grade === 3) peThird.set(pk, (peThird.get(pk) ?? 0) + 1);
+      else peOther.set(pk, (peOther.get(pk) ?? 0) + 1);
     }
     if (data.teachers[t.teacher].off.includes(t.day)) off++;
+  }
+  for (const count of peSlots.values()) if (count > peCapacity) peOver += count - peCapacity;
+  if (peSeparate) {
+    for (const slot of peSlots.keys()) {
+      if ((peSlots.get(slot) ?? 0) >= 3 && (peThird.get(slot) ?? 0) > 0) peMix++;
+    }
   }
 
   let repeats = 0;
@@ -565,7 +606,9 @@ function buildReport(
     };
   });
 
-  const conflicts = dup + peOver + off;
+  const conflicts = dup + peOver + peMix + off;
+  if (peOver > 0) meta.notes.push(`التربية البدنية: ${peOver} تجاوزًا لسقف ${peCapacity} فصول في الحصة.`);
+  if (peMix > 0) meta.notes.push(`التربية البدنية: ${peMix} حصة اختلط فيها الثالث المتوسط مع صف آخر.`);
   const brokenArt = artPairs - artIntact;
   // أقل تكرار ممكن: لكل مادة تزيد حصصها على عدد الأيام، التكرار الزائد حتمي.
   let floorRepeats = 0;
@@ -613,3 +656,4 @@ function buildReport(
     notes: meta.notes,
   };
 }
+
