@@ -94,7 +94,7 @@ body {
   right: 0;
   z-index: 2;
   background: #fff;
-  text-align: right;
+  text-align: center;
   font-weight: 700;
   font-size: 9px;
   line-height: 1.12;
@@ -739,6 +739,7 @@ body {
     font-size: 11px;
   }
 }
+
 
 
 

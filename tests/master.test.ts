@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import raw from '../src/data/school.json';
 import type { SchoolData } from '../src/types';
 import { lessonTeacherId, normalizeData } from '../src/lib/model';
-import { masterRows, shortClassName, shortSubjectName, teacherNameLines } from '../src/components/MasterTable';
+import { masterRows, shortClassName, shortStageName, shortSubjectName, teacherNameLines } from '../src/components/MasterTable';
 
 const data = normalizeData(raw as unknown as SchoolData);
 
@@ -39,6 +39,12 @@ describe('الجدول العام', () => {
     expect(shortClassName('الأول متوسط / 1')).toBe('1/1');
     expect(shortClassName('الثالث متوسط / 1')).toBe('1/3');
     expect(shortClassName('الثاني متوسط / 8')).toBe('8/2');
+  });
+
+  it('يحذف كلمة متوسط من مرحلة الفصل', () => {
+    expect(shortStageName('الأول متوسط / 6')).toBe('أول / 6');
+    expect(shortStageName('الثاني متوسط / 1')).toBe('ثاني / 1');
+    expect(shortStageName('الثالث متوسط / 3')).toBe('ثالث / 3');
   });
 
   it('يقسم اسم المعلم إلى سطرين', () => {

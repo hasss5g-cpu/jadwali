@@ -7,6 +7,7 @@ export type MasterMode = 'teacher' | 'class';
 interface Cell {
   subject: string;
   meta: string;
+  metaFull?: string;
 }
 
 interface Row {
@@ -47,10 +48,16 @@ export function masterRows(data: SchoolData, mode: MasterMode, query = ''): Row[
     const row = byId.get(owner);
     if (!row) continue;
     const subject = subjectById.get(assignment.subjectId) ?? '—';
-    const meta = mode === 'teacher'
-      ? classById.get(assignment.classId) ?? ''
-      : teacherById.get(lessonTeacherId(data, lesson)) ?? '';
-    row.cells.set(`${lesson.day}:${lesson.period}`, { subject, meta });
+    const classFull = classById.get(assignment.classId) ?? '';
+    const meta =
+      mode === 'teacher'
+        ? shortStageName(classFull)
+        : teacherById.get(lessonTeacherId(data, lesson)) ?? '';
+    row.cells.set(`${lesson.day}:${lesson.period}`, {
+      subject,
+      meta,
+      metaFull: mode === 'teacher' ? classFull : undefined,
+    });
   }
   return rows;
 }
@@ -78,6 +85,15 @@ export function shortSubjectName(name: string): string {
     .replace(/^(الدراسات|اللغة|التربية|المهارات)\s+/, '')
     .replace(/\s+الخالدة$/, '')
     .trim();
+}
+
+/** اسم المرحلة والفصل بلا «متوسط»: «الثاني متوسط / 6» ← «ثاني / 6». */
+export function shortStageName(name: string): string {
+  const grade = gradeOf(name);
+  const number = name.match(/(\d+)\s*$/)?.[1];
+  const label = grade === 1 ? 'أول' : grade === 2 ? 'ثاني' : grade === 3 ? 'ثالث' : '';
+  if (!number || !label) return name.replace(/متوسط/g, '').replace(/\s+/g, ' ').trim();
+  return `${label} / ${number}`;
 }
 
 /** اسم الفصل المختصر: «الثالث متوسط / 1» ← «1/3» (رقم الفصل / رقم الصف). */
@@ -156,7 +172,9 @@ export function MasterTable({
                           <span className="master-subject" title={cell.subject}>
                             {shortSubjectName(cell.subject)}
                           </span>
-                          <span className="master-meta">{cell.meta}</span>
+                          <span className="master-meta" title={cell.metaFull ?? cell.meta}>
+                            {cell.meta}
+                          </span>
                         </>
                       ) : (
                         ''
