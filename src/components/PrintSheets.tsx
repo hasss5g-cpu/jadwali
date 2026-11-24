@@ -1,7 +1,7 @@
 import type { Cover, SchoolData } from '../types';
 import { DAY_NAMES, className, lessonTeacherId, subjectName, teacherMetrics, teacherName, validate } from '../lib/model';
 import { hijri, numberAr, periodTimes, today } from '../lib/utils';
-import { FitToPage, MasterTable, masterSubtitle, masterTitle, type MasterMode } from './MasterTable';
+import { FitToPage, MasterTable, masterTitle, type MasterMode } from './MasterTable';
 
 export function SheetHead({ title, subtitle }: { title: string; subtitle?: string }) {
   return (
@@ -13,12 +13,20 @@ export function SheetHead({ title, subtitle }: { title: string; subtitle?: strin
   );
 }
 
-/** الجدول العام: كل المعلمين (A3 طولية) أو كل الفصول (A3 عرضية) في صفحة واحدة. */
+/** الجدول العام: العنوان أعلى، بيانات التقرير في سطر واحد أسفل الجدول. */
 export function MasterSheet({ data, mode, query = '' }: { data: SchoolData; mode: MasterMode; query?: string }) {
+  const scope =
+    mode === 'teacher'
+      ? `المعلمون: ${numberAr(data.teachers.length)}`
+      : `الفصول: ${numberAr(data.classes.length)}`;
+  const footer = `${data.term} · ${scope} · ${numberAr(data.lessons.length)} حصة ، طبع بتاريخ / ${hijri(today())}`;
   return (
     <FitToPage orientation={mode === 'teacher' ? 'portrait' : 'landscape'}>
-      <SheetHead title={masterTitle(mode)} subtitle={masterSubtitle(data, mode)} />
+      <header className="master-print-head">
+        <h1>{masterTitle(mode)}</h1>
+      </header>
       <MasterTable data={data} mode={mode} query={query} print />
+      <p className="master-print-footer">{footer}</p>
     </FitToPage>
   );
 }

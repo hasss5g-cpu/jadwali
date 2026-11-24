@@ -188,7 +188,7 @@ export function masterSubtitle(data: SchoolData, mode: MasterMode): string {
  * بهوامش 4مم، عبر ضبط zoom حسب القياس الفعلي للجدول.
  */
 /** هوامش صفحة الجدول العام بالمليمتر (تطابق CSS @page). */
-export const MASTER_MARGINS = { top: 12, right: 6, bottom: 0, left: 6 };
+export const MASTER_MARGINS = { top: 12, right: 6, bottom: 12, left: 6 };
 
 export function FitToPage({ orientation, children }: { orientation: 'portrait' | 'landscape'; children: ReactNode }) {
   const outerRef = useRef<HTMLDivElement>(null);

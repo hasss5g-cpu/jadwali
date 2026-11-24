@@ -234,6 +234,24 @@ body {
   padding: 0.5px 1px;
 }
 
+.master-print-head h1 {
+  margin: 0 0 1.5mm;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1.1;
+}
+
+.master-print-footer {
+  margin: 1.5mm 0 0;
+  text-align: center;
+  font-size: 10.5px;
+  color: #334155;
+  white-space: nowrap;
+  line-height: 1.2;
+}
+
 @media print {
   .print-sheet[data-compact='true'] .master-print table {
     font-size: 7px;
@@ -571,7 +589,7 @@ body {
 
 @media screen {
   .print-sheet[data-edge='true'] {
-    padding: 12mm 6mm 0 6mm;
+    padding: 12mm 6mm 12mm 6mm;
     overflow: hidden;
   }
 
@@ -654,12 +672,12 @@ body {
 
   @page p-a3 {
     size: A3 portrait;
-    margin: 12mm 6mm 0 6mm;
+    margin: 12mm 6mm 12mm 6mm;
   }
 
   @page l-a3 {
     size: A3 landscape;
-    margin: 12mm 6mm 0 6mm;
+    margin: 12mm 6mm 12mm 6mm;
   }
 
   @page public-landscape {
@@ -721,6 +739,8 @@ body {
     font-size: 11px;
   }
 }
+
+
 
 
 
