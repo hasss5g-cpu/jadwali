@@ -37,11 +37,15 @@ export function MasterView() {
             <button
               className="btn btn-primary btn-sm"
               onClick={() =>
-                print(masterTitle(mode), <MasterSheet data={data} mode={mode} query={query} />, {
-                  orientation: 'landscape',
-                  size: 'A3',
-                  compact: true,
-                })
+                print(
+                  masterTitle(mode),
+                  <MasterSheet data={data} mode={mode} query={query} />,
+                  {
+                    orientation: mode === 'teacher' ? 'portrait' : 'landscape',
+                    size: 'A3',
+                    compact: true,
+                  },
+                )
               }
             >
               <Icon name="printer" size={15} /> طباعة {mode === 'teacher' ? 'جدول المعلمين' : 'جدول الفصول'}

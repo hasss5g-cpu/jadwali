@@ -1,7 +1,7 @@
 import type { Cover, SchoolData } from '../types';
 import { DAY_NAMES, className, lessonTeacherId, subjectName, teacherMetrics, teacherName, validate } from '../lib/model';
 import { hijri, numberAr, periodTimes, today } from '../lib/utils';
-import { MasterTable, masterSubtitle, masterTitle, type MasterMode } from './MasterTable';
+import { FitToPage, MasterTable, masterSubtitle, masterTitle, type MasterMode } from './MasterTable';
 
 export function SheetHead({ title, subtitle }: { title: string; subtitle?: string }) {
   return (
@@ -13,13 +13,13 @@ export function SheetHead({ title, subtitle }: { title: string; subtitle?: strin
   );
 }
 
-/** الجدول العام: كل المعلمين أو كل الفصول في صفحة واحدة. */
+/** الجدول العام: كل المعلمين (A3 طولية) أو كل الفصول (A3 عرضية) في صفحة واحدة. */
 export function MasterSheet({ data, mode, query = '' }: { data: SchoolData; mode: MasterMode; query?: string }) {
   return (
-    <div>
+    <FitToPage orientation={mode === 'teacher' ? 'portrait' : 'landscape'}>
       <SheetHead title={masterTitle(mode)} subtitle={masterSubtitle(data, mode)} />
       <MasterTable data={data} mode={mode} query={query} print />
-    </div>
+    </FitToPage>
   );
 }
 

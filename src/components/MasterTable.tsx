@@ -1,3 +1,4 @@
+import { useLayoutEffect, useRef, useState, type ReactNode } from 'react';
 import type { SchoolData } from '../types';
 import { DAY_NAMES, lessonTeacherId } from '../lib/model';
 
@@ -130,4 +131,44 @@ export function masterTitle(mode: MasterMode): string {
 export function masterSubtitle(data: SchoolData, mode: MasterMode): string {
   const count = mode === 'teacher' ? data.teachers.length : data.classes.length;
   return `${data.school} · ${data.term} · ${mode === 'teacher' ? 'المعلمون' : 'الفصول'}: ${count} · ${data.lessons.length} حصة`;
+}
+
+/**
+ * يصغّر المحتوى تلقائيًا ليدخل في صفحة واحدة بمقاس A3 (طولية أو عرضية)
+ * بهوامش 4مم، عبر ضبط zoom حسب القياس الفعلي للجدول.
+ */
+export function FitToPage({ orientation, children }: { orientation: 'portrait' | 'landscape'; children: ReactNode }) {
+  const outerRef = useRef<HTMLDivElement>(null);
+  const innerRef = useRef<HTMLDivElement>(null);
+  const [zoom, setZoom] = useState(1);
+
+  useLayoutEffect(() => {
+    const outer = outerRef.current;
+    const inner = innerRef.current;
+    if (!outer || !inner) return;
+    const toPx = (mm: number) => (mm * 96) / 25.4;
+    const [pageWidth, pageHeight] = orientation === 'portrait' ? [297, 420] : [420, 297];
+    const availableWidth = toPx(pageWidth - 8);
+    const availableHeight = toPx(pageHeight - 8);
+
+    // قياس المحتوى بحجمه الطبيعي (بدون تكبير) لتفادي التغذية الراجعة.
+    const previousZoom = outer.style.zoom;
+    outer.style.zoom = '1';
+    const naturalWidth = inner.scrollWidth || inner.getBoundingClientRect().width;
+    const naturalHeight = inner.scrollHeight || inner.getBoundingClientRect().height;
+    outer.style.zoom = previousZoom || '1';
+
+    if (!naturalWidth || !naturalHeight) return;
+    const next = Math.min(availableWidth / naturalWidth, availableHeight / naturalHeight, 1);
+    const rounded = Number(next.toFixed(4));
+    if (Math.abs(rounded - zoom) > 0.001) setZoom(rounded);
+  }, [orientation, zoom, children]);
+
+  return (
+    <div ref={outerRef} style={{ zoom }}>
+      <div ref={innerRef} style={{ width: 'max-content' }}>
+        {children}
+      </div>
+    </div>
+  );
 }
