@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import raw from '../src/data/school.json';
 import type { SchoolData } from '../src/types';
 import { lessonTeacherId, normalizeData } from '../src/lib/model';
-import { masterRows } from '../src/components/MasterTable';
+import { masterRows, shortClassName, teacherNameLines } from '../src/components/MasterTable';
 
 const data = normalizeData(raw as unknown as SchoolData);
 
@@ -33,5 +33,16 @@ describe('الجدول العام', () => {
     const cell = [...rows[0].cells.values()][0];
     expect(cell.subject.length).toBeGreaterThan(0);
     expect(cell.meta.length).toBeGreaterThan(0);
+  });
+
+  it('يختصر أسماء الفصول إلى رقم الفصل/الصف', () => {
+    expect(shortClassName('الأول متوسط / 1')).toBe('1/1');
+    expect(shortClassName('الثالث متوسط / 1')).toBe('1/3');
+    expect(shortClassName('الثاني متوسط / 8')).toBe('8/2');
+  });
+
+  it('يقسم اسم المعلم إلى سطرين', () => {
+    expect(teacherNameLines('إبراهيم الأحمدي')).toEqual(['إبراهيم', 'الأحمدي']);
+    expect(teacherNameLines('عبدالله فيصل الصاعدي')).toEqual(['عبدالله', 'فيصل الصاعدي']);
   });
 });

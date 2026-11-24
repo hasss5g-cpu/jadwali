@@ -1,6 +1,6 @@
 import { useLayoutEffect, useRef, useState, type ReactNode } from 'react';
 import type { SchoolData } from '../types';
-import { DAY_NAMES, lessonTeacherId } from '../lib/model';
+import { DAY_NAMES, gradeOf, lessonTeacherId } from '../lib/model';
 
 export type MasterMode = 'teacher' | 'class';
 
@@ -55,6 +55,20 @@ export function masterRows(data: SchoolData, mode: MasterMode, query = ''): Row[
   return rows;
 }
 
+/** اسم الفصل المختصر: «الثالث متوسط / 1» ← «1/3» (رقم الفصل / رقم الصف). */
+export function shortClassName(name: string): string {
+  const grade = gradeOf(name);
+  const number = name.match(/(\d+)\s*$/)?.[1];
+  if (grade === null || !number) return name;
+  return `${number}/${grade}`;
+}
+
+/** اسم المعلم في سطرين: الاسم الأول، ثم بقية الاسم. */
+export function teacherNameLines(name: string): [string, string] {
+  const [first, ...rest] = name.trim().split(/\s+/);
+  return [first ?? '', rest.join(' ')];
+}
+
 export function MasterTable({
   data,
   mode,
@@ -72,7 +86,7 @@ export function MasterTable({
 
   return (
     <div className={print ? 'master-print' : 'master-scroll'}>
-      <table className="master-table">
+      <table className={`master-table master--${mode}`}>
         <thead>
           <tr>
             <th rowSpan={2} className="name-col">
@@ -97,7 +111,16 @@ export function MasterTable({
         <tbody>
           {rows.map((row) => (
             <tr key={row.id}>
-              <th className="name-col">{row.name}</th>
+              <th className="name-col" title={row.name}>
+                {mode === 'class' ? (
+                  shortClassName(row.name)
+                ) : (
+                  <>
+                    <span className="name-line">{teacherNameLines(row.name)[0]}</span>
+                    <span className="name-line">{teacherNameLines(row.name)[1]}</span>
+                  </>
+                )}
+              </th>
               {DAY_NAMES.slice(0, data.days).flatMap((day, dayIndex) =>
                 periods.map((period) => {
                   const cell = row.cells.get(`${dayIndex}:${period}`);
