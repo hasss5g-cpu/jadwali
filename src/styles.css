@@ -156,8 +156,9 @@ body {
 
 .master-meta {
   display: block;
+  margin-top: 1.5px;
   font-size: 7.5px;
-  color: var(--muted);
+  color: #0b1220;
   max-width: 62px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -213,8 +214,9 @@ body {
 }
 
 .master-print .master-meta {
+  margin-top: 1.5px;
   font-size: 5px;
-  color: #334155;
+  color: #0b1220;
   line-height: 1;
   max-width: none;
 }
@@ -739,6 +741,7 @@ body {
     font-size: 11px;
   }
 }
+
 
 
 
