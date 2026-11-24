@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import raw from '../src/data/school.json';
 import type { SchoolData } from '../src/types';
 import { lessonTeacherId, normalizeData } from '../src/lib/model';
-import { masterRows, shortClassName, teacherNameLines } from '../src/components/MasterTable';
+import { masterRows, shortClassName, shortSubjectName, teacherNameLines } from '../src/components/MasterTable';
 
 const data = normalizeData(raw as unknown as SchoolData);
 
@@ -44,5 +44,20 @@ describe('الجدول العام', () => {
   it('يقسم اسم المعلم إلى سطرين', () => {
     expect(teacherNameLines('إبراهيم الأحمدي')).toEqual(['إبراهيم', 'الأحمدي']);
     expect(teacherNameLines('عبدالله فيصل الصاعدي')).toEqual(['عبدالله', 'فيصل الصاعدي']);
+  });
+
+  it('يختصر أسماء المواد للجدول العام', () => {
+    expect(shortSubjectName('الدراسات الإسلامية')).toBe('إسلامية');
+    expect(shortSubjectName('الدراسات الاجتماعية')).toBe('اجتماعيات');
+    expect(shortSubjectName('اللغة الإنجليزية')).toBe('إنجليزي');
+    expect(shortSubjectName('لغتي الخالدة')).toBe('لغتي');
+    expect(shortSubjectName('المهارات الرقمية')).toBe('رقمي');
+    expect(shortSubjectName('المهارات الحياتية')).toBe('حياتية');
+    expect(shortSubjectName('التربية الفنية')).toBe('فنية');
+    expect(shortSubjectName('التربية البدنية')).toBe('بدنية');
+    expect(shortSubjectName('الرياضيات')).toBe('رياضيات');
+    expect(shortSubjectName('العلوم')).toBe('علوم');
+    expect(shortSubjectName('التفكير الناقد')).toBe('تفكير');
+    expect(shortSubjectName('النشاط')).toBe('نشاط');
   });
 });

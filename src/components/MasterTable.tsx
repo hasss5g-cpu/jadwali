@@ -55,6 +55,31 @@ export function masterRows(data: SchoolData, mode: MasterMode, query = ''): Row[
   return rows;
 }
 
+/** اسم المادة المختصر للجدول العام: «الدراسات الإسلامية» ← «إسلامية». */
+export function shortSubjectName(name: string): string {
+  const rules: [RegExp, string][] = [
+    [/إسلام|اسلام/, 'إسلامية'],
+    [/اجتماع/, 'اجتماعيات'],
+    [/إنجليز|انجليز/, 'إنجليزي'],
+    [/لغتي/, 'لغتي'],
+    [/رقمي/, 'رقمي'],
+    [/حيات/, 'حياتية'],
+    [/فني/, 'فنية'],
+    [/بدني/, 'بدنية'],
+    [/ناقد/, 'تفكير'],
+    [/رياض/, 'رياضيات'],
+    [/علوم/, 'علوم'],
+    [/نشاط/, 'نشاط'],
+  ];
+  const clean = name.replace(/[\u064B-\u0652]/g, '').trim();
+  for (const [pattern, short] of rules) if (pattern.test(clean)) return short;
+  // احتياط: إزالة البادئات الشائعة واللاحقات الطويلة.
+  return clean
+    .replace(/^(الدراسات|اللغة|التربية|المهارات)\s+/, '')
+    .replace(/\s+الخالدة$/, '')
+    .trim();
+}
+
 /** اسم الفصل المختصر: «الثالث متوسط / 1» ← «1/3» (رقم الفصل / رقم الصف). */
 export function shortClassName(name: string): string {
   const grade = gradeOf(name);
@@ -128,7 +153,9 @@ export function MasterTable({
                     <td key={`${day}-${period}`} data-empty={!cell}>
                       {cell ? (
                         <>
-                          <span className="master-subject">{cell.subject}</span>
+                          <span className="master-subject" title={cell.subject}>
+                            {shortSubjectName(cell.subject)}
+                          </span>
                           <span className="master-meta">{cell.meta}</span>
                         </>
                       ) : (
