@@ -56,6 +56,13 @@ describe('نموذج البيانات والتحقق', () => {
     expect(two.filter((error) => error.kind === 'pe-cap')).toHaveLength(0);
   });
 
+  it('يرفض التربية البدنية في الحصة السابعة', () => {
+    const school = peFixture(['الأول متوسط / 1']);
+    const lastPeriod = school.periods - 1;
+    const shifted = { ...school, lessons: school.lessons.map((lesson) => ({ ...lesson, period: lastPeriod })) };
+    expect(validate(shifted).some((error) => error.kind === 'pe-last')).toBe(true);
+  });
+
   it('يستكمل الحقول الناقصة', () => {
     const partial = normalizeData({ ...data, days: undefined as unknown as number, covers: undefined as never });
     expect(partial.days).toBe(5);

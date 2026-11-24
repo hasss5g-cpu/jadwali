@@ -54,5 +54,16 @@ describe('محرك التوزيع على بيانات المدرسة الحقي�
     const capacity = data.options.peCapacity;
     expect(Math.max(...[...slots.values()].map((s) => s.count))).toBeLessThanOrEqual(capacity);
     expect([...slots.values()].filter((s) => s.count >= 3 && s.third > 0)).toHaveLength(0);
+
+    // قيد ثابت: لا تربية بدنية في الحصة السابعة.
+    const peAtLast = result.lessons.filter((lesson) => {
+      const assignment = assignmentById.get(lesson.assignmentId);
+      return (
+        lesson.period === data.periods - 1 &&
+        assignment !== undefined &&
+        peSubjects.has(assignment.subjectId)
+      );
+    });
+    expect(peAtLast).toHaveLength(0);
   });
 });

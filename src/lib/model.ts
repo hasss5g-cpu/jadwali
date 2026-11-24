@@ -31,6 +31,12 @@ export function teacherOf(data: SchoolData, id: ID): Teacher | undefined {
   return data.teachers.find((t) => t.id === id);
 }
 
+/** معلم الحصة الفعلي: التبديل اليدوي إن وجد، وإلا معلم الإسناد. */
+export function lessonTeacherId(data: SchoolData, lesson: Lesson): ID {
+  if (lesson.teacherId) return lesson.teacherId;
+  return data.assignments.find((a) => a.id === lesson.assignmentId)?.teacherId ?? '';
+}
+
 export function subjectName(data: SchoolData, id: ID): string {
   return data.subjects.find((s) => s.id === id)?.name ?? '—';
 }
@@ -75,14 +81,13 @@ export interface TeacherMetric {
 
 /** مقاييس توزيع كل معلم: النصاب، الفراغات، التتابع، أيام العمل، الحصة السابعة. */
 export function teacherMetrics(data: SchoolData): TeacherMetric[] {
-  const teacherOf = new Map(data.assignments.map((a) => [a.id, a.teacherId]));
   const quota = new Map<ID, number>();
   for (const a of data.assignments) quota.set(a.teacherId, (quota.get(a.teacherId) ?? 0) + a.count);
 
   const byTeacherDay = new Map<string, number[]>();
   const lessons = new Map<ID, number>();
   for (const lesson of data.lessons) {
-    const teacher = teacherOf.get(lesson.assignmentId);
+    const teacher = lessonTeacherId(data, lesson);
     if (!teacher) continue;
     lessons.set(teacher, (lessons.get(teacher) ?? 0) + 1);
     const key = `${teacher}:${lesson.day}`;
@@ -188,13 +193,13 @@ export function validate(data: SchoolData, lessons: Lesson[] = data.lessons): Vi
     }
     slots.set(classKey, lesson);
 
-    const tKey = `${a.teacherId}|${key}`;
+    const tKey = `${lesson.teacherId ?? a.teacherId}|${key}`;
     if (teacherSlots.has(tKey)) {
-      out.push({ kind: 'teacher-clash', message: `${teacherName(data, a.teacherId)}: حصتان في ${DAY_NAMES[lesson.day]} — ${lesson.period + 1}` });
+      out.push({ kind: 'teacher-clash', message: `${teacherName(data, lesson.teacherId ?? a.teacherId)}: حصتان في ${DAY_NAMES[lesson.day]} — ${lesson.period + 1}` });
     }
     teacherSlots.add(tKey);
 
-    const teacher = teacherById.get(a.teacherId);
+    const teacher = teacherById.get(lesson.teacherId ?? a.teacherId);
     if (teacher?.off.includes(lesson.day)) {
       out.push({ kind: 'off-day', message: `${teacher.name}: حصة في يوم راحته (${DAY_NAMES[lesson.day]})` });
     }
@@ -220,6 +225,13 @@ export function validate(data: SchoolData, lessons: Lesson[] = data.lessons): Vi
             message: `التربية البدنية: الثالث المتوسط ضمن أكثر من فصلين في ${DAY_NAMES[lesson.day]} — ${lesson.period + 1}`,
           });
         }
+      }
+      // قيد ثابت: لا تُجدول التربية البدنية في الحصة الأخيرة.
+      if (lesson.period === data.periods - 1) {
+        out.push({
+          kind: 'pe-last',
+          message: `التربية البدنية في الحصة السابعة (${DAY_NAMES[lesson.day]}): ${className(data, a.classId)}`,
+        });
       }
     }
   }

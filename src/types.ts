@@ -36,6 +36,8 @@ export interface Lesson {
   assignmentId: ID;
   day: number;
   period: number;
+  /** معلم بديل لهذه الحصة فقط (تبادل حصص)؛ إن غاب فمعلم الإسناد هو الأساس. */
+  teacherId?: ID;
 }
 
 export interface Absence {
@@ -164,6 +166,6 @@ export interface SolveResult {
 }
 
 export interface Violation {
-  kind: 'teacher-clash' | 'class-clash' | 'room-clash' | 'pe-cap' | 'off-day' | 'out-of-range';
+  kind: 'teacher-clash' | 'class-clash' | 'room-clash' | 'pe-cap' | 'pe-last' | 'off-day' | 'out-of-range';
   message: string;
 }

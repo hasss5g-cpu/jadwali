@@ -1,5 +1,5 @@
 import type { Cover, ID, Lesson, SchoolData } from '../types';
-import { className, subjectName, teacherName } from './model';
+import { className, lessonTeacherId, subjectName, teacherName } from './model';
 import { hijri, uid, weekdayLabel, weekdayOf } from './utils';
 
 export interface Candidate {
@@ -19,10 +19,7 @@ export function absentLessons(data: SchoolData, date: string): Lesson[] {
   const absent = new Set(data.absences.filter((a) => a.date === date).map((a) => a.teacherId));
   return data.lessons
     .filter((l) => l.day === day)
-    .filter((l) => {
-      const a = data.assignments.find((x) => x.id === l.assignmentId);
-      return a && absent.has(a.teacherId);
-    })
+    .filter((l) => absent.has(lessonTeacherId(data, l)))
     .sort((a, b) => a.period - b.period);
 }
 
@@ -30,8 +27,7 @@ function teacherBusy(data: SchoolData, date: string, teacherId: ID, period: numb
   const day = weekdayOf(date);
   const hasLesson = data.lessons.some((l) => {
     if (l.day !== day || l.period !== period) return false;
-    const a = data.assignments.find((x) => x.id === l.assignmentId);
-    return a?.teacherId === teacherId;
+    return lessonTeacherId(data, l) === teacherId;
   });
   if (hasLesson) return true;
   return data.covers.some((c) => {
@@ -47,8 +43,8 @@ export function candidatesFor(data: SchoolData, lesson: Lesson, date: string): C
   const absent = new Set(data.absences.filter((a) => a.date === date).map((a) => a.teacherId));
   const weekly = new Map<ID, number>();
   for (const l of data.lessons) {
-    const a = data.assignments.find((x) => x.id === l.assignmentId);
-    if (a) weekly.set(a.teacherId, (weekly.get(a.teacherId) ?? 0) + 1);
+    const teacher = lessonTeacherId(data, l);
+    if (teacher) weekly.set(teacher, (weekly.get(teacher) ?? 0) + 1);
   }
   for (const c of data.covers) {
     if (c.date === date) weekly.set(c.teacherId, (weekly.get(c.teacherId) ?? 0) + 1);
@@ -107,7 +103,7 @@ export function coverageMessage(data: SchoolData, date: string, covers: Cover[])
     const lesson = data.lessons.find((l) => l.id === cover.lessonId);
     const assignment = lesson ? data.assignments.find((a) => a.id === lesson.assignmentId) : undefined;
     if (!assignment) continue;
-    const arr = byTeacher.get(assignment.teacherId) ?? [];
+    const arr = byTeacher.get(lessonTeacherId(data, lesson!)) ?? [];
     arr.push(cover);
     byTeacher.set(assignment.teacherId, arr);
   }
@@ -131,3 +127,5 @@ export function coverageMessage(data: SchoolData, date: string, covers: Cover[])
   }
   return lines.join('\n').trim();
 }
+
+

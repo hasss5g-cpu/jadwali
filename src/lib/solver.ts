@@ -177,6 +177,7 @@ export function solve(
   let dup = 0;
   let peOver = 0;
   let peMix = 0;
+  let peLast = 0;
   let offDay = 0;
 
   const place = (t: Task, day: number, period: number) => {
@@ -197,6 +198,7 @@ export function solve(
       const mixedAfter = peSlotCount[slot] >= 3 && peThird[slot] > 0;
       if (peSeparate && mixedAfter !== mixedBefore) peMix += mixedAfter ? 1 : -1;
     }
+    if (t.pe && period === P - 1) peLast++;
     if (data.teachers[t.teacher].off.includes(day)) offDay++;
     t.day = day;
     t.period = period;
@@ -220,6 +222,7 @@ export function solve(
       const mixedAfter = peSlotCount[slot] >= 3 && peThird[slot] > 0;
       if (peSeparate && mixedAfter !== mixedBefore) peMix += mixedAfter ? 1 : -1;
     }
+    if (t.pe && t.period === P - 1) peLast--;
     if (data.teachers[t.teacher].off.includes(t.day)) offDay--;
     t.day = -1;
     t.period = -1;
@@ -262,7 +265,10 @@ export function solve(
     for (let slot = 0; slot < S; slot++) {
       if (free[slot]) continue;
       const day = Math.floor(slot / P);
+      const period = slot % P;
       if (offDays.includes(day)) continue;
+      // قيد ثابت: حصص البدنية لا تكون في الحصة الأخيرة.
+      if (t.pe && period === P - 1) continue;
       let cost = teacherSlotCount[t.teacher * S + slot] * HARD;
       if (t.pe) {
         cost += Math.max(0, peSlotCount[slot] - (peCapacity - 1)) * HARD;
@@ -272,8 +278,8 @@ export function solve(
           if (afterCount >= 3 && afterThird > 0) cost += HARD;
         }
       }
-      const period = slot % P;
-      if (options.spread) cost += Math.abs(period - 3) * 0.1;
+      const period2 = slot % P;
+      if (options.spread) cost += Math.abs(period2 - 3) * 0.1;
       cost += rand() * 3;
       if (cost < bestCost) {
         bestCost = cost;
@@ -378,7 +384,7 @@ export function solve(
   let hardScore = 0;
   for (let ti = 0; ti < nTeachers; ti++) hardScore += teacherCost(ti);
   for (let ci = 0; ci < nClasses; ci++) hardScore += classCost(ci);
-  let current = hardScore + (dup + peOver + peMix + offDay) * HARD;
+  let current = hardScore + (dup + peOver + peMix + peLast + offDay) * HARD;
   let bestCost = current;
   let bestSnapshot: [number, number][] = tasks.map((t) => [t.day, t.period]);
 
@@ -406,7 +412,7 @@ export function solve(
       const beforeClass = classCost(ci);
       const beforeA = teacherCost(a.teacher);
       const beforeB = b.teacher === a.teacher ? 0 : teacherCost(b.teacher);
-      const beforeHard = dup + peOver + peMix + offDay;
+      const beforeHard = dup + peOver + peMix + peLast + offDay;
 
       const aDay = a.day;
       const aPeriod = a.period;
@@ -418,7 +424,7 @@ export function solve(
       lift(b);
       place(b, aDay, aPeriod);
 
-      const afterHard = dup + peOver + peMix + offDay;
+      const afterHard = dup + peOver + peMix + peLast + offDay;
       const afterClass = classCost(ci);
       const afterA = teacherCost(a.teacher);
       const afterB = b.teacher === a.teacher ? 0 : teacherCost(b.teacher);
@@ -470,7 +476,7 @@ export function solve(
   }));
 
   return {
-    ok: dup + peOver + peMix + offDay === 0,
+    ok: dup + peOver + peMix + peLast + offDay === 0,
     lessons,
     report: buildReport(data, tasks, {
       seed,
@@ -501,6 +507,7 @@ function buildReport(
   let dup = 0;
   let peOver = 0;
   let peMix = 0;
+  let peLast = 0;
   let off = 0;
   const peCapacity = Math.max(2, data.options?.peCapacity ?? 3);
   const peSeparate = data.options?.peSeparateGrade3 ?? true;
@@ -518,6 +525,7 @@ function buildReport(
       const pk = t.day * P + t.period;
       const m = (peSlots.get(pk) ?? 0) + 1;
       peSlots.set(pk, m);
+      if (t.period === P - 1) peLast++;
       const grade = classGradeById.get(data.classes[t.cls].id);
       if (grade === 3) peThird.set(pk, (peThird.get(pk) ?? 0) + 1);
       else peOther.set(pk, (peOther.get(pk) ?? 0) + 1);
@@ -606,9 +614,10 @@ function buildReport(
     };
   });
 
-  const conflicts = dup + peOver + peMix + off;
+  const conflicts = dup + peOver + peMix + peLast + off;
   if (peOver > 0) meta.notes.push(`التربية البدنية: ${peOver} تجاوزًا لسقف ${peCapacity} فصول في الحصة.`);
-  if (peMix > 0) meta.notes.push(`التربية البدنية: ${peMix} حصة اختلط فيها الثالث المتوسط مع صف آخر.`);
+  if (peMix > 0) meta.notes.push(`التربية البدنية: ${peMix} حصة اختلط فيها الثالث المتوسط مع ثلاثة فصول أو أكثر.`);
+  if (peLast > 0) meta.notes.push(`التربية البدنية: ${peLast} حصة في الحصة السابعة (ممنوعة).`);
   const brokenArt = artPairs - artIntact;
   // أقل تكرار ممكن: لكل مادة تزيد حصصها على عدد الأيام، التكرار الزائد حتمي.
   let floorRepeats = 0;
@@ -656,4 +665,5 @@ function buildReport(
     notes: meta.notes,
   };
 }
+
 

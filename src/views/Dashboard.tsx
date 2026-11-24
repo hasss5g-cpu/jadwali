@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useStore } from '../store';
-import { DAY_NAMES, validate } from '../lib/model';
+import { DAY_NAMES, lessonTeacherId, validate } from '../lib/model';
 import { absentLessons } from '../lib/coverage';
 import { numberAr, today, weekdayLabel } from '../lib/utils';
 import { Card, Stat } from '../components/ui';
@@ -18,10 +18,9 @@ export function Dashboard({ onNavigate }: { onNavigate: (tab: string) => void })
   });
 
   const metrics = useMemo(() => {
-    const teacherOf = new Map(data.assignments.map((a) => [a.id, a.teacherId]));
     const byDay = new Map<string, number[]>();
     for (const lesson of data.lessons) {
-      const teacherId = teacherOf.get(lesson.assignmentId);
+      const teacherId = lessonTeacherId(data, lesson);
       if (!teacherId) continue;
       const key = `${teacherId}:${lesson.day}`;
       const list = byDay.get(key) ?? [];
@@ -154,3 +153,4 @@ export function Dashboard({ onNavigate }: { onNavigate: (tab: string) => void })
     </div>
   );
 }
+

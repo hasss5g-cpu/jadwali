@@ -17,6 +17,7 @@ const paths: Record<string, string> = {
   plus: 'M12 5v14M5 12h14',
   download: 'M12 3v12M7 11l5 5 5-5M4 21h16',
   search: 'm21 21-4.3-4.3M19 11a8 8 0 1 1-16 0 8 8 0 0 1 16 0Z',
+  swap: 'M8 6h11l-3.5-3.5M16 18H5l3.5 3.5',
 };
 
 export function Icon({ name, size = 18, ...rest }: { name: string; size?: number } & SVGProps<SVGSVGElement>) {

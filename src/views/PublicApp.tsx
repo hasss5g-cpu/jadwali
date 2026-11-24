@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
-import type { SchoolData } from '../types';
+import type { Lesson, SchoolData } from '../types';
 import { loadData } from '../lib/storage';
-import { DAY_NAMES, subjectName, teacherName } from '../lib/model';
+import { DAY_NAMES, lessonTeacherId, subjectName, teacherName } from '../lib/model';
 import { periodTimes, sha256 } from '../lib/utils';
 import { Icon } from '../components/Icon';
 
@@ -46,10 +46,10 @@ function Shell({
   );
 }
 
-function ScheduleTable({ data, filter }: { data: SchoolData; filter: (assignmentId: string) => boolean }) {
+function ScheduleTable({ data, filter }: { data: SchoolData; filter: (lesson: Lesson) => boolean }) {
   const times = periodTimes(data.start, data.duration, data.periods);
   const cell = (day: number, period: number) => {
-    const lesson = data.lessons.find((l) => l.day === day && l.period === period && filter(l.assignmentId));
+    const lesson = data.lessons.find((l) => l.day === day && l.period === period && filter(l));
     if (!lesson) return null;
     return data.assignments.find((a) => a.id === lesson.assignmentId) ?? null;
   };
@@ -141,7 +141,7 @@ export function PublicApp() {
             <h2 className="mb-2 text-[15px] font-extrabold">جدول {teacherName(data, result.id)}</h2>
             <ScheduleTable
               data={data}
-              filter={(assignmentId) => data.assignments.find((a) => a.id === assignmentId)?.teacherId === result.id}
+              filter={(lesson) => lessonTeacherId(data, lesson) === result.id}
             />
           </div>
         )}
@@ -157,7 +157,7 @@ export function PublicApp() {
         </button>
         <ScheduleTable
           data={data}
-          filter={(assignmentId) => data.assignments.find((a) => a.id === assignmentId)?.classId === activeClass.id}
+          filter={(lesson) => data.assignments.find((a) => a.id === lesson.assignmentId)?.classId === activeClass.id}
         />
       </Shell>
     );
@@ -188,3 +188,4 @@ export function PublicApp() {
     </Shell>
   );
 }
+

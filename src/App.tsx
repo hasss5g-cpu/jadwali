@@ -4,6 +4,7 @@ import { Icon } from './components/Icon';
 import { PrintOverlay, ToastHost } from './components/ui';
 import { Dashboard } from './views/Dashboard';
 import { ScheduleView } from './views/ScheduleView';
+import { SwapView } from './views/SwapView';
 import { GenerateView } from './views/GenerateView';
 import { AssignmentsView } from './views/AssignmentsView';
 import { CoverageView } from './views/CoverageView';
@@ -16,6 +17,7 @@ import { PublicApp } from './views/PublicApp';
 const TABS = [
   { id: 'dashboard', label: 'نظرة عامة', icon: 'dashboard' },
   { id: 'schedule', label: 'الجدول', icon: 'calendar' },
+  { id: 'swap', label: 'تبادل الحصص', icon: 'swap' },
   { id: 'generate', label: 'التوليد', icon: 'sparkles' },
   { id: 'assignments', label: 'الإسنادات', icon: 'users' },
   { id: 'coverage', label: 'الانتظار', icon: 'shield' },
@@ -78,6 +80,7 @@ function Admin() {
       <main>
         {tab === 'dashboard' && <Dashboard onNavigate={setTab} />}
         {tab === 'schedule' && <ScheduleView />}
+        {tab === 'swap' && <SwapView />}
         {tab === 'generate' && <GenerateView />}
         {tab === 'assignments' && <AssignmentsView />}
         {tab === 'coverage' && <CoverageView />}

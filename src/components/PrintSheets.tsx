@@ -1,5 +1,5 @@
 import type { Cover, SchoolData } from '../types';
-import { DAY_NAMES, className, subjectName, teacherMetrics, teacherName, validate } from '../lib/model';
+import { DAY_NAMES, className, lessonTeacherId, subjectName, teacherMetrics, teacherName, validate } from '../lib/model';
 import { hijri, numberAr, periodTimes, today } from '../lib/utils';
 
 export function SheetHead({ title, subtitle }: { title: string; subtitle?: string }) {
@@ -25,7 +25,7 @@ export function ClassSheet({ data, classId }: { data: SchoolData; classId: strin
     const lesson = lessons.find((l) => l.day === day && l.period === period);
     if (!lesson) return null;
     const a = data.assignments.find((x) => x.id === lesson.assignmentId)!;
-    return { subject: subjectName(data, a.subjectId), teacher: teacherName(data, a.teacherId) };
+    return { subject: subjectName(data, a.subjectId), teacher: teacherName(data, lessonTeacherId(data, lesson)) };
   };
   return (
     <div>
@@ -70,10 +70,7 @@ export function ClassSheet({ data, classId }: { data: SchoolData; classId: strin
 }
 
 export function TeacherSheet({ data, teacherId }: { data: SchoolData; teacherId: string }) {
-  const lessons = data.lessons.filter((l) => {
-    const a = data.assignments.find((x) => x.id === l.assignmentId);
-    return a?.teacherId === teacherId;
-  });
+  const lessons = data.lessons.filter((lesson) => lessonTeacherId(data, lesson) === teacherId);
   const find = (day: number, period: number) => {
     const lesson = lessons.find((l) => l.day === day && l.period === period);
     if (!lesson) return null;
@@ -249,7 +246,7 @@ export function CoverageSheet({
                   <td>{lesson.period + 1}</td>
                   <td>{className(data, assignment.classId)}</td>
                   <td>{subjectName(data, assignment.subjectId)}</td>
-                  <td>{teacherName(data, assignment.teacherId)}</td>
+                  <td>{teacherName(data, lessonTeacherId(data, lesson))}</td>
                   <td style={{ fontWeight: 700 }}>{teacherName(data, cover.teacherId)}</td>
                 </tr>
               );
@@ -414,7 +411,7 @@ export function AuditSheet({ data }: { data: SchoolData }) {
             {violations.slice(0, 40).map((violation, index) => (
               <tr key={index}>
                 <td>{index + 1}</td>
-                <td>{{ 'teacher-clash': 'تعارض معلم', 'class-clash': 'تعارض فصل', 'room-clash': 'تعارض قاعة', 'pe-cap': 'سقف البدنية', 'off-day': 'يوم راحة', 'out-of-range': 'خارج النطاق' }[violation.kind]}</td>
+                <td>{{ 'teacher-clash': 'تعارض معلم', 'class-clash': 'تعارض فصل', 'room-clash': 'تعارض قاعة', 'pe-cap': 'قيود البدنية', 'pe-last': 'بدنية في السابعة', 'off-day': 'يوم راحة', 'out-of-range': 'خارج النطاق' }[violation.kind]}</td>
                 <td style={{ textAlign: 'right' }}>{violation.message}</td>
               </tr>
             ))}
@@ -557,3 +554,4 @@ export function AllTeachersSheet({ data }: { data: SchoolData }) {
     </>
   );
 }
+

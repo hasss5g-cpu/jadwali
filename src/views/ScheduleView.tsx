@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { useStore } from '../store';
-import { DAY_NAMES, className, subjectColor, subjectName, teacherName, validate } from '../lib/model';
+import { DAY_NAMES, className, lessonTeacherId, subjectColor, subjectName, teacherName, validate } from '../lib/model';
 import { download, periodTimes } from '../lib/utils';
 import { Card, Empty } from '../components/ui';
 import { Icon } from '../components/Icon';
@@ -20,7 +20,7 @@ export function ScheduleView() {
       data.lessons.filter((lesson) => {
         const assignment = data.assignments.find((a) => a.id === lesson.assignmentId);
         if (!assignment) return false;
-        return mode === 'class' ? assignment.classId === classId : assignment.teacherId === teacherId;
+        return mode === 'class' ? assignment.classId === classId : lessonTeacherId(data, lesson) === teacherId;
       }),
     [data, mode, classId, teacherId],
   );
@@ -28,7 +28,8 @@ export function ScheduleView() {
   const cellAt = (day: number, period: number) => {
     const lesson = lessons.find((l) => l.day === day && l.period === period);
     if (!lesson) return null;
-    return data.assignments.find((a) => a.id === lesson.assignmentId) ?? null;
+    const assignment = data.assignments.find((a) => a.id === lesson.assignmentId);
+    return assignment ? { assignment, teacherId: lessonTeacherId(data, lesson) } : null;
   };
 
   const exportCsv = () => {
@@ -36,14 +37,14 @@ export function ScheduleView() {
     const rows = [['اليوم', 'الحصة', 'التوقيت', 'المادة', mode === 'class' ? 'المعلم' : 'الفصل']];
     for (let day = 0; day < data.days; day++) {
       for (let period = 0; period < data.periods; period++) {
-        const assignment = cellAt(day, period);
-        if (!assignment) continue;
+        const cell = cellAt(day, period);
+        if (!cell) continue;
         rows.push([
           DAY_NAMES[day],
           String(period + 1),
           times[period],
-          subjectName(data, assignment.subjectId),
-          mode === 'class' ? teacherName(data, assignment.teacherId) : className(data, assignment.classId),
+          subjectName(data, cell.assignment.subjectId),
+          mode === 'class' ? teacherName(data, cell.teacherId) : className(data, cell.assignment.classId),
         ]);
       }
     }
@@ -138,11 +139,11 @@ export function ScheduleView() {
               <div key={day} className="contents">
                 <div className="schedule-day">{day}</div>
                 {Array.from({ length: data.periods }, (_, period) => {
-                  const assignment = cellAt(dayIndex, period);
-                  if (!assignment) {
+                  const cell = cellAt(dayIndex, period);
+                  if (!cell) {
                     return <div key={period} className="schedule-cell" data-empty="true" />;
                   }
-                  const color = subjectColor(data, assignment.subjectId);
+                  const color = subjectColor(data, cell.assignment.subjectId);
                   return (
                     <div
                       key={period}
@@ -150,10 +151,10 @@ export function ScheduleView() {
                       style={{ borderInlineStartColor: color, borderInlineStartWidth: 4 }}
                     >
                       <div className="lesson-subject" style={{ color }}>
-                        {subjectName(data, assignment.subjectId)}
+                        {subjectName(data, cell.assignment.subjectId)}
                       </div>
                       <div className="lesson-meta">
-                        {mode === 'class' ? teacherName(data, assignment.teacherId) : className(data, assignment.classId)}
+                        {mode === 'class' ? teacherName(data, cell.teacherId) : className(data, cell.assignment.classId)}
                       </div>
                     </div>
                   );
@@ -179,3 +180,4 @@ export function ScheduleView() {
     </div>
   );
 }
+
