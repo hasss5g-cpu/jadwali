@@ -1,5 +1,5 @@
 import type { Admin, Cover, ID, Lesson, SchoolData } from '../types';
-import { className, gradeOf, lessonTeacherId, personName } from './model';
+import { className, compactClassName, gradeOf, lessonTeacherId, personName } from './model';
 import { hijri, uid, weekdayOf } from './utils';
 
 export interface Candidate {
@@ -166,15 +166,15 @@ export function autoCover(data: SchoolData, date: string): CoverageResult {
   return { covers, unassigned };
 }
 
-/** رسالة واتساب: الغائبون، ثم توزيع الانتظار حسب الحصة. */
+/** رسالة واتساب: الغائبون مرقّمون، ثم توزيع الانتظار حسب الحصة. */
 export function coverageMessage(data: SchoolData, date: string, covers: Cover[]): string {
   const lines: string[] = [];
   const absentIds = [...new Set(data.absences.filter((a) => a.date === date).map((a) => a.teacherId))];
 
   lines.push('المعلمين الغائبين لليوم');
-  for (const id of absentIds) lines.push(`- ${personName(data, id)}`);
+  absentIds.forEach((id, index) => lines.push(`${index + 1}- ${personName(data, id)}`));
   lines.push('');
-  lines.push('توزيع الانتظار');
+  lines.push('              توزيع الانتظار');
 
   const byPeriod = new Map<number, Cover[]>();
   for (const cover of covers) {
@@ -190,9 +190,9 @@ export function coverageMessage(data: SchoolData, date: string, covers: Cover[])
     for (const cover of byPeriod.get(period) ?? []) {
       const lesson = data.lessons.find((l) => l.id === cover.lessonId)!;
       const assignment = data.assignments.find((a) => a.id === lesson.assignmentId)!;
-      lines.push(`${personName(data, cover.teacherId)} / ${className(data, assignment.classId)}`);
+      lines.push(`${personName(data, cover.teacherId)} - ${compactClassName(className(data, assignment.classId))}`);
     }
-    lines.push('----------------------------------');
+    lines.push('---------------------');
   }
 
   return lines.join('\n').trim();
@@ -202,3 +202,4 @@ export function coverageMessage(data: SchoolData, date: string, covers: Cover[])
 export function coverageDateLabel(date: string): string {
   return hijri(date);
 }
+

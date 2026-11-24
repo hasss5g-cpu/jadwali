@@ -91,10 +91,10 @@ describe('الانتظار: الترشيح والرسالة والإداريون
     const message = coverageMessage(school, date, covers);
     const lines = message.split('\n');
     expect(lines[0]).toBe('المعلمين الغائبين لليوم');
-    expect(lines[1]).toBe('- الغائب');
+    expect(lines[1]).toBe('1- الغائب');
     expect(message).toContain('توزيع الانتظار');
     expect(message).toContain('الحصة الأولى:');
-    expect(message).toContain('معلم الأول / الأول متوسط / 1');
-    expect(message).toContain('----------------------------------');
+    expect(message).toContain('معلم الأول - 1 / 1');
+    expect(message).toContain('---------------------');
   });
 });
