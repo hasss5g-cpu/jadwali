@@ -1,6 +1,7 @@
 import type { Cover, SchoolData } from '../types';
 import { DAY_NAMES, className, lessonTeacherId, subjectName, teacherMetrics, teacherName, validate } from '../lib/model';
 import { hijri, numberAr, periodTimes, today } from '../lib/utils';
+import { MasterTable, masterSubtitle, masterTitle, type MasterMode } from './MasterTable';
 
 export function SheetHead({ title, subtitle }: { title: string; subtitle?: string }) {
   return (
@@ -9,6 +10,16 @@ export function SheetHead({ title, subtitle }: { title: string; subtitle?: strin
       {subtitle && <p style={{ margin: '2px 0 0', fontSize: 11, color: '#475569' }}>{subtitle}</p>}
       <p style={{ margin: '2px 0 0', fontSize: 10, color: '#64748b' }}>{hijri(today())}</p>
     </header>
+  );
+}
+
+/** الجدول العام: كل المعلمين أو كل الفصول في صفحة واحدة. */
+export function MasterSheet({ data, mode, query = '' }: { data: SchoolData; mode: MasterMode; query?: string }) {
+  return (
+    <div>
+      <SheetHead title={masterTitle(mode)} subtitle={masterSubtitle(data, mode)} />
+      <MasterTable data={data} mode={mode} query={query} print />
+    </div>
   );
 }
 

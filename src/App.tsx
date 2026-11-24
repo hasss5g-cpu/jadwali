@@ -3,6 +3,7 @@ import { StoreProvider, useStore } from './store';
 import { Icon } from './components/Icon';
 import { PrintOverlay, ToastHost } from './components/ui';
 import { Dashboard } from './views/Dashboard';
+import { MasterView } from './views/MasterView';
 import { ScheduleView } from './views/ScheduleView';
 import { SwapView } from './views/SwapView';
 import { GenerateView } from './views/GenerateView';
@@ -16,6 +17,7 @@ import { PublicApp } from './views/PublicApp';
 
 const TABS = [
   { id: 'dashboard', label: 'نظرة عامة', icon: 'dashboard' },
+  { id: 'master', label: 'الجدول العام', icon: 'database' },
   { id: 'schedule', label: 'الجدول', icon: 'calendar' },
   { id: 'swap', label: 'نقل الحصص', icon: 'swap' },
   { id: 'generate', label: 'التوليد', icon: 'sparkles' },
@@ -79,6 +81,7 @@ function Admin() {
 
       <main>
         {tab === 'dashboard' && <Dashboard onNavigate={setTab} />}
+        {tab === 'master' && <MasterView />}
         {tab === 'schedule' && <ScheduleView />}
         {tab === 'swap' && <SwapView />}
         {tab === 'generate' && <GenerateView />}

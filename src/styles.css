@@ -50,6 +50,137 @@ body {
   padding: 0 16px 72px;
 }
 
+.master-scroll {
+  max-height: 70vh;
+  overflow: auto;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+
+.master-table {
+  border-collapse: separate;
+  border-spacing: 0;
+  width: max-content;
+  min-width: 100%;
+  font-size: 9px;
+}
+
+.master-table th,
+.master-table td {
+  border-bottom: 1px solid #eef2f0;
+  border-inline-start: 1px solid #f3f6f5;
+  padding: 3px 4px;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.master-table thead {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+}
+
+.master-table thead th {
+  position: static;
+  background: #f3f7f5;
+  font-size: 9px;
+  font-weight: 800;
+  color: var(--ink-600);
+}
+
+.master-table .name-col {
+  position: sticky;
+  right: 0;
+  z-index: 2;
+  background: #fff;
+  text-align: right;
+  font-weight: 700;
+  font-size: 10px;
+  min-width: 116px;
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.master-table thead .name-col {
+  z-index: 4;
+  background: #e9f2ef;
+}
+
+.master-table .day-head {
+  background: #e9f2ef;
+  font-size: 10px;
+}
+
+.master-table .period-head {
+  min-width: 46px;
+  width: 46px;
+  color: var(--muted);
+}
+
+.master-table td[data-empty='true'] {
+  background: #fbfcfb;
+}
+
+.master-subject {
+  display: block;
+  font-weight: 700;
+  font-size: 9px;
+  color: var(--ink);
+  max-width: 62px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.master-meta {
+  display: block;
+  font-size: 7.5px;
+  color: var(--muted);
+  max-width: 62px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.master-print table {
+  width: 100%;
+  font-size: 7px;
+}
+
+.master-print th,
+.master-print td {
+  padding: 1.5px 2px;
+  border: 1px solid #cfd8d4;
+}
+
+.master-print .name-col {
+  width: 26mm;
+  max-width: 26mm;
+  font-size: 7.5px;
+  position: static;
+}
+
+.master-print .master-subject {
+  font-size: 7px;
+  max-width: none;
+}
+
+.master-print .master-meta {
+  font-size: 6px;
+  max-width: none;
+}
+
+.master-print .period-head {
+  min-width: 0;
+  width: auto;
+}
+
+@media print {
+  .print-sheet[data-compact='true'] .master-print table {
+    font-size: 6.5px;
+  }
+}
+
 .card {
   background: #fff;
   border: 1px solid var(--line);
