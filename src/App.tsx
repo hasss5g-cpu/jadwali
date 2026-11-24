@@ -17,7 +17,7 @@ import { PublicApp } from './views/PublicApp';
 const TABS = [
   { id: 'dashboard', label: 'نظرة عامة', icon: 'dashboard' },
   { id: 'schedule', label: 'الجدول', icon: 'calendar' },
-  { id: 'swap', label: 'تبادل الحصص', icon: 'swap' },
+  { id: 'swap', label: 'نقل الحصص', icon: 'swap' },
   { id: 'generate', label: 'التوليد', icon: 'sparkles' },
   { id: 'assignments', label: 'الإسنادات', icon: 'users' },
   { id: 'coverage', label: 'الانتظار', icon: 'shield' },
