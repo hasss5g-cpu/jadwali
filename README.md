@@ -36,6 +36,7 @@
 
 ![الجدول](docs/screenshots/schedule.png)
 ![الجدول العام](docs/screenshots/master-teachers.png)
+![طباعة الجدول العام](docs/screenshots/master-print-classes.png)
 ![نقل الحصص](docs/screenshots/move-preview.png)
 ![تقرير التوليد](docs/screenshots/generate-report.png)
 ![الانتظار](docs/screenshots/coverage.png)
