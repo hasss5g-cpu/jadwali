@@ -49,6 +49,13 @@ export function teacherName(data: SchoolData, id: ID): string {
   return data.teachers.find((t) => t.id === id)?.name ?? '—';
 }
 
+/** اسم أي شخص قد يغطي حصة انتظار: معلم أو إداري. */
+export function personName(data: SchoolData, id: ID): string {
+  const teacher = data.teachers.find((t) => t.id === id);
+  if (teacher) return teacher.name;
+  return data.admins?.find((a) => a.id === id)?.name ?? '—';
+}
+
 export function subjectColor(data: SchoolData, id: ID): string {
   const color = data.subjects.find((s) => s.id === id)?.color ?? 0;
   const palette = [
@@ -156,6 +163,7 @@ export function normalizeData(input: SchoolData): SchoolData {
     lessons: input.lessons ?? [],
     absences: input.absences ?? [],
     covers: input.covers ?? [],
+    admins: input.admins ?? [],
     exams: input.exams ?? { periodic: [], official: [] },
     options: { ...DEFAULT_OPTIONS, ...(input.options ?? {}) },
   };
@@ -264,3 +272,4 @@ export function validate(data: SchoolData, lessons: Lesson[] = data.lessons): Vi
   }
   return [...new Map(out.map((violation) => [violation.kind + '|' + violation.message, violation])).values()];
 }
+

@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useStore } from '../store';
-import type { Cover } from '../types';
-import { className, subjectName, teacherName } from '../lib/model';
+import type { Admin, Cover } from '../types';
+import { className, personName, subjectName } from '../lib/model';
 import { absentLessons, autoCover, candidatesFor, coverageMessage } from '../lib/coverage';
-import { copyText, hijri, numberAr, today, weekdayLabel } from '../lib/utils';
+import { copyText, hijri, numberAr, today, uid, weekdayLabel } from '../lib/utils';
 import { Card, Empty } from '../components/ui';
 import { Icon } from '../components/Icon';
 import { CoverageSheet } from '../components/PrintSheets';
@@ -15,6 +15,10 @@ export function CoverageView() {
   const [covers, setCovers] = useState<Cover[]>([]);
   const [message, setMessage] = useState('');
   const [query, setQuery] = useState('');
+  const [adminName, setAdminName] = useState('');
+  const [adminPeriods, setAdminPeriods] = useState(2);
+
+  const admins = data.admins ?? [];
 
   const working = useMemo(
     () => ({
@@ -65,6 +69,35 @@ export function CoverageView() {
 
   const live = useMemo(() => ({ ...working, covers }), [working, covers]);
 
+  const adminUsage = useMemo(() => {
+    const map = new Map<string, number>();
+    for (const cover of covers) {
+      if (admins.some((admin) => admin.id === cover.teacherId)) {
+        map.set(cover.teacherId, (map.get(cover.teacherId) ?? 0) + 1);
+      }
+    }
+    return map;
+  }, [covers, admins]);
+
+  const addAdmin = () => {
+    const name = adminName.trim();
+    if (!name) return;
+    const admin: Admin = { id: uid('adm'), name, periods: Math.max(1, adminPeriods) };
+    update((prev) => ({ ...prev, admins: [...(prev.admins ?? []), admin] }));
+    setAdminName('');
+    setAdminPeriods(2);
+    toast('أُضيف الإداري إلى قائمة الانتظار.', 'ok');
+  };
+
+  const removeAdmin = (id: string) => {
+    update((prev) => ({
+      ...prev,
+      admins: (prev.admins ?? []).filter((admin) => admin.id !== id),
+      covers: prev.covers.filter((cover) => cover.teacherId !== id),
+    }));
+    setCovers((prev) => prev.filter((cover) => cover.teacherId !== id));
+  };
+
   const covered = new Map(covers.map((c) => [c.lessonId, c.teacherId]));
   const teachers = data.teachers.filter((t) => !query.trim() || t.name.includes(query.trim()));
 
@@ -72,6 +105,7 @@ export function CoverageView() {
 
   return (
     <div className="grid gap-4 xl:grid-cols-[0.85fr_1.15fr]">
+      <div className="grid gap-4">
       <Card title="غياب اليوم" subtitle={`${weekdayLabel(date)} · ${hijri(date)}`}>
         <div className="grid gap-2 sm:grid-cols-2">
           <label>
@@ -121,6 +155,57 @@ export function CoverageView() {
         </div>
       </Card>
 
+      <Card title="الإداريون" subtitle="أضف الإداري وعدد حصص الانتظار التي يمكن إسنادها له، ويُدرج في التوزيع.">
+        <div className="flex flex-wrap items-end gap-2">
+          <label className="min-w-[150px] flex-1">
+            <span className="label">اسم الإداري</span>
+            <input
+              className="input"
+              placeholder="مثال: مدير المدرسة"
+              value={adminName}
+              onChange={(e) => setAdminName(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') addAdmin();
+              }}
+            />
+          </label>
+          <label>
+            <span className="label">عدد الحصص</span>
+            <input
+              className="input w-24 text-center"
+              type="number"
+              min={1}
+              max={8}
+              value={adminPeriods}
+              onChange={(e) => setAdminPeriods(Math.max(1, Number(e.target.value) || 1))}
+            />
+          </label>
+          <button className="btn btn-primary btn-sm" onClick={addAdmin} disabled={!adminName.trim()}>
+            <Icon name="plus" size={15} /> إضافة
+          </button>
+        </div>
+
+        {admins.length > 0 && (
+          <ul className="m-0 mt-3 grid list-none gap-1.5 p-0">
+            {admins.map((admin) => (
+              <li
+                key={admin.id}
+                className="flex items-center justify-between rounded-lg border border-[var(--line)] px-2.5 py-1.5 text-[12.5px]"
+              >
+                <span className="font-semibold">{admin.name}</span>
+                <span className="flex items-center gap-2">
+                  <span className="badge">{numberAr(admin.periods)} حصص</span>
+                  <button className="btn btn-ghost btn-sm px-1 text-[11px]" onClick={() => removeAdmin(admin.id)}>
+                    حذف
+                  </button>
+                </span>
+              </li>
+            ))}
+          </ul>
+        )}
+      </Card>
+      </div>
+
       <div className="grid gap-4">
         <Card
           title="حصص الانتظار"
@@ -162,17 +247,19 @@ export function CoverageView() {
                         .filter((c) => data.lessons.find((l) => l.id === c.lessonId)?.period === lesson.period)
                         .map((c) => c.teacherId),
                     );
-                    const candidates = candidatesFor(live, lesson, date).filter((c) => c.id === value || !taken.has(c.id));
+                    const candidates = candidatesFor(live, lesson, date, adminUsage).filter(
+                      (c) => c.id === value || !taken.has(c.id),
+                    );
                     const list =
                       value && !candidates.some((c) => c.id === value)
-                        ? [{ id: value, name: teacherName(data, value), reason: 'مُعيّن حاليًا' }, ...candidates]
+                        ? [{ id: value, name: personName(data, value), reason: 'مُعيّن حاليًا', score: 0, kind: 'teacher' as const }, ...candidates]
                         : candidates;
                     return (
                       <tr key={lesson.id}>
                         <td className="font-bold">{lesson.period + 1}</td>
                         <td>{className(data, assignment.classId)}</td>
                         <td>{subjectName(data, assignment.subjectId)}</td>
-                        <td className="text-[12px] text-[var(--danger)]">{teacherName(data, assignment.teacherId)}</td>
+                        <td className="text-[12px] text-[var(--danger)]">{personName(data, assignment.teacherId)}</td>
                         <td>
                           <select className="select py-1 text-[12px]" value={value} onChange={(e) => setCover(lesson.id, e.target.value)}>
                             <option value="">— لم يُغطَّ —</option>

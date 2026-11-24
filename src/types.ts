@@ -52,6 +52,14 @@ export interface Cover {
   teacherId: ID;
 }
 
+/** إداري يمكن أن يُسند إليه عدد محدود من حصص الانتظار. */
+export interface Admin {
+  id: ID;
+  name: string;
+  /** أقصى عدد حصص انتظار تُعطى له في اليوم. */
+  periods: number;
+}
+
 export interface ExamSlot {
   classId: ID;
   subjectId: ID;
@@ -114,6 +122,7 @@ export interface SchoolData {
   lessons: Lesson[];
   absences: Absence[];
   covers: Cover[];
+  admins?: Admin[];
   exams: ExamPlan;
   options: GenerationOptions;
   /** مفتاح توليد روابط المشاركة */

@@ -1,5 +1,5 @@
 import type { Cover, SchoolData } from '../types';
-import { DAY_NAMES, className, lessonTeacherId, subjectName, teacherMetrics, teacherName, validate } from '../lib/model';
+import { DAY_NAMES, className, lessonTeacherId, personName, subjectName, teacherMetrics, teacherName, validate } from '../lib/model';
 import { hijri, numberAr, periodTimes, today } from '../lib/utils';
 import { FitToPage, MasterTable, masterTitle, type MasterMode } from './MasterTable';
 
@@ -265,8 +265,8 @@ export function CoverageSheet({
                   <td>{lesson.period + 1}</td>
                   <td>{className(data, assignment.classId)}</td>
                   <td>{subjectName(data, assignment.subjectId)}</td>
-                  <td>{teacherName(data, lessonTeacherId(data, lesson))}</td>
-                  <td style={{ fontWeight: 700 }}>{teacherName(data, cover.teacherId)}</td>
+                  <td>{personName(data, lessonTeacherId(data, lesson))}</td>
+                  <td style={{ fontWeight: 700 }}>{personName(data, cover.teacherId)}</td>
                 </tr>
               );
             })}
@@ -573,4 +573,5 @@ export function AllTeachersSheet({ data }: { data: SchoolData }) {
     </>
   );
 }
+
 

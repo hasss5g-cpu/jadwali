@@ -46,14 +46,15 @@ describe('الانتظار والغطاء', () => {
     expect(names).not.toContain(absentTeacher);
   });
 
-  it('يبني رسالة واتساب مجمّعة حسب المعلم الغائب', () => {
+  it('يبني رسالة واتساب بالتنسيق الجديد', () => {
     const absent = data.teachers.slice(0, 2).map((t) => t.id);
     const working = { ...data, absences: absent.map((teacherId) => ({ date, teacherId })), covers: [] };
     const result = autoCover(working, date);
     const message = coverageMessage(working, date, result.covers);
-    expect(message).toContain('المعلم الغائب');
-    expect(message).toContain('المعلم المنتظر');
-    expect(message.split('\n')[0]).toBe(data.school);
+    expect(message.split('\n')[0]).toBe('المعلمين الغائبين لليوم');
+    expect(message).toContain('توزيع الانتظار');
+    expect(message).toContain('الحصة');
+    expect(message).toContain('/');
   });
 });
 

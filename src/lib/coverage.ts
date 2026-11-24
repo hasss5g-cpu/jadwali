@@ -1,18 +1,22 @@
-import type { Cover, ID, Lesson, SchoolData } from '../types';
-import { className, lessonTeacherId, subjectName, teacherName } from './model';
-import { hijri, uid, weekdayLabel, weekdayOf } from './utils';
+import type { Admin, Cover, ID, Lesson, SchoolData } from '../types';
+import { className, gradeOf, lessonTeacherId, personName } from './model';
+import { hijri, uid, weekdayOf } from './utils';
 
 export interface Candidate {
   id: ID;
   name: string;
   reason: string;
   score: number;
+  kind: 'teacher' | 'admin';
+  remaining?: number;
 }
 
 export interface CoverageResult {
   covers: Cover[];
   unassigned: { lesson: Lesson; className: string; period: number }[];
 }
+
+const PERIOD_NAMES = ['الأولى', 'الثانية', 'الثالثة', 'الرابعة', 'الخامسة', 'السادسة', 'السابعة', 'الثامنة'];
 
 export function absentLessons(data: SchoolData, date: string): Lesson[] {
   const day = weekdayOf(date);
@@ -23,21 +27,38 @@ export function absentLessons(data: SchoolData, date: string): Lesson[] {
     .sort((a, b) => a.period - b.period);
 }
 
-function teacherBusy(data: SchoolData, date: string, teacherId: ID, period: number): boolean {
+function teacherBusy(data: SchoolData, date: string, personId: ID, period: number): boolean {
   const day = weekdayOf(date);
   const hasLesson = data.lessons.some((l) => {
     if (l.day !== day || l.period !== period) return false;
-    return lessonTeacherId(data, l) === teacherId;
+    return lessonTeacherId(data, l) === personId;
   });
   if (hasLesson) return true;
   return data.covers.some((c) => {
-    if (c.date !== date || c.teacherId !== teacherId) return false;
+    if (c.date !== date || c.teacherId !== personId) return false;
     const lesson = data.lessons.find((l) => l.id === c.lessonId);
     return lesson?.period === period;
   });
 }
 
-export function candidatesFor(data: SchoolData, lesson: Lesson, date: string): Candidate[] {
+/** هل يدرّس المعلم فصلًا في المرحلة نفسها (أول/ثاني/ثالث)؟ */
+function teachesSameGrade(data: SchoolData, teacherId: ID, targetClassId: string): boolean {
+  const targetClass = data.classes.find((c) => c.id === targetClassId);
+  const grade = targetClass ? gradeOf(targetClass.name) : null;
+  if (grade === null) return false;
+  return data.assignments.some((assignment) => {
+    if (assignment.teacherId !== teacherId) return false;
+    const cls = data.classes.find((c) => c.id === assignment.classId);
+    return cls ? gradeOf(cls.name) === grade : false;
+  });
+}
+
+export function candidatesFor(
+  data: SchoolData,
+  lesson: Lesson,
+  date: string,
+  adminUsage: Map<ID, number> = new Map(),
+): Candidate[] {
   const assignment = data.assignments.find((a) => a.id === lesson.assignmentId);
   if (!assignment) return [];
   const absent = new Set(data.absences.filter((a) => a.date === date).map((a) => a.teacherId));
@@ -49,83 +70,135 @@ export function candidatesFor(data: SchoolData, lesson: Lesson, date: string): C
   for (const c of data.covers) {
     if (c.date === date) weekly.set(c.teacherId, (weekly.get(c.teacherId) ?? 0) + 1);
   }
-  return data.teachers
+
+  const teachers: Candidate[] = data.teachers
     .filter((t) => !absent.has(t.id))
     .filter((t) => !teacherBusy(data, date, t.id, lesson.period))
     .map((t) => {
       const specialist = t.subject === assignment.subjectId || t.additionalSubjects.includes(assignment.subjectId);
+      const sameGrade = teachesSameGrade(data, t.id, assignment.classId);
       const load = weekly.get(t.id) ?? 0;
       const overload = Math.max(0, load - t.max);
-      const score = (specialist ? 100 : 0) - load * 2 - overload * 40;
+      const score =
+        (specialist ? 100 : 0) + (sameGrade ? 45 : 0) - load * 2 - overload * 40;
       return {
         id: t.id,
         name: t.name,
-        reason: specialist ? 'تخصص المادة' : overload > 0 ? 'نصاب مرتفع' : 'الأخف نصابًا',
+        reason: specialist
+          ? 'تخصص المادة'
+          : sameGrade
+            ? 'يدرّس نفس الصف'
+            : overload > 0
+              ? 'نصاب مرتفع'
+              : 'الأخف نصابًا',
         score,
+        kind: 'teacher' as const,
+      };
+    });
+
+  const admins: Candidate[] = (data.admins ?? [])
+    .map((admin: Admin) => {
+      const used = adminUsage.get(admin.id) ?? 0;
+      const remaining = Math.max(0, admin.periods - used);
+      return {
+        id: admin.id,
+        name: admin.name,
+        reason: `إداري · متبقٍ ${remaining}`,
+        // الإداري بديل أخير: يُستخدم بعد المعلمين.
+        score: 25 + remaining,
+        kind: 'admin' as const,
+        remaining,
       };
     })
-    .sort((a, b) => b.score - a.score);
+    .filter((candidate) => (candidate.remaining ?? 0) > 0)
+    .filter((candidate) => !teacherBusy(data, date, candidate.id, lesson.period));
+
+  return [...teachers, ...admins].sort((a, b) => b.score - a.score);
 }
 
 export function autoCover(data: SchoolData, date: string): CoverageResult {
   const lessons = absentLessons(data, date);
   const covers: Cover[] = [];
   const unassigned: CoverageResult['unassigned'] = [];
+  const adminUsage = new Map<ID, number>();
   const working: SchoolData = { ...data, covers: [] };
-  const pending = lessons.map((lesson) => ({
+  const remaining = new Map(lessons.map((lesson) => [lesson.id, lesson]));
+
+  // 1) يُعطى كل إداري عدد الحصص المحدد له (حصة واحدة في كل موعد).
+  for (const admin of data.admins ?? []) {
+    for (let assigned = 0; assigned < admin.periods; assigned++) {
+      const lesson = lessons.find(
+        (candidate) =>
+          remaining.has(candidate.id) &&
+          !teacherBusy({ ...working, covers }, date, admin.id, candidate.period),
+      );
+      if (!lesson) break;
+      covers.push({ id: uid('cv'), date, lessonId: lesson.id, teacherId: admin.id });
+      remaining.delete(lesson.id);
+      adminUsage.set(admin.id, (adminUsage.get(admin.id) ?? 0) + 1);
+    }
+  }
+
+  // 2) تُغطى بقية الحصص بالمعلمين، الأصعب أولًا.
+  const pending = [...remaining.values()].map((lesson) => ({
     lesson,
-    candidates: candidatesFor(working, lesson, date).length,
+    candidates: candidatesFor({ ...working, covers }, lesson, date, adminUsage).length,
   }));
   pending.sort((a, b) => a.candidates - b.candidates);
+
   for (const { lesson } of pending) {
-    const used = new Set(covers.map((c) => c.teacherId));
-    const candidate = candidatesFor({ ...working, covers }, lesson, date).find((c) => !used.has(c.id));
+    const withCovers: SchoolData = { ...working, covers };
+    const candidate = candidatesFor(withCovers, lesson, date, adminUsage)[0];
     if (candidate) {
       covers.push({ id: uid('cv'), date, lessonId: lesson.id, teacherId: candidate.id });
+      remaining.delete(lesson.id);
+      if (candidate.kind === 'admin') adminUsage.set(candidate.id, (adminUsage.get(candidate.id) ?? 0) + 1);
     } else {
+      const assignment = data.assignments.find((a) => a.id === lesson.assignmentId)!;
       unassigned.push({
         lesson,
-        className: className(data, data.assignments.find((a) => a.id === lesson.assignmentId)!.classId),
+        className: className(data, assignment.classId),
         period: lesson.period + 1,
       });
     }
   }
+
   return { covers, unassigned };
 }
 
+/** رسالة واتساب: الغائبون، ثم توزيع الانتظار حسب الحصة. */
 export function coverageMessage(data: SchoolData, date: string, covers: Cover[]): string {
   const lines: string[] = [];
-  lines.push(data.school);
-  lines.push(`توزيع حصص الانتظار ليوم ${weekdayLabel(date)} — ${hijri(date)}`);
+  const absentIds = [...new Set(data.absences.filter((a) => a.date === date).map((a) => a.teacherId))];
+
+  lines.push('المعلمين الغائبين لليوم');
+  for (const id of absentIds) lines.push(`- ${personName(data, id)}`);
   lines.push('');
-  const byTeacher = new Map<ID, Cover[]>();
+  lines.push('توزيع الانتظار');
+
+  const byPeriod = new Map<number, Cover[]>();
   for (const cover of covers) {
     const lesson = data.lessons.find((l) => l.id === cover.lessonId);
-    const assignment = lesson ? data.assignments.find((a) => a.id === lesson.assignmentId) : undefined;
-    if (!assignment) continue;
-    const arr = byTeacher.get(lessonTeacherId(data, lesson!)) ?? [];
-    arr.push(cover);
-    byTeacher.set(assignment.teacherId, arr);
+    if (!lesson) continue;
+    const list = byPeriod.get(lesson.period) ?? [];
+    list.push(cover);
+    byPeriod.set(lesson.period, list);
   }
-  for (const [teacherId, list] of byTeacher) {
-    lines.push(`*المعلم الغائب: ${teacherName(data, teacherId)}*`);
-    list.sort((a, b) => {
-      const la = data.lessons.find((l) => l.id === a.lessonId)!;
-      const lb = data.lessons.find((l) => l.id === b.lessonId)!;
-      return la.period - lb.period;
-    });
-    for (const cover of list) {
+
+  for (const period of [...byPeriod.keys()].sort((a, b) => a - b)) {
+    lines.push(`الحصة ${PERIOD_NAMES[period] ?? period + 1}:`);
+    for (const cover of byPeriod.get(period) ?? []) {
       const lesson = data.lessons.find((l) => l.id === cover.lessonId)!;
       const assignment = data.assignments.find((a) => a.id === lesson.assignmentId)!;
-      lines.push(`الحصة: ${lesson.period + 1}`);
-      lines.push(`المعلم المنتظر: ${teacherName(data, cover.teacherId)}`);
-      lines.push(`الفصل: ${className(data, assignment.classId)}`);
-      lines.push(`المادة: ${subjectName(data, assignment.subjectId)}`);
-      lines.push('---------------------------');
+      lines.push(`${personName(data, cover.teacherId)} / ${className(data, assignment.classId)}`);
     }
-    lines.push('');
+    lines.push('----------------------------------');
   }
+
   return lines.join('\n').trim();
 }
 
-
+/** ملخص تاريخ اليوم بصيغة هجرية للعرض. */
+export function coverageDateLabel(date: string): string {
+  return hijri(date);
+}
