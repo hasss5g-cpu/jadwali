@@ -164,9 +164,15 @@ body {
 }
 
 .master-print table {
-  width: max-content;
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
   font-size: 7px;
   line-height: 1.05;
+}
+
+.master-print tbody tr {
+  height: var(--master-row-px, auto);
 }
 
 .master-print th,
@@ -565,7 +571,7 @@ body {
 
 @media screen {
   .print-sheet[data-edge='true'] {
-    padding: 0 8mm 0 0;
+    padding: 12mm 6mm 0 6mm;
     overflow: hidden;
   }
 
@@ -648,12 +654,12 @@ body {
 
   @page p-a3 {
     size: A3 portrait;
-    margin: 0 8mm 0 0;
+    margin: 12mm 6mm 0 6mm;
   }
 
   @page l-a3 {
     size: A3 landscape;
-    margin: 0 8mm 0 0;
+    margin: 12mm 6mm 0 6mm;
   }
 
   @page public-landscape {
@@ -715,6 +721,8 @@ body {
     font-size: 11px;
   }
 }
+
+
 
 
 

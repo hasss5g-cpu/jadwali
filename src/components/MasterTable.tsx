@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState, type ReactNode } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from 'react';
 import type { SchoolData } from '../types';
 import { DAY_NAMES, gradeOf, lessonTeacherId } from '../lib/model';
 
@@ -187,51 +187,67 @@ export function masterSubtitle(data: SchoolData, mode: MasterMode): string {
  * يصغّر المحتوى تلقائيًا ليدخل في صفحة واحدة بمقاس A3 (طولية أو عرضية)
  * بهوامش 4مم، عبر ضبط zoom حسب القياس الفعلي للجدول.
  */
-/** هوامش صفحة الجدول العام: صفر من كل الجهات عدا يمين 12مم (يُطابق CSS @page). */
-export const MASTER_RIGHT_MARGIN_MM = 8;
+/** هوامش صفحة الجدول العام بالمليمتر (تطابق CSS @page). */
+export const MASTER_MARGINS = { top: 12, right: 6, bottom: 0, left: 6 };
 
 export function FitToPage({ orientation, children }: { orientation: 'portrait' | 'landscape'; children: ReactNode }) {
   const outerRef = useRef<HTMLDivElement>(null);
   const innerRef = useRef<HTMLDivElement>(null);
-  const [zoom, setZoom] = useState(1);
+  const [fit, setFit] = useState({ zoom: 1, width: 0, rowHeight: 0 });
 
   useLayoutEffect(() => {
     const outer = outerRef.current;
     const inner = innerRef.current;
     if (!outer || !inner) return;
+    const table = inner.querySelector('table');
     const toPx = (mm: number) => (mm * 96) / 25.4;
     const [pageWidth, pageHeight] = orientation === 'portrait' ? [297, 420] : [420, 297];
-    // هامش أيمن 12مم حسب CSS، مع 2مم أمان لتفادي الكسر أو القص.
-    const availableWidth = toPx(pageWidth - MASTER_RIGHT_MARGIN_MM - 2);
-    const availableHeight = toPx(pageHeight - 2);
+    // هامش أمان 4مم رأسيًا و1مم أفقيًا لتفادي كسر الصفحة بسبب التقريب.
+    const availableWidth = toPx(pageWidth - MASTER_MARGINS.left - MASTER_MARGINS.right - 1);
+    const availableHeight = toPx(pageHeight - MASTER_MARGINS.top - MASTER_MARGINS.bottom - 4);
 
-    // نقيس على أرض الواقع ثم نصحّح: عرض الجدول الداخلي يتغيّر قليلًا مع نسبة التصغير
-    // بسبب تقريب عرض الأعمدة، لذا نكرّر الضبط حتى يدخل فعلًا.
+    // قياس المحتوى بعرضه الطبيعي (بدون تمديد) ثم حساب التصغير والتمديد.
     const previousZoom = outer.style.zoom;
+    const previousWidth = inner.style.width;
+    const previousTableWidth = table?.style.width ?? '';
     outer.style.zoom = '1';
-    let width = inner.getBoundingClientRect().width;
-    let height = inner.getBoundingClientRect().height;
-    if (!width || !height) {
-      outer.style.zoom = previousZoom || '1';
-      return;
-    }
-    let scale = Math.min(availableWidth / width, availableHeight / height, 1);
-    for (let attempt = 0; attempt < 6; attempt++) {
-      outer.style.zoom = String(scale);
-      width = inner.getBoundingClientRect().width;
-      height = inner.getBoundingClientRect().height;
-      if (width <= availableWidth && height <= availableHeight) break;
-      scale *= Math.min(availableWidth / width, availableHeight / height) * 0.998;
-    }
+    inner.style.width = 'max-content';
+    outer.style.removeProperty('--master-row-px');
+    if (table) table.style.width = 'max-content';
+    const naturalWidth = inner.getBoundingClientRect().width;
+    const bodyRows = Array.from(inner.querySelectorAll('tbody tr'));
+    const rows = bodyRows.length;
+    const bodyHeight =
+      bodyRows.reduce((total, row) => total + row.getBoundingClientRect().height, 0) || 0;
+    const fixedHeight = Math.max(0, inner.getBoundingClientRect().height - bodyHeight);
+    if (table) table.style.width = previousTableWidth;
+    inner.style.width = previousWidth;
     outer.style.zoom = previousZoom || '1';
+    if (!naturalWidth || !rows || naturalWidth > 100000) return;
 
-    const rounded = Number(scale.toFixed(4));
-    if (Math.abs(rounded - zoom) > 0.002) setZoom(rounded);
-  }, [orientation, zoom, children]);
+    const scale = Math.max(0.1, Math.min(availableWidth / naturalWidth, 1));
+    const innerWidth = Math.round(availableWidth / scale);
+    const rowHeight = Math.max(0, Math.floor(((availableHeight / scale - fixedHeight) / rows) * 100) / 100);
+    const roundedZoom = Number(scale.toFixed(4));
+    if (
+      Math.abs(roundedZoom - fit.zoom) > 0.001 ||
+      Math.abs(innerWidth - fit.width) > 1 ||
+      Math.abs(rowHeight - fit.rowHeight) > 0.5
+    ) {
+      setFit({ zoom: roundedZoom, width: innerWidth, rowHeight });
+    }
+  }, [orientation, fit]);
+
+  // تثبيت ارتفاع الصفوف على العنصر الأب (متغيّر CSS) بعد كل حساب.
+  useEffect(() => {
+    const outer = outerRef.current;
+    if (!outer) return;
+    if (fit.rowHeight > 0) outer.style.setProperty('--master-row-px', `${fit.rowHeight}px`);
+  }, [fit.rowHeight]);
 
   return (
-    <div ref={outerRef} style={{ zoom }}>
-      <div ref={innerRef} style={{ width: 'max-content' }}>
+    <div ref={outerRef} style={{ zoom: fit.zoom }}>
+      <div ref={innerRef} style={{ width: fit.width ? `${fit.width}px` : 'max-content' }}>
         {children}
       </div>
     </div>
