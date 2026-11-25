@@ -77,7 +77,7 @@ export function Dashboard({ onNavigate }: { onNavigate: (tab: string) => void })
         </Card>
       )}
 
-      <div className="grid gap-4 lg:grid-cols-2">
+      <div className="grid items-start gap-4 lg:grid-cols-2">
         <Card title="خطوات سريعة">
           <div className="grid gap-2 sm:grid-cols-2">
             {[
@@ -153,4 +153,5 @@ export function Dashboard({ onNavigate }: { onNavigate: (tab: string) => void })
     </div>
   );
 }
+
 

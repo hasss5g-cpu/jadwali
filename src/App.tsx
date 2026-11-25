@@ -35,7 +35,7 @@ function Admin() {
 
   return (
     <div className="app">
-      <header className="sticky top-0 z-40 -mx-4 mb-4 border-b border-[var(--line)] bg-[#f7f8f6]/85 px-4 py-2 backdrop-blur">
+      <header className="app-header sticky top-0 z-40 mb-4 border-b border-[var(--line)] bg-[#f7f8f6]/85 py-2 backdrop-blur">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div className="flex items-center gap-2">
             <span className="grid h-10 w-10 place-items-center rounded-xl bg-[var(--brand)] text-white shadow-sm">
@@ -130,4 +130,5 @@ function Root() {
 }
 
 export default Root;
+
 

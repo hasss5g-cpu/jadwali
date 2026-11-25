@@ -45,9 +45,15 @@ body {
 }
 
 .app {
-  max-width: 1240px;
+  width: 100%;
+  max-width: none;
   margin: 0 auto;
   padding: 0 16px 72px;
+}
+
+.app-header {
+  margin-inline: -16px;
+  padding-inline: 16px;
 }
 
 .master-scroll {
@@ -651,6 +657,11 @@ body {
     padding: 0 10px 64px;
   }
 
+  .app-header {
+    margin-inline: -10px;
+    padding-inline: 10px;
+  }
+
   .schedule-grid {
     min-width: 720px;
   }
@@ -747,6 +758,7 @@ body {
     font-size: 11px;
   }
 }
+
 
 
 
