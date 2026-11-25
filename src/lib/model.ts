@@ -23,12 +23,12 @@ export function gradeOf(className: string): 1 | 2 | 3 | null {
   return null;
 }
 
-/** اختصار الفصل للرسائل: «الثالث متوسط / 1» ← «1 / 3». */
+/** اختصار الفصل للرسائل: «الثالث متوسط / 1» ← «3 / 1» (الصف / الفصل). */
 export function compactClassName(className: string): string {
   const grade = gradeOf(className);
   const number = className.match(/(\d+)\s*$/)?.[1];
   if (grade === null || !number) return className;
-  return `${number} / ${grade}`;
+  return `${grade} / ${number}`;
 }
 
 export function assignmentOf(data: SchoolData, id: ID): Assignment | undefined {
@@ -280,4 +280,5 @@ export function validate(data: SchoolData, lessons: Lesson[] = data.lessons): Vi
   }
   return [...new Map(out.map((violation) => [violation.kind + '|' + violation.message, violation])).values()];
 }
+
 

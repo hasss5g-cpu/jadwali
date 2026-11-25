@@ -84,6 +84,17 @@ describe('الانتظار: الترشيح والرسالة والإداريون
     expect(result.covers.filter((c) => c.teacherId === 'adm')).toHaveLength(1);
   });
 
+  it('يقلب ترتيب الصف والفصل في سطر الرسالة', () => {
+    const school = fixture();
+    school.classes = [{ id: 'c8', name: 'الأول متوسط / 8', room: 'r8' }];
+    school.assignments = [{ id: 'a8', classId: 'c8', subjectId: 's1', teacherId: 'absent', count: 1 }];
+    school.lessons = [{ id: 'l8', assignmentId: 'a8', day: 0, period: 3 }];
+    school.absences = [{ date, teacherId: 'absent' }];
+    const covers = [{ id: 'cv8', date, lessonId: 'l8', teacherId: 'same' }];
+    const message = coverageMessage(school, date, covers);
+    expect(message).toContain('معلم الأول - 1 / 8');
+  });
+
   it('يبني الرسالة بالتنسيق المطلوب', () => {
     const school = fixture();
     const lesson = school.lessons.find((l) => l.id === 'lAbs')!;
