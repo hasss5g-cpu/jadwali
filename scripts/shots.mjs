@@ -30,9 +30,9 @@ const tab = async (name) => {
 await tab('الجدول');
 await page.screenshot({ path: `${out}/schedule.png` });
 
-await tab('التوليد');
+await tab('توليد الجداول');
 await page.screenshot({ path: `${out}/generate.png` });
-await page.getByRole('button', { name: 'توليد الجدول' }).click();
+await page.locator('button.btn-primary').filter({ hasText: 'توليد الجداول' }).click();
 await page.waitForTimeout(9000);
 await page.screenshot({ path: `${out}/generate-report.png`, fullPage: true });
 
@@ -89,3 +89,5 @@ if (errors.length) {
 } else {
   console.log('OK: screenshots written, no console errors');
 }
+
+

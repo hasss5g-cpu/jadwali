@@ -10,8 +10,8 @@ page.on('console', (m) => {
 page.on('pageerror', (e) => errors.push(e.message));
 
 await page.goto(base, { waitUntil: 'networkidle' });
-await page.getByRole('button', { name: 'التوليد', exact: true }).click();
-await page.getByRole('button', { name: 'توليد الجدول' }).click();
+await page.getByRole('button', { name: 'توليد الجداول', exact: true }).click();
+await page.locator('button.btn-primary').filter({ hasText: 'توليد الجداول' }).click();
 await page.getByText('درجة الجودة').waitFor({ timeout: 30000 });
 await page.waitForTimeout(600);
 
@@ -56,3 +56,5 @@ await page.emulateMedia({ media: 'screen' });
 
 console.log(JSON.stringify({ stats, dayCells, classPageName, publicPageName, errors }, null, 1));
 await browser.close();
+
+

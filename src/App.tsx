@@ -20,7 +20,7 @@ const TABS = [
   { id: 'master', label: 'الجدول العام', icon: 'database' },
   { id: 'schedule', label: 'الجدول', icon: 'calendar' },
   { id: 'swap', label: 'نقل الحصص', icon: 'swap' },
-  { id: 'generate', label: 'التوليد', icon: 'sparkles' },
+  { id: 'generate', label: 'توليد الجداول', icon: 'sparkles' },
   { id: 'assignments', label: 'الإسنادات', icon: 'users' },
   { id: 'coverage', label: 'الانتظار', icon: 'shield' },
   { id: 'exams', label: 'الاختبارات', icon: 'clipboard' },
@@ -130,3 +130,4 @@ function Root() {
 }
 
 export default Root;
+

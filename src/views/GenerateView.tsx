@@ -43,7 +43,7 @@ export function GenerateView() {
   return (
     <div className="grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
       <Card
-        title="توليد الجدول"
+        title="توليد الجداول"
         subtitle="قيود صارمة أولًا (بلا تعارض)، ثم تحسين الجودة: فراغات أقل، تتابع أقل، توزيع أفضل."
       >
         <div className="grid gap-2 sm:grid-cols-2">
@@ -88,6 +88,12 @@ export function GenerateView() {
             hint="لا يبقى لأي معلم يوم خالٍ من الحصص (مفعّل افتراضيًا)."
             checked={options.allDays}
             onChange={(v) => set('allDays', v)}
+          />
+          <Toggle
+            label="فصل الثالث المتوسط في البدنية"
+            hint="يُسمح بأكثر من فصلين في الحصة، لكن لا يكون الثالث المتوسط ضمن مجموعة من ثلاثة فأكثر."
+            checked={options.peSeparateGrade3}
+            onChange={(v) => set('peSeparateGrade3', v)}
           />
           <Toggle
             label="السماح بتجاوز النصاب"
@@ -138,19 +144,10 @@ export function GenerateView() {
           </Field>
         </div>
 
-        <div className="mt-2">
-          <Toggle
-            label="فصل الثالث المتوسط في البدنية"
-            hint="يُسمح بأكثر من فصلين في الحصة، لكن لا يكون الثالث المتوسط ضمن مجموعة من ثلاثة فأكثر."
-            checked={options.peSeparateGrade3}
-            onChange={(v) => set('peSeparateGrade3', v)}
-          />
-        </div>
-
         <div className="mt-4 flex flex-wrap items-center gap-2">
           <button className="btn btn-primary" onClick={run} disabled={solver.running}>
             <Icon name="sparkles" size={16} />
-            {solver.running ? 'جارٍ التوليد…' : 'توليد الجدول'}
+            {solver.running ? 'جارٍ التوليد…' : 'توليد الجداول'}
           </button>
           <button className="btn" onClick={apply} disabled={!solver.result || solver.running}>
             <Icon name="check" size={16} /> تطبيق على الجدول
