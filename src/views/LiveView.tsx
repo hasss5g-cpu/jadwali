@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import type { SchoolClass, SchoolData } from '../types';
-import { DAY_NAMES, classPeriodTimes, lessonTeacherId, periodStartMinutes, subjectName, teacherName } from '../lib/model';
+import { DAY_NAMES, classPeriodTimes, gradeOf, lessonTeacherId, periodStartMinutes, subjectName, teacherName } from '../lib/model';
 import { formatTime12 } from '../lib/time';
 import { hijri } from '../lib/utils';
 import { Card } from '../components/ui';
@@ -118,6 +118,47 @@ function periodLabel(periods: number[]): string {
   return `الحصص ${periods.join('، ')}`;
 }
 
+
+const GRADE_LABELS = ['الأول', 'الثاني', 'الثالث'];
+
+function LiveRow({ item, label }: { item: LiveClass; label?: string }) {
+  const tone =
+    item.state === 'lesson'
+      ? 'border-emerald-200 bg-emerald-50/50'
+      : item.state === 'break'
+        ? 'border-amber-200 bg-amber-50/60'
+        : 'border-[var(--line)] bg-white';
+  return (
+    <div className={`mb-1.5 rounded-xl border px-2.5 py-2 ${tone}`}>
+      <div className="flex items-center justify-between gap-2">
+        <p className="m-0 truncate text-[12.5px] font-extrabold">{label ?? item.cls.name}</p>
+        {item.state === 'lesson' ? (
+          <span className="badge shrink-0">ح {item.period}</span>
+        ) : item.state === 'break' ? (
+          <span className="badge shrink-0 bg-amber-100 text-amber-800">فسحة</span>
+        ) : (
+          <span className="badge shrink-0 bg-[#f1f5f9] text-[#64748b]">—</span>
+        )}
+      </div>
+      {item.state === 'lesson' ? (
+        <>
+          <p className="m-0 mt-0.5 truncate text-[12.5px] font-bold text-[var(--brand)]">{item.subject}</p>
+          <p className="m-0 truncate text-[11.5px] text-[var(--ink-600)]">{item.teacher}</p>
+          <p className="m-0 text-[10.5px] text-[var(--muted)]">{item.time}</p>
+        </>
+      ) : (
+        <p className="m-0 mt-0.5 text-[11px] text-[var(--muted)]">
+          {item.state === 'break'
+            ? `فسحة ${item.time}`
+            : item.state === 'before'
+              ? 'لم يبدأ الدوام'
+              : 'انتهى الدوام'}
+        </p>
+      )}
+    </div>
+  );
+}
+
 export function LiveBoard({ data }: { data: SchoolData }) {
   const [now, setNow] = useState(() => new Date());
   useEffect(() => {
@@ -128,7 +169,11 @@ export function LiveBoard({ data }: { data: SchoolData }) {
   const snapshot = useMemo(() => liveSnapshot(data, now), [data, now]);
 
   if (!data.lessons.length) {
-    return <Card title="الجدول لايف" subtitle="لا توجد حصص موزعة بعد"><p className="m-0 text-[13px] text-[var(--muted)]">ولّد الجدول أولًا من تبويب «توليد الجداول».</p></Card>;
+    return (
+      <Card title="الجدول لايف" subtitle="لا توجد حصص موزعة بعد">
+        <p className="m-0 text-[13px] text-[var(--muted)]">ولّد الجدول أولًا من تبويب «توليد الجداول».</p>
+      </Card>
+    );
   }
 
   const statusText = snapshot.weekend
@@ -140,6 +185,16 @@ export function LiveBoard({ data }: { data: SchoolData }) {
         : snapshot.lessons.length
           ? periodLabel(snapshot.periods)
           : 'فسحة الآن';
+
+  const groups = [1, 2, 3].map((grade) => {
+    const classes = snapshot.classes
+      .filter((item) => gradeOf(item.cls.name) === grade)
+      .sort((a, b) => a.cls.name.localeCompare(b.cls.name, 'ar'));
+    const lessons = classes.filter((item) => item.state === 'lesson');
+    const breaks = classes.filter((item) => item.state === 'break');
+    return { grade, classes, lessons, breaks };
+  });
+  const others = snapshot.classes.filter((item) => gradeOf(item.cls.name) === null);
 
   return (
     <div className="grid gap-4">
@@ -154,9 +209,6 @@ export function LiveBoard({ data }: { data: SchoolData }) {
         <div className="card p-4">
           <p className="m-0 text-[11.5px] font-bold text-[var(--muted)]">الحصة الحالية</p>
           <p className="m-0 mt-1 text-xl font-extrabold">{statusText}</p>
-          {snapshot.lessons[0]?.time && snapshot.periods.length === 1 && (
-            <p className="m-0 mt-1 text-[11.5px] text-[var(--muted)]">{snapshot.lessons[0].time}</p>
-          )}
           {snapshot.nextTime && !snapshot.afterSchool && !snapshot.weekend && (
             <p className="m-0 mt-1 text-[11.5px] text-[var(--muted)]">الجرس القادم: {snapshot.nextTime}</p>
           )}
@@ -164,7 +216,8 @@ export function LiveBoard({ data }: { data: SchoolData }) {
         <div className="card p-4">
           <p className="m-0 text-[11.5px] font-bold text-[var(--muted)]">فصول في حصة الآن</p>
           <p className="m-0 mt-1 text-2xl font-extrabold">
-            {snapshot.lessons.length} <span className="text-sm font-bold text-[var(--muted)]">/ {data.classes.length}</span>
+            {snapshot.lessons.length}{' '}
+            <span className="text-sm font-bold text-[var(--muted)]">/ {data.classes.length}</span>
           </p>
           <p className="m-0 mt-1 text-[11.5px] text-[var(--muted)]">وفي فسحة: {snapshot.breaks.length}</p>
         </div>
@@ -175,65 +228,39 @@ export function LiveBoard({ data }: { data: SchoolData }) {
         </div>
       </div>
 
-      <Card
-        title="الحصص الجارية الآن"
-        subtitle="يُحدَّث تلقائيًا كل ثانية — الفصل والمادة والمعلم"
-        actions={
-          <span className="badge">
-            <span className="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" /> مباشر
-          </span>
-        }
-        padded={false}
-      >
-        {snapshot.lessons.length === 0 ? (
-          <div className="p-4">
-            <p className="m-0 text-[13px] text-[var(--muted)]">
-              {snapshot.weekend
-                ? 'لا دراسة اليوم.'
-                : snapshot.beforeSchool
-                  ? `لم يبدأ الدوام بعد — يبدأ ${formatTime12(startMinutes(data.start))}.`
-                  : snapshot.afterSchool
-                    ? 'انتهى الدوام اليوم.'
-                    : `فسحة الآن — الجرس القادم ${snapshot.nextTime ?? '—'}.`}
-            </p>
-          </div>
-        ) : (
-          <div className="scroll-x">
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>الفصل</th>
-                  <th>الحصة</th>
-                  <th>الوقت</th>
-                  <th>المادة</th>
-                  <th>المعلم</th>
-                </tr>
-              </thead>
-              <tbody>
-                {[...snapshot.lessons]
-                  .sort((a, b) => a.cls.name.localeCompare(b.cls.name, 'ar'))
-                  .map((item) => (
-                    <tr key={item.cls.id}>
-                      <td className="font-bold">{item.cls.name}</td>
-                      <td>{item.period}</td>
-                      <td className="text-[12px] text-[var(--muted)]">{item.time}</td>
-                      <td>{item.subject}</td>
-                      <td>{item.teacher}</td>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </Card>
+      <div className="grid gap-4 lg:grid-cols-3">
+        {groups.map((group) => (
+          <Card
+            key={group.grade}
+            title={`الصف ${GRADE_LABELS[group.grade - 1]}`}
+            subtitle={`${group.classes.length} فصلًا · ${group.lessons.length} في حصة${group.breaks.length ? ` · ${group.breaks.length} فسحة` : ''}`}
+            padded={false}
+          >
+            <div className="p-2">
+              {group.classes.length === 0 ? (
+                <p className="m-0 p-2 text-[12px] text-[var(--muted)]">لا فصول لهذه المرحلة.</p>
+              ) : (
+                group.classes.map((item) => {
+                  const number = item.cls.name.match(/(\d+)\s*$/)?.[1];
+                  return (
+                    <LiveRow
+                      key={item.cls.id}
+                      item={item}
+                      label={number ? `فصل ${number}` : undefined}
+                    />
+                  );
+                })
+              )}
+            </div>
+          </Card>
+        ))}
+      </div>
 
-      {snapshot.breaks.length > 0 && (
-        <Card title="فصول في فسحة الآن" subtitle={`${snapshot.breaks.length} فصلًا`}>
-          <div className="flex flex-wrap gap-1.5">
-            {snapshot.breaks.map((item) => (
-              <span key={item.cls.id} className="badge bg-[#fff7ed] text-[#9a3412]">
-                {item.cls.name} · {item.time}
-              </span>
+      {others.length > 0 && (
+        <Card title="فصول أخرى" subtitle={`${others.length} فصلًا`} padded={false}>
+          <div className="p-2">
+            {others.map((item) => (
+              <LiveRow key={item.cls.id} item={item} />
             ))}
           </div>
         </Card>
@@ -246,3 +273,4 @@ export function LiveView() {
   const { data } = useStore();
   return <LiveBoard data={data} />;
 }
+

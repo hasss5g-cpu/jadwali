@@ -21,16 +21,18 @@ function Shell({
   title,
   subtitle,
   landscape,
+  wide,
   children,
 }: {
   data: SchoolData;
   title: string;
   subtitle?: string;
   landscape?: boolean;
+  wide?: boolean;
   children: React.ReactNode;
 }) {
   return (
-    <div className={`mx-auto max-w-4xl px-3 py-6 ${landscape ? 'print-landscape' : ''}`}>
+    <div className={`mx-auto px-3 py-6 ${wide ? 'max-w-6xl' : 'max-w-4xl'} ${landscape ? 'print-landscape' : ''}`}>
       <header className="mb-4 flex flex-wrap items-center justify-between gap-2">
         <div>
           <p className="m-0 text-[11px] font-bold text-[var(--brand)]">جدولي · {data.school}</p>
@@ -123,7 +125,7 @@ export function PublicApp() {
 
   if (route === 'live') {
     return (
-      <Shell data={data} title="الجدول لايف" subtitle="الحصة الجارية الآن — يُحدَّث تلقائيًا">
+      <Shell data={data} title="الجدول لايف" subtitle="الحصة الجارية الآن — يُحدَّث تلقائيًا" wide>
         <LiveBoard data={data} />
       </Shell>
     );
