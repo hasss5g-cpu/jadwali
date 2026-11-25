@@ -1,5 +1,5 @@
 import type { Cover, SchoolData } from '../types';
-import { DAY_NAMES, className, lessonTeacherId, personName, subjectName, teacherMetrics, teacherName, validate } from '../lib/model';
+import { DAY_NAMES, className, classPeriodTimes, lessonTeacherId, personName, subjectName, teacherMetrics, teacherName, validate } from '../lib/model';
 import { hijri, numberAr, periodTimes, today } from '../lib/utils';
 import { FitToPage, MasterTable, masterTitle, type MasterMode } from './MasterTable';
 
@@ -36,6 +36,8 @@ function times(data: SchoolData): string[] {
 }
 
 export function ClassSheet({ data, classId }: { data: SchoolData; classId: string }) {
+  const cls = data.classes.find((item) => item.id === classId);
+  const classTimes = cls ? classPeriodTimes(data, cls) : times(data);
   const lessons = data.lessons.filter((l) => {
     const a = data.assignments.find((x) => x.id === l.assignmentId);
     return a?.classId === classId;
@@ -56,7 +58,7 @@ export function ClassSheet({ data, classId }: { data: SchoolData; classId: strin
             {Array.from({ length: data.periods }, (_, p) => (
               <th key={p}>
                 {p + 1}
-                <div style={{ fontSize: 9, color: '#64748b' }}>{times(data)[p]}</div>
+                <div style={{ fontSize: 9, color: '#64748b' }}>{classTimes[p]}</div>
               </th>
             ))}
           </tr>
@@ -94,7 +96,12 @@ export function TeacherSheet({ data, teacherId }: { data: SchoolData; teacherId:
     const lesson = lessons.find((l) => l.day === day && l.period === period);
     if (!lesson) return null;
     const a = data.assignments.find((x) => x.id === lesson.assignmentId)!;
-    return { subject: subjectName(data, a.subjectId), cls: className(data, a.classId) };
+    const cls = data.classes.find((c) => c.id === a.classId);
+    return {
+      subject: subjectName(data, a.subjectId),
+      cls: className(data, a.classId),
+      time: cls ? classPeriodTimes(data, cls)[period] : '',
+    };
   };
   return (
     <div>
@@ -109,7 +116,7 @@ export function TeacherSheet({ data, teacherId }: { data: SchoolData; teacherId:
             {Array.from({ length: data.periods }, (_, p) => (
               <th key={p}>
                 {p + 1}
-                <div style={{ fontSize: 9, color: '#64748b' }}>{times(data)[p]}</div>
+
               </th>
             ))}
           </tr>
@@ -126,6 +133,7 @@ export function TeacherSheet({ data, teacherId }: { data: SchoolData; teacherId:
                       <>
                         <div style={{ fontWeight: 700 }}>{cell.subject}</div>
                         <div style={{ fontSize: 10, color: '#475569' }}>{cell.cls}</div>
+                        <div style={{ fontSize: 8.5, color: '#64748b' }}>{cell.time}</div>
                       </>
                     ) : (
                       <span style={{ color: '#cbd5d1' }}>—</span>
@@ -573,5 +581,7 @@ export function AllTeachersSheet({ data }: { data: SchoolData }) {
     </>
   );
 }
+
+
 
 

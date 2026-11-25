@@ -497,6 +497,12 @@ body {
   font-size: 12.5px;
 }
 
+.lesson-time {
+  font-size: 9px;
+  color: var(--muted);
+  margin-top: 1px;
+}
+
 .lesson-meta {
   color: var(--muted);
   font-size: 11px;
@@ -741,6 +747,7 @@ body {
     font-size: 11px;
   }
 }
+
 
 
 

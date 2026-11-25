@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
-import type { Lesson, SchoolData } from '../types';
+import type { Lesson, SchoolClass, SchoolData } from '../types';
 import { loadData } from '../lib/storage';
-import { DAY_NAMES, lessonTeacherId, subjectName, teacherName } from '../lib/model';
+import { DAY_NAMES, classPeriodTimes, lessonTeacherId, subjectName, teacherName } from '../lib/model';
 import { periodTimes, sha256 } from '../lib/utils';
 import { Icon } from '../components/Icon';
 
@@ -46,8 +46,16 @@ function Shell({
   );
 }
 
-function ScheduleTable({ data, filter }: { data: SchoolData; filter: (lesson: Lesson) => boolean }) {
-  const times = periodTimes(data.start, data.duration, data.periods);
+function ScheduleTable({
+  data,
+  filter,
+  cls,
+}: {
+  data: SchoolData;
+  filter: (lesson: Lesson) => boolean;
+  cls?: SchoolClass;
+}) {
+  const times = cls ? classPeriodTimes(data, cls) : periodTimes(data.start, data.duration, data.periods);
   const cell = (day: number, period: number) => {
     const lesson = data.lessons.find((l) => l.day === day && l.period === period && filter(l));
     if (!lesson) return null;
@@ -64,7 +72,7 @@ function ScheduleTable({ data, filter }: { data: SchoolData; filter: (lesson: Le
           {Array.from({ length: data.periods }, (_, period) => (
             <div key={period} className="schedule-period-head">
               <span className="text-[13px] font-extrabold">{period + 1}</span>
-              <span className="text-[9.5px] text-[var(--muted)]">{times[period]}</span>
+              <span className="text-[9.5px] text-[var(--muted)]">{cls ? times[period] : ''}</span>
             </div>
           ))}
           {DAY_NAMES.slice(0, data.days).map((day, dayIndex) => (
@@ -72,12 +80,15 @@ function ScheduleTable({ data, filter }: { data: SchoolData; filter: (lesson: Le
               <div className="schedule-day">{day}</div>
               {Array.from({ length: data.periods }, (_, period) => {
                 const assignment = cell(dayIndex, period);
+                const lessonClass = assignment ? data.classes.find((c) => c.id === assignment.classId) : undefined;
+                const lessonTime = !cls && lessonClass ? classPeriodTimes(data, lessonClass)[period] : '';
                 return (
                   <div key={period} className="schedule-cell" data-empty={!assignment}>
                     {assignment ? (
                       <>
                         <div className="lesson-subject">{subjectName(data, assignment.subjectId)}</div>
                         <div className="lesson-meta">{teacherName(data, assignment.teacherId)}</div>
+                        {!cls && <div className="lesson-time">{lessonTime}</div>}
                       </>
                     ) : null}
                   </div>
@@ -157,6 +168,7 @@ export function PublicApp() {
         </button>
         <ScheduleTable
           data={data}
+          cls={activeClass}
           filter={(lesson) => data.assignments.find((a) => a.id === lesson.assignmentId)?.classId === activeClass.id}
         />
       </Shell>
@@ -188,4 +200,5 @@ export function PublicApp() {
     </Shell>
   );
 }
+
 

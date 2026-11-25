@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { useStore } from '../store';
-import type { SchoolData } from '../types';
-import { DAY_SHORT } from '../lib/model';
+import type { SchoolData, Season } from '../types';
+import { DAY_SHORT, DEFAULT_BREAKS, defaultBreakAfter, seasonStart } from '../lib/model';
 import { download, numberAr, sha256, uid } from '../lib/utils';
 import { Card, Field } from '../components/ui';
 import { Icon } from '../components/Icon';
@@ -88,8 +88,18 @@ export function DataView() {
                 ))}
               </select>
             </Field>
-            <Field label="بداية اليوم">
-              <input className="input" type="time" value={data.start} onChange={(e) => setField('start', e.target.value)} />
+            <Field label="الدوام">
+              <select
+                className="select"
+                value={data.season ?? 'summer'}
+                onChange={(e) => {
+                  const season = e.target.value as Season;
+                  update((prev) => ({ ...prev, season, start: seasonStart(season) }));
+                }}
+              >
+                <option value="summer">صيفي — يبدأ ٧:٠٠</option>
+                <option value="winter">شتوي — يبدأ ٧:٣٠</option>
+              </select>
             </Field>
             <Field label="مدة الحصة (دقيقة)">
               <input
@@ -99,6 +109,52 @@ export function DataView() {
                 max={90}
                 value={data.duration}
                 onChange={(e) => setField('duration', Number(e.target.value) || 45)}
+              />
+            </Field>
+            <Field label="عدد الفسح">
+              <select
+                className="select"
+                value={data.breaks?.count ?? 2}
+                onChange={(e) =>
+                  update((prev) => ({
+                    ...prev,
+                    breaks: { ...(prev.breaks ?? DEFAULT_BREAKS), count: Number(e.target.value) === 1 ? 1 : 2 },
+                  }))
+                }
+              >
+                <option value={1}>فسحة واحدة</option>
+                <option value={2}>فسحتان</option>
+              </select>
+            </Field>
+            <Field label="مدة الفسحة الأولى (دقيقة)">
+              <input
+                className="input"
+                type="number"
+                min={5}
+                max={60}
+                value={data.breaks?.first ?? 25}
+                onChange={(e) =>
+                  update((prev) => ({
+                    ...prev,
+                    breaks: { ...(prev.breaks ?? DEFAULT_BREAKS), first: Number(e.target.value) || 25 },
+                  }))
+                }
+              />
+            </Field>
+            <Field label="مدة الفسحة الثانية (دقيقة)">
+              <input
+                className="input"
+                type="number"
+                min={5}
+                max={60}
+                disabled={(data.breaks?.count ?? 2) === 1}
+                value={data.breaks?.second ?? 25}
+                onChange={(e) =>
+                  update((prev) => ({
+                    ...prev,
+                    breaks: { ...(prev.breaks ?? DEFAULT_BREAKS), second: Number(e.target.value) || 25 },
+                  }))
+                }
               />
             </Field>
             <Field label="عدد أيام الدراسة">
@@ -286,39 +342,87 @@ export function DataView() {
             </div>
             <div className="grid gap-2 sm:grid-cols-2">
               {data.classes.map((cls, index) => (
-                <div key={cls.id} className="flex items-center gap-2 rounded-xl border border-[var(--line)] p-2">
-                  <input
-                    className="input py-1 text-[12.5px]"
-                    value={cls.name}
-                    onChange={(e) =>
-                      update((prev) => ({
-                        ...prev,
-                        classes: prev.classes.map((c, i) => (i === index ? { ...c, name: e.target.value } : c)),
-                      }))
-                    }
-                  />
-                  <input
-                    className="input py-1 text-[12.5px]"
-                    value={cls.room}
-                    onChange={(e) =>
-                      update((prev) => ({
-                        ...prev,
-                        classes: prev.classes.map((c, i) => (i === index ? { ...c, room: e.target.value } : c)),
-                      }))
-                    }
-                  />
-                  <button
-                    className="btn btn-danger btn-sm"
-                    onClick={() =>
-                      update((prev) => ({
-                        ...prev,
-                        classes: prev.classes.filter((_, i) => i !== index),
-                        assignments: prev.assignments.filter((a) => a.classId !== cls.id),
-                      }))
-                    }
-                  >
-                    حذف
-                  </button>
+                <div key={cls.id} className="rounded-xl border border-[var(--line)] p-2">
+                  <div className="flex items-center gap-2">
+                    <input
+                      className="input py-1 text-[12.5px]"
+                      value={cls.name}
+                      onChange={(e) =>
+                        update((prev) => ({
+                          ...prev,
+                          classes: prev.classes.map((c, i) => (i === index ? { ...c, name: e.target.value } : c)),
+                        }))
+                      }
+                    />
+                    <input
+                      className="input py-1 text-[12.5px]"
+                      value={cls.room}
+                      onChange={(e) =>
+                        update((prev) => ({
+                          ...prev,
+                          classes: prev.classes.map((c, i) => (i === index ? { ...c, room: e.target.value } : c)),
+                        }))
+                      }
+                    />
+                    <button
+                      className="btn btn-danger btn-sm"
+                      onClick={() =>
+                        update((prev) => ({
+                          ...prev,
+                          classes: prev.classes.filter((_, i) => i !== index),
+                          assignments: prev.assignments.filter((a) => a.classId !== cls.id),
+                        }))
+                      }
+                    >
+                      حذف
+                    </button>
+                  </div>
+                  <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[11.5px] text-[var(--muted)]">
+                    <label className="flex items-center gap-1">
+                      الفسحة الأولى بعد الحصة
+                      <select
+                        className="select w-16 py-0.5 text-center text-[12px]"
+                        value={cls.breakAfter ?? defaultBreakAfter(cls)}
+                        onChange={(e) =>
+                          update((prev) => ({
+                            ...prev,
+                            classes: prev.classes.map((c, i) =>
+                              i === index ? { ...c, breakAfter: Number(e.target.value) } : c,
+                            ),
+                          }))
+                        }
+                      >
+                        {Array.from({ length: Math.max(1, data.periods - 1) }, (_, i) => i + 1).map((n) => (
+                          <option key={n} value={n}>
+                            {n}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+                    {(data.breaks?.count ?? 2) === 2 && (
+                      <label className="flex items-center gap-1">
+                        الفسحة الثانية بعد الحصة
+                        <select
+                          className="select w-16 py-0.5 text-center text-[12px]"
+                          value={cls.breakAfter2 ?? 5}
+                          onChange={(e) =>
+                            update((prev) => ({
+                              ...prev,
+                              classes: prev.classes.map((c, i) =>
+                                i === index ? { ...c, breakAfter2: Number(e.target.value) } : c,
+                              ),
+                            }))
+                          }
+                        >
+                          {Array.from({ length: Math.max(1, data.periods - 1) }, (_, i) => i + 1).map((n) => (
+                            <option key={n} value={n}>
+                              {n}
+                            </option>
+                          ))}
+                        </select>
+                      </label>
+                    )}
+                  </div>
                 </div>
               ))}
             </div>
@@ -404,3 +508,4 @@ export function DataView() {
     </div>
   );
 }
+

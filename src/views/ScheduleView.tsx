@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { useStore } from '../store';
-import { DAY_NAMES, className, lessonTeacherId, subjectColor, subjectName, teacherName, validate } from '../lib/model';
+import { DAY_NAMES, className, classPeriodTimes, lessonTeacherId, subjectColor, subjectName, teacherName, validate } from '../lib/model';
 import { download, periodTimes } from '../lib/utils';
 import { Card, Empty } from '../components/ui';
 import { Icon } from '../components/Icon';
@@ -13,7 +13,11 @@ export function ScheduleView() {
   const [teacherId, setTeacherId] = useState(data.teachers[0]?.id ?? '');
 
   const violations = useMemo(() => validate(data), [data]);
-  const times = useMemo(() => periodTimes(data.start, data.duration, data.periods), [data.start, data.duration, data.periods]);
+  const selectedClass = data.classes.find((cls) => cls.id === classId);
+  const times = useMemo(() => {
+    if (mode === 'class' && selectedClass) return classPeriodTimes(data, selectedClass);
+    return periodTimes(data.start, data.duration, data.periods);
+  }, [data, mode, selectedClass]);
 
   const lessons = useMemo(
     () =>
@@ -42,7 +46,10 @@ export function ScheduleView() {
         rows.push([
           DAY_NAMES[day],
           String(period + 1),
-          times[period],
+          (() => {
+            const cls = data.classes.find((c) => c.id === cell.assignment.classId);
+            return cls ? classPeriodTimes(data, cls)[period] : times[period];
+          })(),
           subjectName(data, cell.assignment.subjectId),
           mode === 'class' ? teacherName(data, cell.teacherId) : className(data, cell.assignment.classId),
         ]);
@@ -132,7 +139,7 @@ export function ScheduleView() {
             {Array.from({ length: data.periods }, (_, period) => (
               <div key={period} className="schedule-period-head">
                 <span className="text-[13px] font-extrabold">{period + 1}</span>
-                <span className="text-[9.5px] text-[var(--muted)]">{times[period]}</span>
+                <span className="text-[9.5px] text-[var(--muted)]">{mode === 'class' ? times[period] : ''}</span>
               </div>
             ))}
             {DAY_NAMES.slice(0, data.days).map((day, dayIndex) => (
@@ -144,6 +151,8 @@ export function ScheduleView() {
                     return <div key={period} className="schedule-cell" data-empty="true" />;
                   }
                   const color = subjectColor(data, cell.assignment.subjectId);
+                  const lessonClass = data.classes.find((c) => c.id === cell.assignment.classId);
+                  const lessonTime = lessonClass ? classPeriodTimes(data, lessonClass)[period] : times[period];
                   return (
                     <div
                       key={period}
@@ -156,6 +165,7 @@ export function ScheduleView() {
                       <div className="lesson-meta">
                         {mode === 'class' ? teacherName(data, cell.teacherId) : className(data, cell.assignment.classId)}
                       </div>
+                      {mode === 'teacher' && <div className="lesson-time">{lessonTime}</div>}
                     </div>
                   );
                 })}
@@ -180,4 +190,5 @@ export function ScheduleView() {
     </div>
   );
 }
+
 

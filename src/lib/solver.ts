@@ -7,7 +7,7 @@ import {
   type SchoolData,
   type TeacherReport,
 } from '../types';
-import { gradeOf, isArt, isPE } from './model';
+import { gradeOf, isArt, isPE, periodStartMinutes } from './model';
 
 /**
  * محرك التوزيع: يبني جدولاً كاملاً ثم يحسّنه بالتلدين المحاكى عبر تبديلات داخل الفصل،
@@ -166,11 +166,15 @@ export function solve(
     }
   }
 
-  // ── عدّادات القيود الصارمة ───────────────────────────────────────────────
-  const teacherSlotCount = new Int16Array(nTeachers * S);
-  const peSlotCount = new Int16Array(S);
-  const peThird = new Int16Array(S);
-  const peOther = new Int16Array(S);
+  // ── عدّادات القيود الصارمة (زمنية بسبب اختلاف مواعيد الفسح) ───────────────
+  const classStarts = data.classes.map((cls) => periodStartMinutes(data, cls));
+  const classIntervals = classStarts.map((starts) => starts.map((start) => ({ start, end: start + data.duration })));
+  const dayMinutes = Math.max(
+    data.periods * data.duration + (data.breaks?.first ?? 0) + (data.breaks?.second ?? 0),
+    ...classStarts.map((starts) => (starts[starts.length - 1] ?? 0) + data.duration),
+  );
+  const peCount = new Int16Array(dayMinutes * D);
+  const peThird = new Int16Array(dayMinutes * D);
   const classGrade = data.classes.map((cls) => gradeOf(cls.name));
   const peCapacity = Math.max(2, options.peCapacity ?? 3);
   const peSeparate = options.peSeparateGrade3 ?? true;
@@ -180,23 +184,36 @@ export function solve(
   let peLast = 0;
   let offDay = 0;
 
+  const intervalsOverlap = (a: { start: number; end: number }, b: { start: number; end: number }) =>
+    a.start < b.end && b.start < a.end;
+
+  /** عدد حصص المعلم المتقاطعة زمنيًا مع الموعد المقترح. */
+  const teacherConflictsAt = (t: Task, day: number, period: number, exclude?: Task): number => {
+    const interval = classIntervals[t.cls][period];
+    let count = 0;
+    for (const other of byTeacherTasks[t.teacher]) {
+      if (other === t || other === exclude || other.day !== day || other.day < 0) continue;
+      if (intervalsOverlap(interval, classIntervals[other.cls][other.period])) count++;
+    }
+    return count;
+  };
+
+  const dayIndex = (day: number, minute: number) => day * dayMinutes + minute;
+
   const place = (t: Task, day: number, period: number) => {
-    const slot = day * P + period;
-    const key = t.teacher * S + slot;
-    const before = teacherSlotCount[key];
-    teacherSlotCount[key] = before + 1;
-    if (before === 1) dup++;
+    dup += teacherConflictsAt(t, day, period);
     if (t.pe) {
-      const mixedBefore = peSlotCount[slot] >= 3 && peThird[slot] > 0;
-      const n = peSlotCount[slot];
-      peSlotCount[slot] = n + 1;
-      if (n + 1 > peCapacity) peOver++;
-      if (peSeparate) {
-        if (classGrade[t.cls] === 3) peThird[slot]++;
-        else peOther[slot]++;
+      const interval = classIntervals[t.cls][period];
+      for (let minute = interval.start; minute < interval.end; minute++) {
+        const key = dayIndex(day, minute);
+        const beforeMixed = peCount[key] >= 3 && peThird[key] > 0;
+        const before = peCount[key];
+        peCount[key] = before + 1;
+        if (before + 1 > peCapacity) peOver++;
+        if (peSeparate && classGrade[t.cls] === 3) peThird[key]++;
+        const afterMixed = peCount[key] >= 3 && peThird[key] > 0;
+        if (peSeparate && afterMixed !== beforeMixed) peMix += afterMixed ? 1 : -1;
       }
-      const mixedAfter = peSlotCount[slot] >= 3 && peThird[slot] > 0;
-      if (peSeparate && mixedAfter !== mixedBefore) peMix += mixedAfter ? 1 : -1;
     }
     if (t.pe && period === P - 1) peLast++;
     if (data.teachers[t.teacher].off.includes(day)) offDay++;
@@ -205,27 +222,26 @@ export function solve(
   };
 
   const lift = (t: Task) => {
-    const slot = t.day * P + t.period;
-    const key = t.teacher * S + slot;
-    const before = teacherSlotCount[key];
-    teacherSlotCount[key] = before - 1;
-    if (before === 2) dup--;
-    if (t.pe) {
-      const mixedBefore = peSlotCount[slot] >= 3 && peThird[slot] > 0;
-      const n = peSlotCount[slot];
-      peSlotCount[slot] = n - 1;
-      if (n > peCapacity) peOver--;
-      if (peSeparate) {
-        if (classGrade[t.cls] === 3) peThird[slot]--;
-        else peOther[slot]--;
-      }
-      const mixedAfter = peSlotCount[slot] >= 3 && peThird[slot] > 0;
-      if (peSeparate && mixedAfter !== mixedBefore) peMix += mixedAfter ? 1 : -1;
-    }
-    if (t.pe && t.period === P - 1) peLast--;
-    if (data.teachers[t.teacher].off.includes(t.day)) offDay--;
+    const day = t.day;
+    const period = t.period;
     t.day = -1;
     t.period = -1;
+    dup -= teacherConflictsAt(t, day, period);
+    if (t.pe) {
+      const interval = classIntervals[t.cls][period];
+      for (let minute = interval.start; minute < interval.end; minute++) {
+        const key = dayIndex(day, minute);
+        const beforeMixed = peCount[key] >= 3 && peThird[key] > 0;
+        const before = peCount[key];
+        peCount[key] = before - 1;
+        if (before > peCapacity) peOver--;
+        if (peSeparate && classGrade[t.cls] === 3) peThird[key]--;
+        const afterMixed = peCount[key] >= 3 && peThird[key] > 0;
+        if (peSeparate && afterMixed !== beforeMixed) peMix += afterMixed ? 1 : -1;
+      }
+    }
+    if (t.pe && period === P - 1) peLast--;
+    if (data.teachers[t.teacher].off.includes(day)) offDay--;
   };
 
   const occupied: boolean[][] = Array.from({ length: nClasses }, () => new Array(S).fill(false));
@@ -269,14 +285,19 @@ export function solve(
       if (offDays.includes(day)) continue;
       // قيد ثابت: حصص البدنية لا تكون في الحصة الأخيرة.
       if (t.pe && period === P - 1) continue;
-      let cost = teacherSlotCount[t.teacher * S + slot] * HARD;
+      let cost = teacherConflictsAt(t, day, period) * HARD;
       if (t.pe) {
-        cost += Math.max(0, peSlotCount[slot] - (peCapacity - 1)) * HARD;
-        if (peSeparate) {
-          const afterCount = peSlotCount[slot] + 1;
-          const afterThird = peThird[slot] + (classGrade[t.cls] === 3 ? 1 : 0);
-          if (afterCount >= 3 && afterThird > 0) cost += HARD;
+        const interval = classIntervals[t.cls][period];
+        let worst = 0;
+        let mixes = false;
+        for (let minute = interval.start; minute < interval.end; minute++) {
+          const key = dayIndex(day, minute);
+          worst = Math.max(worst, peCount[key] + 1);
+          const afterThird = peThird[key] + (classGrade[t.cls] === 3 ? 1 : 0);
+          if (peCount[key] + 1 >= 3 && afterThird > 0) mixes = true;
         }
+        cost += Math.max(0, worst - peCapacity) * HARD;
+        if (peSeparate && mixes) cost += HARD;
       }
       const period2 = slot % P;
       if (options.spread) cost += Math.abs(period2 - 3) * 0.1;
@@ -512,31 +533,61 @@ function buildReport(
   const peCapacity = Math.max(2, data.options?.peCapacity ?? 3);
   const peSeparate = data.options?.peSeparateGrade3 ?? true;
   const classGradeById = new Map(data.classes.map((cls) => [cls.id, gradeOf(cls.name)]));
-  const teacherSlots = new Map<number, number>();
-  const peSlots = new Map<number, number>();
-  const peThird = new Map<number, number>();
-  const peOther = new Map<number, number>();
+  const startsByClass = data.classes.map((cls) => periodStartMinutes(data, cls));
+  const intervalOf = (cls: number, period: number) => ({
+    start: startsByClass[cls][period] ?? 0,
+    end: (startsByClass[cls][period] ?? 0) + data.duration,
+  });
+  const overlaps = (a: { start: number; end: number }, b: { start: number; end: number }) =>
+    a.start < b.end && b.start < a.end;
+
+  const byTeacherDay = new Map<string, Task[]>();
   for (const t of tasks) {
-    const key = t.teacher * 100 + t.day * P + t.period;
-    const n = (teacherSlots.get(key) ?? 0) + 1;
-    teacherSlots.set(key, n);
-    if (n === 2) dup++;
-    if (t.pe) {
-      const pk = t.day * P + t.period;
-      const m = (peSlots.get(pk) ?? 0) + 1;
-      peSlots.set(pk, m);
-      if (t.period === P - 1) peLast++;
-      const grade = classGradeById.get(data.classes[t.cls].id);
-      if (grade === 3) peThird.set(pk, (peThird.get(pk) ?? 0) + 1);
-      else peOther.set(pk, (peOther.get(pk) ?? 0) + 1);
+    if (t.day < 0) continue;
+    const key = `${t.teacher}|${t.day}`;
+    const list = byTeacherDay.get(key) ?? [];
+    list.push(t);
+    byTeacherDay.set(key, list);
+  }
+  for (const list of byTeacherDay.values()) {
+    for (let i = 0; i < list.length; i++) {
+      for (let j = i + 1; j < list.length; j++) {
+        if (overlaps(intervalOf(list[i].cls, list[i].period), intervalOf(list[j].cls, list[j].period))) dup++;
+      }
     }
+  }
+
+  const peByDay = new Map<number, Task[]>();
+  for (const t of tasks) {
+    if (!t.pe || t.day < 0) continue;
+    const list = peByDay.get(t.day) ?? [];
+    list.push(t);
+    peByDay.set(t.day, list);
+    if (t.period === P - 1) peLast++;
     if (data.teachers[t.teacher].off.includes(t.day)) off++;
   }
-  for (const count of peSlots.values()) if (count > peCapacity) peOver += count - peCapacity;
-  if (peSeparate) {
-    for (const slot of peSlots.keys()) {
-      if ((peSlots.get(slot) ?? 0) >= 3 && (peThird.get(slot) ?? 0) > 0) peMix++;
+  for (const list of peByDay.values()) {
+    const points = [...new Set(list.flatMap((t) => [intervalOf(t.cls, t.period).start, intervalOf(t.cls, t.period).end]))].sort(
+      (a, b) => a - b,
+    );
+    for (let index = 0; index + 1 < points.length; index++) {
+      const from = points[index];
+      const to = points[index + 1];
+      if (to <= from) continue;
+      const active = list.filter((t) => {
+        const interval = intervalOf(t.cls, t.period);
+        return interval.start < to && interval.end > from;
+      });
+      if (active.length > peCapacity) peOver += to - from;
+      if (peSeparate && active.length >= 3) {
+        const hasThird = active.some((t) => classGradeById.get(data.classes[t.cls].id) === 3);
+        if (hasThird) peMix += to - from;
+      }
     }
+  }
+  // عدّ أيام الراحة لكل الحصص (بدنية وغيرها).
+  for (const t of tasks) {
+    if (t.day >= 0 && !t.pe && data.teachers[t.teacher].off.includes(t.day)) off++;
   }
 
   let repeats = 0;
@@ -665,5 +716,6 @@ function buildReport(
     notes: meta.notes,
   };
 }
+
 
 

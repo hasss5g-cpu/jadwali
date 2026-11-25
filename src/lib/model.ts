@@ -1,5 +1,81 @@
-import type { Assignment, ID, Lesson, SchoolData, Teacher, Violation } from '../types';
+import type { Assignment, BreakSettings, ID, Lesson, SchoolClass, SchoolData, Season, Teacher, Violation } from '../types';
 import { DEFAULT_OPTIONS } from '../types';
+
+export const DEFAULT_BREAKS: BreakSettings = { count: 2, first: 25, second: 25 };
+
+export function seasonStart(season: Season): string {
+  return season === 'winter' ? '07:30' : '07:00';
+}
+
+/** الفسحة الافتراضية: الثالث المتوسط بعد الحصة الثانية، وبقية المراحل بعد الثالثة. */
+export function defaultBreakAfter(cls: SchoolClass): number {
+  return gradeOf(cls.name) === 3 ? 2 : 3;
+}
+
+/** مواضع الفسح لهذا الفصل مرتبة زمنيًا. */
+export function classBreakPositions(data: SchoolData, cls: SchoolClass): number[] {
+  const count = data.breaks?.count ?? 2;
+  const positions = [cls.breakAfter ?? defaultBreakAfter(cls)];
+  if (count === 2) positions.push(cls.breakAfter2 ?? 5);
+  return [...new Set(positions)].filter((position) => position >= 1 && position < data.periods).sort((a, b) => a - b);
+}
+
+function breakDuration(data: SchoolData, index: number): number {
+  const breaks = data.breaks ?? DEFAULT_BREAKS;
+  return index === 0 ? breaks.first : breaks.second;
+}
+
+/** بداية كل حصة بالدقائق من بداية الدوام (0 = أول دقيقة). */
+export function periodStartMinutes(data: SchoolData, cls: SchoolClass): number[] {
+  const positions = classBreakPositions(data, cls);
+  const durations = positions.map((_, index) => breakDuration(data, index));
+  return Array.from({ length: data.periods }, (_, index) => {
+    const period = index + 1;
+    let offset = (period - 1) * data.duration;
+    positions.forEach((position, breakIndex) => {
+      if (position < period) offset += durations[breakIndex];
+    });
+    return offset;
+  });
+}
+
+/** أوقات الحصص لهذا الفصل بصيغة «HH:MM–HH:MM». */
+export function classPeriodTimes(data: SchoolData, cls: SchoolClass): string[] {
+  const [h, m] = data.start.split(':').map(Number);
+  const base = (h || 0) * 60 + (m || 0);
+  return periodStartMinutes(data, cls).map((start) => {
+    const fmt = (mins: number) => {
+      const hh = Math.floor(mins / 60) % 24;
+      const mm = mins % 60;
+      return `${String(hh).padStart(2, '0')}:${String(mm).padStart(2, '0')}`;
+    };
+    return `${fmt(base + start)}–${fmt(base + start + data.duration)}`;
+  });
+}
+
+export interface Interval {
+  start: number;
+  end: number;
+}
+
+/** فترة الحصة الزمنية (بالدقائق من بداية الدوام). */
+export function lessonInterval(data: SchoolData, cls: SchoolClass, period: number): Interval {
+  const start = periodStartMinutes(data, cls)[period] ?? 0;
+  return { start, end: start + data.duration };
+}
+
+/** هل تتقاطع حصتان من فصلين مختلفين زمنيًا بسبب اختلاف مواعيد الفسح؟ */
+export function lessonsOverlap(
+  data: SchoolData,
+  classA: SchoolClass,
+  periodA: number,
+  classB: SchoolClass,
+  periodB: number,
+): boolean {
+  const a = lessonInterval(data, classA, periodA);
+  const b = lessonInterval(data, classB, periodB);
+  return a.start < b.end && b.start < a.end;
+}
 
 export const DAY_NAMES = ['الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس'];
 export const DAY_SHORT = ['أحد', 'اثنين', 'ثلاثاء', 'أربعاء', 'خميس'];
@@ -160,13 +236,23 @@ export function teacherMetrics(data: SchoolData): TeacherMetric[] {
 
 /** يستكمل الحقول الناقصة في أي ملف بيانات (ملفات المدرسة القديمة مثلًا). */
 export function normalizeData(input: SchoolData): SchoolData {
+  const season: Season = input.season ?? 'summer';
+  const breaks: BreakSettings = { ...DEFAULT_BREAKS, ...(input.breaks ?? {}) };
+  const classes = (input.classes ?? []).map((cls) => ({
+    ...cls,
+    breakAfter: cls.breakAfter ?? defaultBreakAfter(cls),
+    breakAfter2: cls.breakAfter2 ?? 5,
+  }));
   return {
     ...input,
+    season,
+    breaks,
+    start: seasonStart(season),
     days: input.days ?? 5,
     periods: input.periods ?? 7,
     subjects: input.subjects ?? [],
     teachers: input.teachers ?? [],
-    classes: input.classes ?? [],
+    classes,
     assignments: input.assignments ?? [],
     lessons: input.lessons ?? [],
     absences: input.absences ?? [],
@@ -177,107 +263,167 @@ export function normalizeData(input: SchoolData): SchoolData {
   };
 }
 
-/** كل قيود التعارض الصارمة في الجدول الحالي. */
+/** كل قيود التعارض الصارمة في الجدول الحالي (تراعي اختلاف مواعيد الفسح). */
 export function validate(data: SchoolData, lessons: Lesson[] = data.lessons): Violation[] {
   const out: Violation[] = [];
-  const slots = new Map<string, Lesson>();
-  const teacherSlots = new Set<string>();
-  const peSlots = new Map<string, number>();
-  const peGrades = new Map<string, { third: number; other: number }>();
+  const classSlots = new Set<string>();
   const peCapacity = Math.max(2, data.options?.peCapacity ?? 3);
   const separateGrade3 = data.options?.peSeparateGrade3 ?? true;
   const assignmentById = new Map(data.assignments.map((a) => [a.id, a]));
+  const classById = new Map(data.classes.map((c) => [c.id, c]));
   const teacherById = new Map(data.teachers.map((t) => [t.id, t]));
 
+  interface Entry {
+    lesson: Lesson;
+    assignment: Assignment;
+    cls: SchoolClass;
+    teacherId: ID;
+    start: number;
+    end: number;
+    pe: boolean;
+  }
+  const entries: Entry[] = [];
+
   for (const lesson of lessons) {
-    const a = assignmentById.get(lesson.assignmentId);
-    if (!a) {
+    const assignment = assignmentById.get(lesson.assignmentId);
+    if (!assignment) {
       out.push({ kind: 'out-of-range', message: `حصة بلا إسناد: ${lesson.id}` });
       continue;
     }
-    if (
-      lesson.day < 0 || lesson.day >= data.days ||
-      lesson.period < 0 || lesson.period >= data.periods
-    ) {
+    if (lesson.day < 0 || lesson.day >= data.days || lesson.period < 0 || lesson.period >= data.periods) {
       out.push({ kind: 'out-of-range', message: `موعد خارج الأسبوع: ${lesson.id}` });
       continue;
     }
-    const key = slotKey(lesson.day, lesson.period);
-    const classKey = `${a.classId}|${key}`;
-    if (slots.has(classKey)) {
-      out.push({ kind: 'class-clash', message: `${className(data, a.classId)}: حصتان في ${DAY_NAMES[lesson.day]} — ${lesson.period + 1}` });
+    const cls = classById.get(assignment.classId);
+    if (!cls) continue;
+    const classKey = `${assignment.classId}|${lesson.day}|${lesson.period}`;
+    if (classSlots.has(classKey)) {
+      out.push({
+        kind: 'class-clash',
+        message: `${className(data, assignment.classId)}: حصتان في ${DAY_NAMES[lesson.day]} — ${lesson.period + 1}`,
+      });
     }
-    slots.set(classKey, lesson);
+    classSlots.add(classKey);
 
-    const tKey = `${lesson.teacherId ?? a.teacherId}|${key}`;
-    if (teacherSlots.has(tKey)) {
-      out.push({ kind: 'teacher-clash', message: `${teacherName(data, lesson.teacherId ?? a.teacherId)}: حصتان في ${DAY_NAMES[lesson.day]} — ${lesson.period + 1}` });
-    }
-    teacherSlots.add(tKey);
-
-    const teacher = teacherById.get(lesson.teacherId ?? a.teacherId);
+    const teacherId = lesson.teacherId ?? assignment.teacherId;
+    const teacher = teacherById.get(teacherId);
     if (teacher?.off.includes(lesson.day)) {
       out.push({ kind: 'off-day', message: `${teacher.name}: حصة في يوم راحته (${DAY_NAMES[lesson.day]})` });
     }
-    const subject = data.subjects.find((s) => s.id === a.subjectId);
-    if (subject && isPE(subject.name)) {
-      const n = (peSlots.get(key) ?? 0) + 1;
-      peSlots.set(key, n);
-      if (n > peCapacity) {
+
+    const subject = data.subjects.find((s) => s.id === assignment.subjectId);
+    const pe = subject ? isPE(subject.name) : false;
+    if (pe && lesson.period === data.periods - 1) {
+      out.push({
+        kind: 'pe-last',
+        message: `التربية البدنية في الحصة السابعة (${DAY_NAMES[lesson.day]}): ${className(data, assignment.classId)}`,
+      });
+    }
+
+    const interval = lessonInterval(data, cls, lesson.period);
+    entries.push({
+      lesson,
+      assignment,
+      cls,
+      teacherId,
+      start: interval.start,
+      end: interval.end,
+      pe,
+    });
+  }
+
+  const overlaps = (a: Entry, b: Entry) => a.start < b.end && b.start < a.end;
+
+  // تعارض المعلم: أي تقاطع زمني بين حصتيه (لا يشترط تطابق رقم الحصة).
+  const byTeacherDay = new Map<string, Entry[]>();
+  for (const entry of entries) {
+    const key = `${entry.teacherId}|${entry.lesson.day}`;
+    const list = byTeacherDay.get(key) ?? [];
+    list.push(entry);
+    byTeacherDay.set(key, list);
+  }
+  for (const list of byTeacherDay.values()) {
+    for (let i = 0; i < list.length; i++) {
+      for (let j = i + 1; j < list.length; j++) {
+        if (!overlaps(list[i], list[j])) continue;
         out.push({
-          kind: 'pe-cap',
-          message: `التربية البدنية: أكثر من ${peCapacity} فصول في ${DAY_NAMES[lesson.day]} — ${lesson.period + 1}`,
-        });
-      }
-      if (separateGrade3) {
-        const grade = gradeOf(className(data, a.classId));
-        const group = peGrades.get(key) ?? { third: 0, other: 0 };
-        if (grade === 3) group.third++;
-        else group.other++;
-        peGrades.set(key, group);
-        if (n >= 3 && group.third > 0) {
-          out.push({
-            kind: 'pe-cap',
-            message: `التربية البدنية: الثالث المتوسط ضمن أكثر من فصلين في ${DAY_NAMES[lesson.day]} — ${lesson.period + 1}`,
-          });
-        }
-      }
-      // قيد ثابت: لا تُجدول التربية البدنية في الحصة الأخيرة.
-      if (lesson.period === data.periods - 1) {
-        out.push({
-          kind: 'pe-last',
-          message: `التربية البدنية في الحصة السابعة (${DAY_NAMES[lesson.day]}): ${className(data, a.classId)}`,
+          kind: 'teacher-clash',
+          message: `${teacherName(data, list[i].teacherId)}: حصتان متداخلتان في ${DAY_NAMES[list[i].lesson.day]} (حصة ${list[i].lesson.period + 1} و${list[j].lesson.period + 1})`,
         });
       }
     }
   }
 
-  // سعة القاعة: لا يجتمع فصلان في القاعة نفسها في الموعد نفسه.
-  const roomSlots = new Set<string>();
-  for (const lesson of lessons) {
-    const a = assignmentById.get(lesson.assignmentId);
-    if (!a) continue;
-    const room = data.classes.find((c) => c.id === a.classId)?.room;
-    if (!room) continue;
-    const key = `${room}|${slotKey(lesson.day, lesson.period)}`;
-    if (roomSlots.has(key)) {
-      out.push({ kind: 'room-clash', message: `القاعة ${room}: فصلان في الموعد نفسه` });
+  // تعارض القاعة: أي تقاطع زمني بين فصلين في القاعة نفسها.
+  const byRoomDay = new Map<string, Entry[]>();
+  for (const entry of entries) {
+    if (!entry.cls.room) continue;
+    const key = `${entry.cls.room}|${entry.lesson.day}`;
+    const list = byRoomDay.get(key) ?? [];
+    list.push(entry);
+    byRoomDay.set(key, list);
+  }
+  for (const [key, list] of byRoomDay) {
+    const room = key.split('|')[0];
+    for (let i = 0; i < list.length; i++) {
+      for (let j = i + 1; j < list.length; j++) {
+        if (!overlaps(list[i], list[j])) continue;
+        out.push({ kind: 'room-clash', message: `القاعة ${room}: فصلان في وقت واحد (${DAY_NAMES[list[i].lesson.day]})` });
+      }
     }
-    roomSlots.add(key);
+  }
+
+  // التربية البدنية: السقف والفصل بين المراحل تُحسب زمنيًا.
+  const clock = (minute: number) => {
+    const [h, m] = data.start.split(':').map(Number);
+    const total = (h || 0) * 60 + (m || 0) + minute;
+    return `${String(Math.floor(total / 60) % 24).padStart(2, '0')}:${String(total % 60).padStart(2, '0')}`;
+  };
+  const peByDay = new Map<number, Entry[]>();
+  for (const entry of entries) {
+    if (!entry.pe) continue;
+    const list = peByDay.get(entry.lesson.day) ?? [];
+    list.push(entry);
+    peByDay.set(entry.lesson.day, list);
+  }
+  for (const [day, list] of peByDay) {
+    const points = [...new Set(list.flatMap((entry) => [entry.start, entry.end]))].sort((a, b) => a - b);
+    for (let index = 0; index + 1 < points.length; index++) {
+      const from = points[index];
+      const to = points[index + 1];
+      if (to <= from) continue;
+      const active = list.filter((entry) => entry.start < to && entry.end > from);
+      if (active.length > peCapacity) {
+        out.push({
+          kind: 'pe-cap',
+          message: `التربية البدنية: ${active.length} فصول في وقت واحد (${DAY_NAMES[day]} ${clock(from)})`,
+        });
+      }
+      if (separateGrade3 && active.length >= 3) {
+        const hasThird = active.some((entry) => gradeOf(entry.cls.name) === 3);
+        if (hasThird) {
+          out.push({
+            kind: 'pe-cap',
+            message: `التربية البدنية: الثالث المتوسط ضمن أكثر من فصلين (${DAY_NAMES[day]} ${clock(from)})`,
+          });
+        }
+      }
+    }
   }
 
   // اكتمال الإسنادات: كل إسناد بعدد حصصه.
   const counts = new Map<ID, number>();
   for (const lesson of lessons) counts.set(lesson.assignmentId, (counts.get(lesson.assignmentId) ?? 0) + 1);
-  for (const a of data.assignments) {
-    const got = counts.get(a.id) ?? 0;
-    if (got !== a.count) {
+  for (const assignment of data.assignments) {
+    const got = counts.get(assignment.id) ?? 0;
+    if (got !== assignment.count) {
       out.push({
         kind: 'out-of-range',
-        message: `${className(data, a.classId)} — ${subjectName(data, a.subjectId)}: ${got} من ${a.count} حصة`,
+        message: `${className(data, assignment.classId)} — ${subjectName(data, assignment.subjectId)}: ${got} من ${assignment.count} حصة`,
       });
     }
   }
+
   return [...new Map(out.map((violation) => [violation.kind + '|' + violation.message, violation])).values()];
 }
 

@@ -21,6 +21,21 @@ export interface SchoolClass {
   id: ID;
   name: string;
   room: string;
+  /** بعد أي حصة تبدأ الفسحة الأولى لهذا الفصل (1 = بعد الحصة الأولى). */
+  breakAfter?: number;
+  /** بعد أي حصة تبدأ الفسحة الثانية (إن وُجدت). */
+  breakAfter2?: number;
+}
+
+export type Season = 'winter' | 'summer';
+
+export interface BreakSettings {
+  /** عدد الفسح في اليوم: 1 أو 2. */
+  count: 1 | 2;
+  /** مدة الفسحة الأولى بالدقائق. */
+  first: number;
+  /** مدة الفسحة الثانية بالدقائق. */
+  second: number;
 }
 
 export interface Assignment {
@@ -115,6 +130,9 @@ export interface SchoolData {
   days: number;
   start: string;
   duration: number;
+  /** دوام شتوي (7:30) أو صيفي (7:00). */
+  season?: Season;
+  breaks?: BreakSettings;
   subjects: Subject[];
   teachers: Teacher[];
   classes: SchoolClass[];
