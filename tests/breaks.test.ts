@@ -84,6 +84,14 @@ describe('الفسح والدوام', () => {
     expect(periodStartMinutes(school, school.classes[1])).toEqual([0, 45, 90, 160]);
   });
 
+  it('يحذف عبارة «الغرفة الرئيسية —» من اسم القاعة', () => {
+    const data = normalizeData({
+      ...real,
+      classes: [{ id: 'c1', name: 'الأول متوسط / 1', room: 'الغرفة الرئيسية — الأول متوسط / 1' }],
+    });
+    expect(data.classes[0].room).toBe('الأول متوسط / 1');
+  });
+
   it('يكشف تقاطع حصتين لمعلم واحد بسبب اختلاف الفسح', () => {
     const school = mini();
     expect(lessonsOverlap(school, school.classes[0], 2, school.classes[1], 2)).toBe(true);

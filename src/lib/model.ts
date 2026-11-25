@@ -248,6 +248,7 @@ export function normalizeData(input: SchoolData): SchoolData {
   const season: Season = input.season ?? 'summer';
   const breaks: BreakSettings = { ...DEFAULT_BREAKS, ...(input.breaks ?? {}) };
   const gradeBreak: GradeBreak = { ...DEFAULT_GRADE_BREAK, ...(input.gradeBreak ?? {}) };
+  const cleanRoom = (room: string) => (room ?? '').replace(/^الغرفة الرئيسية\s*[—–-]\s*/, '').trim();
   return {
     ...input,
     season,
@@ -258,7 +259,7 @@ export function normalizeData(input: SchoolData): SchoolData {
     periods: input.periods ?? 7,
     subjects: input.subjects ?? [],
     teachers: input.teachers ?? [],
-    classes: input.classes ?? [],
+    classes: (input.classes ?? []).map((cls) => ({ ...cls, room: cleanRoom(cls.room) })),
     assignments: input.assignments ?? [],
     lessons: input.lessons ?? [],
     absences: input.absences ?? [],

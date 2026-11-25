@@ -162,7 +162,12 @@ export function PublicApp() {
 
   if (activeClass) {
     return (
-      <Shell data={data} title={`جدول ${activeClass.name}`} subtitle={`${data.term} · ${activeClass.room}`} landscape>
+      <Shell
+        data={data}
+        title={`جدول ${activeClass.name}`}
+        subtitle={`${data.term}${activeClass.room && activeClass.room !== activeClass.name ? ` · ${activeClass.room}` : ''}`}
+        landscape
+      >
         <button className="btn btn-sm no-print mb-2" onClick={() => window.print()}>
           <Icon name="printer" size={15} /> طباعة
         </button>
@@ -186,7 +191,9 @@ export function PublicApp() {
           >
             <span>
               <span className="block text-[13.5px] font-extrabold">{cls.name}</span>
-              <span className="block text-[11px] text-[var(--muted)]">{cls.room}</span>
+              {cls.room && cls.room !== cls.name && (
+                <span className="block text-[11px] text-[var(--muted)]">{cls.room}</span>
+              )}
             </span>
             <Icon name="calendar" size={18} />
           </a>
