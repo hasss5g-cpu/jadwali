@@ -162,7 +162,7 @@ function LiveRow({ item, code }: { item: LiveClass; code: string }) {
                 البديل: {item.substitute ?? 'لم يُغطَّ بعد'}
               </span>
             )}
-            <span className="text-[var(--muted)]"> - {item.subject}</span>
+            {!item.absent && <span className="text-[var(--muted)]"> - {item.subject}</span>}
           </span>
           <span className="shrink-0 text-[10.5px] text-[var(--muted)]">{item.time}</span>
         </>
