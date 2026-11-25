@@ -15,6 +15,8 @@ export interface Teacher {
   off: number[];
   /** SHA-256 of the teacher's lookup code (national id / staff code). Never the raw code. */
   codeHash?: string;
+  /** معفى من حصص الانتظار: لا يظهر كبديل في التوزيع. */
+  exemptCoverage?: boolean;
 }
 
 export interface SchoolClass {

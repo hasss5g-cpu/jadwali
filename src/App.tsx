@@ -27,7 +27,7 @@ const TABS = [
   { id: 'coverage', label: 'الانتظار', icon: 'shield' },
   { id: 'exams', label: 'الاختبارات', icon: 'clipboard' },
   { id: 'reports', label: 'التقارير', icon: 'printer' },
-  { id: 'data', label: 'البيانات', icon: 'database' },
+  { id: 'data', label: 'الإعدادات', icon: 'settings' },
   { id: 'share', label: 'المشاركة', icon: 'share' },
 ];
 
@@ -133,6 +133,7 @@ function Root() {
 }
 
 export default Root;
+
 
 
 

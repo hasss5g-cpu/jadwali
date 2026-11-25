@@ -95,6 +95,17 @@ describe('الانتظار: الترشيح والرسالة والإداريون
     expect(message).toContain('معلم الأول - 1 / 8');
   });
 
+  it('يستثني المعلم المعفى من الانتظار', () => {
+    const school = fixture();
+    school.teachers = school.teachers.map((teacher) =>
+      teacher.id === 'other3' ? { ...teacher, exemptCoverage: true } : teacher,
+    );
+    const lesson = school.lessons.find((l) => l.id === 'lAbs')!;
+    const candidates = candidatesFor(school, lesson, date);
+    expect(candidates.some((candidate) => candidate.id === 'other3')).toBe(false);
+    expect(candidates.some((candidate) => candidate.id === 'other2')).toBe(true);
+  });
+
   it('يبني الرسالة بالتنسيق المطلوب', () => {
     const school = fixture();
     const lesson = school.lessons.find((l) => l.id === 'lAbs')!;

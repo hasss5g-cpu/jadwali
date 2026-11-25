@@ -72,6 +72,7 @@ export function candidatesFor(
   }
 
   const teachers: Candidate[] = data.teachers
+    .filter((t) => !t.exemptCoverage)
     .filter((t) => !absent.has(t.id))
     .filter((t) => !teacherBusy(data, date, t.id, lesson.period))
     .map((t) => {
@@ -203,4 +204,5 @@ export function coverageMessage(data: SchoolData, date: string, covers: Cover[])
 export function coverageDateLabel(date: string): string {
   return hijri(date);
 }
+
 

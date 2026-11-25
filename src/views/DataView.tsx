@@ -52,7 +52,7 @@ export function DataView() {
   return (
     <div className="grid gap-4">
       <Card
-        title="بيانات المدرسة"
+        title="إعدادات المدرسة"
         subtitle={`${numberAr(data.classes.length)} فصلًا · ${numberAr(data.teachers.length)} معلمًا · ${numberAr(data.subjects.length)} مادة · ${numberAr(data.assignments.length)} إسنادًا`}
         actions={
           <div className="tabs">
@@ -199,6 +199,7 @@ export function DataView() {
                     <th>المادة</th>
                     <th>النصاب</th>
                     <th>أيام الراحة</th>
+                    <th>الانتظار</th>
                     <th>رمز الاستعلام</th>
                     <th />
                   </tr>
@@ -273,6 +274,22 @@ export function DataView() {
                             );
                           })}
                         </div>
+                      </td>
+                      <td>
+                        <button
+                          className={`badge ${teacher.exemptCoverage ? 'bg-[#fee2e2] text-red-700' : 'bg-emerald-50 text-emerald-700'}`}
+                          title="معفى من الانتظار: لا يظهر كبديل في توزيع الانتظار"
+                          onClick={() =>
+                            update((prev) => ({
+                              ...prev,
+                              teachers: prev.teachers.map((t, i) =>
+                                i === index ? { ...t, exemptCoverage: !t.exemptCoverage } : t,
+                              ),
+                            }))
+                          }
+                        >
+                          {teacher.exemptCoverage ? 'معفى' : 'متاح'}
+                        </button>
                       </td>
                       <td>
                         {teacher.codeHash ? (
