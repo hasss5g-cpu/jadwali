@@ -20,9 +20,31 @@ const HIJRI = new Intl.DateTimeFormat('ar-SA-u-ca-islamic-umalqura', {
   year: 'numeric',
 });
 
+const HIJRI_NUMERIC = new Intl.DateTimeFormat('en-u-ca-islamic-umalqura', {
+  day: '2-digit',
+  month: '2-digit',
+  year: 'numeric',
+});
+
 export function hijri(date: Date | string): string {
   const d = typeof date === 'string' ? new Date(`${date}T12:00:00`) : date;
   return HIJRI.format(d);
+}
+
+/** تاريخ هجري رقمي: «20 / 12 / 1448 هـ». */
+export function hijriNumeric(date: Date | string): string {
+  const d = typeof date === 'string' ? new Date(`${date}T12:00:00`) : date;
+  const parts = HIJRI_NUMERIC.formatToParts(d);
+  const part = (type: string) => parts.find((item) => item.type === type)?.value ?? '';
+  return `${part('day')} / ${part('month')} / ${part('year')} هـ`;
+}
+
+/** إضافة أيام إلى تاريخ ISO (YYYY-MM-DD). */
+export function addDays(date: string, days: number): string {
+  const d = new Date(`${date}T12:00:00`);
+  d.setDate(d.getDate() + days);
+  const offset = d.getTimezoneOffset();
+  return new Date(d.getTime() - offset * 60000).toISOString().slice(0, 10);
 }
 
 export function today(): string {

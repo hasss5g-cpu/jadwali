@@ -1,6 +1,6 @@
 import type { Admin, Cover, ID, Lesson, SchoolData } from '../types';
 import { className, compactClassName, gradeOf, lessonTeacherId, personName } from './model';
-import { hijri, uid, weekdayOf } from './utils';
+import { hijri, hijriNumeric, uid, weekdayLabel, weekdayOf } from './utils';
 
 export interface Candidate {
   id: ID;
@@ -172,6 +172,7 @@ export function coverageMessage(data: SchoolData, date: string, covers: Cover[])
   const absentIds = [...new Set(data.absences.filter((a) => a.date === date).map((a) => a.teacherId))];
 
   lines.push('المعلمين الغائبين لليوم');
+  lines.push(`${weekdayLabel(date)}  ${hijriNumeric(date)}`);
   absentIds.forEach((id, index) => lines.push(`${index + 1}- ${personName(data, id)}`));
   lines.push('');
   lines.push('              توزيع الانتظار');

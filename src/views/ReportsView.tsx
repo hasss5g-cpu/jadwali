@@ -229,7 +229,7 @@ export function ReportsView() {
                 {coverageDates.length ? (
                   coverageDates.map((date) => (
                     <option key={date} value={date}>
-                      {date} · {hijri(date)}
+                      {hijri(date)}
                     </option>
                   ))
                 ) : (

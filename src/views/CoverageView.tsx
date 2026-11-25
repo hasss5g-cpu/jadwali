@@ -3,7 +3,7 @@ import { useStore } from '../store';
 import type { Admin, Cover } from '../types';
 import { className, personName, subjectName } from '../lib/model';
 import { absentLessons, autoCover, candidatesFor, coverageMessage } from '../lib/coverage';
-import { copyText, hijri, numberAr, today, uid, weekdayLabel } from '../lib/utils';
+import { copyText, addDays, hijriNumeric, numberAr, today, uid, weekdayLabel } from '../lib/utils';
 import { Card, Empty } from '../components/ui';
 import { Icon } from '../components/Icon';
 import { CoverageSheet } from '../components/PrintSheets';
@@ -106,12 +106,34 @@ export function CoverageView() {
   return (
     <div className="grid gap-4 xl:grid-cols-[0.85fr_1.15fr]">
       <div className="grid gap-4">
-      <Card title="غياب اليوم" subtitle={`${weekdayLabel(date)} · ${hijri(date)}`}>
+      <Card title="غياب اليوم" subtitle={`${weekdayLabel(date)} · ${hijriNumeric(date)}`}>
         <div className="grid gap-2 sm:grid-cols-2">
-          <label>
-            <span className="label">التاريخ</span>
-            <input className="input" type="date" value={date} onChange={(e) => setDate(e.target.value)} />
-          </label>
+          <div>
+            <span className="label">التاريخ الهجري</span>
+            <div className="flex items-center gap-1">
+              <button
+                className="btn btn-sm px-2"
+                title="اليوم السابق"
+                onClick={() => setDate(addDays(date, -1))}
+              >
+                ‹
+              </button>
+              <div className="input flex flex-1 items-center justify-center gap-1 text-center text-[12.5px] font-bold">
+                <span>{weekdayLabel(date)}</span>
+                <span>{hijriNumeric(date)}</span>
+              </div>
+              <button
+                className="btn btn-sm px-2"
+                title="اليوم التالي"
+                onClick={() => setDate(addDays(date, 1))}
+              >
+                ›
+              </button>
+              <button className="btn btn-sm" onClick={() => setDate(today())}>
+                اليوم
+              </button>
+            </div>
+          </div>
           <label>
             <span className="label">بحث عن معلم</span>
             <div className="relative">
