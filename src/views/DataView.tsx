@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { useStore } from '../store';
 import type { SchoolData, Season } from '../types';
-import { DAY_SHORT, DEFAULT_BREAKS, defaultBreakAfter, seasonStart } from '../lib/model';
+import { DAY_SHORT, DEFAULT_BREAKS, DEFAULT_GRADE_BREAK, seasonStart } from '../lib/model';
 import { download, numberAr, sha256, uid } from '../lib/utils';
 import { Card, Field } from '../components/ui';
 import { Icon } from '../components/Icon';
@@ -111,22 +111,7 @@ export function DataView() {
                 onChange={(e) => setField('duration', Number(e.target.value) || 45)}
               />
             </Field>
-            <Field label="عدد الفسح">
-              <select
-                className="select"
-                value={data.breaks?.count ?? 2}
-                onChange={(e) =>
-                  update((prev) => ({
-                    ...prev,
-                    breaks: { ...(prev.breaks ?? DEFAULT_BREAKS), count: Number(e.target.value) === 1 ? 1 : 2 },
-                  }))
-                }
-              >
-                <option value={1}>فسحة واحدة</option>
-                <option value={2}>فسحتان</option>
-              </select>
-            </Field>
-            <Field label="مدة الفسحة الأولى (دقيقة)">
+            <Field label="مدة الفسحة الأولى (بعد الحصة الثانية)">
               <input
                 className="input"
                 type="number"
@@ -141,13 +126,12 @@ export function DataView() {
                 }
               />
             </Field>
-            <Field label="مدة الفسحة الثانية (دقيقة)">
+            <Field label="مدة الفسحة الثانية (بعد الحصة الثالثة)">
               <input
                 className="input"
                 type="number"
                 min={5}
                 max={60}
-                disabled={(data.breaks?.count ?? 2) === 1}
                 value={data.breaks?.second ?? 25}
                 onChange={(e) =>
                   update((prev) => ({
@@ -157,6 +141,26 @@ export function DataView() {
                 }
               />
             </Field>
+            {([1, 2, 3] as const).map((grade) => (
+              <Field key={grade} label={`الصف ${['الأول', 'الثاني', 'الثالث'][grade - 1]} — تبدأ الفسحة بعد`}>
+                <select
+                  className="select"
+                  value={data.gradeBreak?.[grade] ?? DEFAULT_GRADE_BREAK[grade]}
+                  onChange={(e) =>
+                    update((prev) => ({
+                      ...prev,
+                      gradeBreak: {
+                        ...(prev.gradeBreak ?? DEFAULT_GRADE_BREAK),
+                        [grade]: Number(e.target.value) === 2 ? 2 : 3,
+                      },
+                    }))
+                  }
+                >
+                  <option value={2}>بعد الثانية</option>
+                  <option value={3}>بعد الثالثة</option>
+                </select>
+              </Field>
+            ))}
             <Field label="عدد أيام الدراسة">
               <select className="select" value={data.days} onChange={(e) => setField('days', Number(e.target.value))}>
                 {[5, 6].map((n) => (
@@ -342,8 +346,8 @@ export function DataView() {
             </div>
             <div className="grid gap-2 sm:grid-cols-2">
               {data.classes.map((cls, index) => (
-                <div key={cls.id} className="rounded-xl border border-[var(--line)] p-2">
-                  <div className="flex items-center gap-2">
+                <div key={cls.id} className="flex items-center gap-2 rounded-xl border border-[var(--line)] p-2">
+                  <div className="flex flex-1 items-center gap-2">
                     <input
                       className="input py-1 text-[12.5px]"
                       value={cls.name}
@@ -376,52 +380,6 @@ export function DataView() {
                     >
                       حذف
                     </button>
-                  </div>
-                  <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[11.5px] text-[var(--muted)]">
-                    <label className="flex items-center gap-1">
-                      الفسحة الأولى بعد الحصة
-                      <select
-                        className="select w-16 py-0.5 text-center text-[12px]"
-                        value={cls.breakAfter ?? defaultBreakAfter(cls)}
-                        onChange={(e) =>
-                          update((prev) => ({
-                            ...prev,
-                            classes: prev.classes.map((c, i) =>
-                              i === index ? { ...c, breakAfter: Number(e.target.value) } : c,
-                            ),
-                          }))
-                        }
-                      >
-                        {Array.from({ length: Math.max(1, data.periods - 1) }, (_, i) => i + 1).map((n) => (
-                          <option key={n} value={n}>
-                            {n}
-                          </option>
-                        ))}
-                      </select>
-                    </label>
-                    {(data.breaks?.count ?? 2) === 2 && (
-                      <label className="flex items-center gap-1">
-                        الفسحة الثانية بعد الحصة
-                        <select
-                          className="select w-16 py-0.5 text-center text-[12px]"
-                          value={cls.breakAfter2 ?? 5}
-                          onChange={(e) =>
-                            update((prev) => ({
-                              ...prev,
-                              classes: prev.classes.map((c, i) =>
-                                i === index ? { ...c, breakAfter2: Number(e.target.value) } : c,
-                              ),
-                            }))
-                          }
-                        >
-                          {Array.from({ length: Math.max(1, data.periods - 1) }, (_, i) => i + 1).map((n) => (
-                            <option key={n} value={n}>
-                              {n}
-                            </option>
-                          ))}
-                        </select>
-                      </label>
-                    )}
                   </div>
                 </div>
               ))}
@@ -508,4 +466,5 @@ export function DataView() {
     </div>
   );
 }
+
 

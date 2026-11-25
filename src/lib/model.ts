@@ -1,40 +1,53 @@
-import type { Assignment, BreakSettings, ID, Lesson, SchoolClass, SchoolData, Season, Teacher, Violation } from '../types';
+import type {
+  Assignment,
+  BreakSettings,
+  GradeBreak,
+  ID,
+  Lesson,
+  SchoolClass,
+  SchoolData,
+  Season,
+  Teacher,
+  Violation,
+} from '../types';
 import { DEFAULT_OPTIONS } from '../types';
 
-export const DEFAULT_BREAKS: BreakSettings = { count: 2, first: 25, second: 25 };
+export const DEFAULT_BREAKS: BreakSettings = { first: 25, second: 25 };
+
+/** الافتراضي: الأول والثاني بعد الحصة الثالثة، والثالث بعد الثانية. */
+export const DEFAULT_GRADE_BREAK: GradeBreak = { 1: 3, 2: 3, 3: 2 };
 
 export function seasonStart(season: Season): string {
   return season === 'winter' ? '07:30' : '07:00';
 }
 
-/** الفسحة الافتراضية: الثالث المتوسط بعد الحصة الثانية، وبقية المراحل بعد الثالثة. */
+/** الفسحة الافتراضية للفصل حسب مرحلته. */
 export function defaultBreakAfter(cls: SchoolClass): number {
-  return gradeOf(cls.name) === 3 ? 2 : 3;
+  const grade = gradeOf(cls.name) ?? 1;
+  return DEFAULT_GRADE_BREAK[grade];
 }
 
-/** مواضع الفسح لهذا الفصل مرتبة زمنيًا. */
+/** مواضع الفسح لهذا الفصل (فسحة واحدة بعد الثانية أو الثالثة). */
 export function classBreakPositions(data: SchoolData, cls: SchoolClass): number[] {
-  const count = data.breaks?.count ?? 2;
-  const positions = [cls.breakAfter ?? defaultBreakAfter(cls)];
-  if (count === 2) positions.push(cls.breakAfter2 ?? 5);
-  return [...new Set(positions)].filter((position) => position >= 1 && position < data.periods).sort((a, b) => a - b);
+  const grade = gradeOf(cls.name);
+  const after = (grade ? data.gradeBreak?.[grade] : undefined) ?? defaultBreakAfter(cls);
+  return [after];
 }
 
-function breakDuration(data: SchoolData, index: number): number {
+function breakDuration(data: SchoolData, position: number): number {
   const breaks = data.breaks ?? DEFAULT_BREAKS;
-  return index === 0 ? breaks.first : breaks.second;
+  return position === 2 ? breaks.first : breaks.second;
 }
 
 /** بداية كل حصة بالدقائق من بداية الدوام (0 = أول دقيقة). */
 export function periodStartMinutes(data: SchoolData, cls: SchoolClass): number[] {
   const positions = classBreakPositions(data, cls);
-  const durations = positions.map((_, index) => breakDuration(data, index));
   return Array.from({ length: data.periods }, (_, index) => {
     const period = index + 1;
     let offset = (period - 1) * data.duration;
-    positions.forEach((position, breakIndex) => {
-      if (position < period) offset += durations[breakIndex];
-    });
+    for (const position of positions) {
+      if (position < period) offset += breakDuration(data, position);
+    }
     return offset;
   });
 }
@@ -238,21 +251,18 @@ export function teacherMetrics(data: SchoolData): TeacherMetric[] {
 export function normalizeData(input: SchoolData): SchoolData {
   const season: Season = input.season ?? 'summer';
   const breaks: BreakSettings = { ...DEFAULT_BREAKS, ...(input.breaks ?? {}) };
-  const classes = (input.classes ?? []).map((cls) => ({
-    ...cls,
-    breakAfter: cls.breakAfter ?? defaultBreakAfter(cls),
-    breakAfter2: cls.breakAfter2 ?? 5,
-  }));
+  const gradeBreak: GradeBreak = { ...DEFAULT_GRADE_BREAK, ...(input.gradeBreak ?? {}) };
   return {
     ...input,
     season,
     breaks,
+    gradeBreak,
     start: seasonStart(season),
     days: input.days ?? 5,
     periods: input.periods ?? 7,
     subjects: input.subjects ?? [],
     teachers: input.teachers ?? [],
-    classes,
+    classes: input.classes ?? [],
     assignments: input.assignments ?? [],
     lessons: input.lessons ?? [],
     absences: input.absences ?? [],
