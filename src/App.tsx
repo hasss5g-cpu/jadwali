@@ -14,8 +14,10 @@ import { ReportsView } from './views/ReportsView';
 import { DataView } from './views/DataView';
 import { ShareView } from './views/ShareView';
 import { PublicApp } from './views/PublicApp';
+import { LiveView } from './views/LiveView';
 
 const TABS = [
+  { id: 'live', label: 'الجدول لايف', icon: 'clock' },
   { id: 'dashboard', label: 'نظرة عامة', icon: 'dashboard' },
   { id: 'master', label: 'الجدول العام', icon: 'database' },
   { id: 'schedule', label: 'الجدول', icon: 'calendar' },
@@ -31,7 +33,7 @@ const TABS = [
 
 function Admin() {
   const { data, canUndo, canRedo, undo, redo } = useStore();
-  const [tab, setTab] = useState('dashboard');
+  const [tab, setTab] = useState('live');
 
   return (
     <div className="app">
@@ -80,6 +82,7 @@ function Admin() {
       </header>
 
       <main>
+        {tab === 'live' && <LiveView />}
         {tab === 'dashboard' && <Dashboard onNavigate={setTab} />}
         {tab === 'master' && <MasterView />}
         {tab === 'schedule' && <ScheduleView />}
@@ -112,7 +115,7 @@ function Root() {
     return () => window.removeEventListener('hashchange', onChange);
   }, []);
 
-  const isPublic = /^#\/(classes|class\/|lookup)/.test(route);
+  const isPublic = /^#\/(classes|class\/|lookup|live)/.test(route);
 
   return (
     <StoreProvider>
@@ -130,5 +133,6 @@ function Root() {
 }
 
 export default Root;
+
 
 

@@ -4,6 +4,7 @@ import { loadData } from '../lib/storage';
 import { DAY_NAMES, classPeriodTimes, lessonTeacherId, subjectName, teacherName } from '../lib/model';
 import { periodTimes, sha256 } from '../lib/utils';
 import { Icon } from '../components/Icon';
+import { LiveBoard } from './LiveView';
 
 function useHash(): string {
   const [hash, setHash] = useState(() => window.location.hash);
@@ -36,9 +37,14 @@ function Shell({
           <h1 className="m-0 text-xl font-extrabold">{title}</h1>
           {subtitle && <p className="m-0 mt-0.5 text-[12px] text-[var(--muted)]">{subtitle}</p>}
         </div>
-        <a className="btn btn-sm no-print" href="#/classes">
-          كل الفصول
-        </a>
+        <div className="flex items-center gap-2">
+          <a className="btn btn-sm no-print" href="#/live">
+            الجدول لايف
+          </a>
+          <a className="btn btn-sm no-print" href="#/classes">
+            كل الفصول
+          </a>
+        </div>
       </header>
       {children}
       <footer className="mt-6 text-center text-[11px] text-[var(--muted)]">هذه صفحة عرض للقراءة فقط — {data.term}</footer>
@@ -114,6 +120,14 @@ export function PublicApp() {
     const id = decodeURIComponent(route.slice('class/'.length));
     return data.classes.find((c) => c.id === id) ?? null;
   }, [route, data]);
+
+  if (route === 'live') {
+    return (
+      <Shell data={data} title="الجدول لايف" subtitle="الحصة الجارية الآن — يُحدَّث تلقائيًا">
+        <LiveBoard data={data} />
+      </Shell>
+    );
+  }
 
   if (route === 'lookup') {
     const submit = async () => {
