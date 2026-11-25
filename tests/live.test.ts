@@ -65,6 +65,27 @@ describe('الجدول لايف', () => {
     expect(snapshot.lessons).toHaveLength(1);
   });
 
+  it('يميّز المعلم الغائب ويعرض البديل', () => {
+    const school = fixture();
+    school.absences = [{ date: '2026-09-27', teacherId: 't1' }];
+    school.covers = [{ id: 'cv1', date: '2026-09-27', lessonId: 'l1', teacherId: 't2' }];
+    const snapshot = liveSnapshot(school, sunday(9, 0));
+    const first = snapshot.lessons.find((item) => item.cls.id === 'c1')!;
+    expect(first.absent).toBe(true);
+    expect(first.substitute).toBe('معلم ثالث');
+    const other = snapshot.lessons.find((item) => item.cls.id === 'c3')!;
+    expect(other.absent).toBe(false);
+  });
+
+  it('يعرض «لم يُغطَّ بعد» عند غياب بلا بديل', () => {
+    const school = fixture();
+    school.absences = [{ date: '2026-09-27', teacherId: 't1' }];
+    const snapshot = liveSnapshot(school, sunday(9, 0));
+    const first = snapshot.lessons.find((item) => item.cls.id === 'c1')!;
+    expect(first.absent).toBe(true);
+    expect(first.substitute).toBeNull();
+  });
+
   it('يعرض نهاية الأسبوع وبعد الدوام', () => {
     const weekend = liveSnapshot(fixture(), new Date(2026, 8, 26, 9, 0, 0));
     expect(weekend.weekend).toBe(true);

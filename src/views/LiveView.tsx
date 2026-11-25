@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import type { SchoolClass, SchoolData } from '../types';
-import { DAY_NAMES, classPeriodTimes, gradeOf, lessonTeacherId, periodStartMinutes, subjectName, teacherName } from '../lib/model';
+import { DAY_NAMES, classPeriodTimes, gradeOf, lessonTeacherId, periodStartMinutes, personName, subjectName, teacherName } from '../lib/model';
 import { formatTime12 } from '../lib/time';
 import { hijri } from '../lib/utils';
 import { Card } from '../components/ui';
@@ -16,6 +16,10 @@ export interface LiveClass {
   time?: string;
   subject?: string;
   teacher?: string;
+  /** المعلم غائب اليوم. */
+  absent?: boolean;
+  /** اسم البديل إن وُجد انتظار مسجّل لهذه الحصة. */
+  substitute?: string | null;
 }
 
 export interface LiveSnapshot {
@@ -46,6 +50,13 @@ export function liveSnapshot(data: SchoolData, when: Date = new Date()): LiveSna
   const nowMinutes = when.getHours() * 60 + when.getMinutes();
   const nowRel = nowMinutes - base;
   const assignmentById = new Map(data.assignments.map((a) => [a.id, a]));
+  const isoDate = new Date(when.getTime() - when.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+  const absentToday = new Set(
+    data.absences.filter((absence) => absence.date === isoDate).map((absence) => absence.teacherId),
+  );
+  const coverByLesson = new Map(
+    data.covers.filter((cover) => cover.date === isoDate).map((cover) => [cover.lessonId, cover.teacherId]),
+  );
 
   const classes: LiveClass[] = data.classes.map((cls) => {
     const starts = periodStartMinutes(data, cls);
@@ -64,13 +75,18 @@ export function liveSnapshot(data: SchoolData, when: Date = new Date()): LiveSna
           return assignment?.classId === cls.id && item.day === dayIndex && item.period === index;
         });
         const assignment = lesson ? assignmentById.get(lesson.assignmentId) : undefined;
+        const lessonTeacher = lesson ? lessonTeacherId(data, lesson) : '';
+        const isAbsent = Boolean(lesson && absentToday.has(lessonTeacher));
+        const substituteId = lesson ? coverByLesson.get(lesson.id) : undefined;
         return {
           cls,
           state: 'lesson',
           period: index + 1,
           time: times[index],
           subject: assignment ? subjectName(data, assignment.subjectId) : '—',
-          teacher: lesson ? teacherName(data, lessonTeacherId(data, lesson)) : '—',
+          teacher: lesson ? teacherName(data, lessonTeacher) : '—',
+          absent: isAbsent,
+          substitute: isAbsent ? (substituteId ? personName(data, substituteId) : null) : undefined,
         };
       }
       const nextStart = starts[index + 1];
@@ -135,7 +151,17 @@ function LiveRow({ item, code }: { item: LiveClass; code: string }) {
       {item.state === 'lesson' ? (
         <>
           <span className="min-w-0 flex-1 truncate">
-            <span className="font-bold text-[var(--brand)]">{item.teacher}</span>
+            <span className={`font-bold ${item.absent ? 'text-[var(--danger)]' : 'text-[var(--brand)]'}`}>
+              {item.teacher}
+            </span>
+            {item.absent && (
+              <span className="mx-1 rounded bg-red-50 px-1 py-0.5 text-[9.5px] font-bold text-[var(--danger)]">غائب</span>
+            )}
+            {item.absent && (
+              <span className="mx-1 text-[11px] text-[var(--ink-600)]">
+                البديل: {item.substitute ?? 'لم يُغطَّ بعد'}
+              </span>
+            )}
             <span className="text-[var(--muted)]"> - {item.subject}</span>
           </span>
           <span className="shrink-0 text-[10.5px] text-[var(--muted)]">{item.time}</span>
@@ -250,5 +276,6 @@ export function LiveView() {
   const { data } = useStore();
   return <LiveBoard data={data} />;
 }
+
 
 
