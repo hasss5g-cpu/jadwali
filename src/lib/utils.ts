@@ -1,4 +1,5 @@
 import { DAY_NAMES } from './model';
+import { formatTime12 } from './time';
 
 export function cn(...parts: (string | false | null | undefined)[]): string {
   return parts.filter(Boolean).join(' ');
@@ -63,18 +64,14 @@ export function weekdayLabel(date: string): string {
   return w < DAY_NAMES.length ? DAY_NAMES[w] : 'الجمعة/السبت';
 }
 
+/** أوقات الحصص بنظام 12 ساعة (بلا فسح) — للاستخدام العام. */
 export function periodTimes(start: string, duration: number, periods: number): string[] {
   const [h, m] = start.split(':').map(Number);
   const base = h * 60 + (m || 0);
   return Array.from({ length: periods }, (_, i) => {
     const from = base + i * duration;
     const to = from + duration;
-    const fmt = (mins: number) => {
-      const hh = Math.floor(mins / 60) % 24;
-      const mm = mins % 60;
-      return `${String(hh).padStart(2, '0')}:${String(mm).padStart(2, '0')}`;
-    };
-    return `${fmt(from)}–${fmt(to)}`;
+    return `${formatTime12(from)}–${formatTime12(to)}`;
   });
 }
 
@@ -100,3 +97,4 @@ export async function copyText(text: string): Promise<boolean> {
 export function numberAr(n: number): string {
   return n.toLocaleString('ar-EG');
 }
+

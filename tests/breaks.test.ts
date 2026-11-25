@@ -76,10 +76,10 @@ describe('الفسح والدوام', () => {
     const school = mini();
     expect(periodStartMinutes(school, school.classes[0])).toEqual([0, 45, 115, 160]);
     expect(classPeriodTimes(school, school.classes[0])).toEqual([
-      '07:00–07:45',
-      '07:45–08:30',
-      '08:55–09:40',
-      '09:40–10:25',
+      '7:00 ص–7:45 ص',
+      '7:45 ص–8:30 ص',
+      '8:55 ص–9:40 ص',
+      '9:40 ص–10:25 ص',
     ]);
     expect(periodStartMinutes(school, school.classes[1])).toEqual([0, 45, 90, 160]);
   });
@@ -92,3 +92,4 @@ describe('الفسح والدوام', () => {
     expect(violations.find((violation) => violation.kind === 'teacher-clash')?.message).toContain('متداخلتان');
   });
 });
+

@@ -11,6 +11,7 @@ import type {
   Violation,
 } from '../types';
 import { DEFAULT_OPTIONS } from '../types';
+import { formatTime12 } from './time';
 
 export const DEFAULT_BREAKS: BreakSettings = { first: 25, second: 25 };
 
@@ -52,17 +53,12 @@ export function periodStartMinutes(data: SchoolData, cls: SchoolClass): number[]
   });
 }
 
-/** أوقات الحصص لهذا الفصل بصيغة «HH:MM–HH:MM». */
+/** أوقات الحصص لهذا الفصل بنظام 12 ساعة: «7:00 ص–7:45 ص». */
 export function classPeriodTimes(data: SchoolData, cls: SchoolClass): string[] {
   const [h, m] = data.start.split(':').map(Number);
   const base = (h || 0) * 60 + (m || 0);
   return periodStartMinutes(data, cls).map((start) => {
-    const fmt = (mins: number) => {
-      const hh = Math.floor(mins / 60) % 24;
-      const mm = mins % 60;
-      return `${String(hh).padStart(2, '0')}:${String(mm).padStart(2, '0')}`;
-    };
-    return `${fmt(base + start)}–${fmt(base + start + data.duration)}`;
+    return `${formatTime12(base + start)}–${formatTime12(base + start + data.duration)}`;
   });
 }
 
@@ -436,5 +432,7 @@ export function validate(data: SchoolData, lessons: Lesson[] = data.lessons): Vi
 
   return [...new Map(out.map((violation) => [violation.kind + '|' + violation.message, violation])).values()];
 }
+
+
 
 
