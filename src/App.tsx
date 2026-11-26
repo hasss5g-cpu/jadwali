@@ -16,6 +16,7 @@ import { PublicApp } from './views/PublicApp';
 import { LiveView } from './views/LiveView';
 
 const TABS = [
+  { id: 'data', label: 'الإعدادات', icon: 'settings' },
   { id: 'live', label: 'الجدول لايف', icon: 'clock' },
   { id: 'dashboard', label: 'نظرة عامة', icon: 'dashboard' },
   { id: 'master', label: 'الجدول العام', icon: 'database' },
@@ -25,7 +26,6 @@ const TABS = [
   { id: 'coverage', label: 'الانتظار', icon: 'shield' },
   { id: 'exams', label: 'الاختبارات', icon: 'clipboard' },
   { id: 'reports', label: 'التقارير', icon: 'printer' },
-  { id: 'data', label: 'الإعدادات', icon: 'settings' },
   { id: 'share', label: 'المشاركة', icon: 'share' },
 ];
 
@@ -140,6 +140,7 @@ function Root() {
 }
 
 export default Root;
+
 
 
 
