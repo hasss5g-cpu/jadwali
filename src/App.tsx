@@ -7,11 +7,10 @@ import { MasterView } from './views/MasterView';
 import { ScheduleView } from './views/ScheduleView';
 import { SwapView } from './views/SwapView';
 import { GenerateView } from './views/GenerateView';
-import { AssignmentsView } from './views/AssignmentsView';
 import { CoverageView } from './views/CoverageView';
 import { ExamsView } from './views/ExamsView';
 import { ReportsView } from './views/ReportsView';
-import { DataView } from './views/DataView';
+import { DataView, type SettingsTab } from './views/DataView';
 import { ShareView } from './views/ShareView';
 import { PublicApp } from './views/PublicApp';
 import { LiveView } from './views/LiveView';
@@ -23,7 +22,6 @@ const TABS = [
   { id: 'schedule', label: 'الجدول', icon: 'calendar' },
   { id: 'swap', label: 'نقل الحصص', icon: 'swap' },
   { id: 'generate', label: 'توليد الجداول', icon: 'sparkles' },
-  { id: 'assignments', label: 'الإسنادات', icon: 'users' },
   { id: 'coverage', label: 'الانتظار', icon: 'shield' },
   { id: 'exams', label: 'الاختبارات', icon: 'clipboard' },
   { id: 'reports', label: 'التقارير', icon: 'printer' },
@@ -34,6 +32,16 @@ const TABS = [
 function Admin() {
   const { data, canUndo, canRedo, undo, redo } = useStore();
   const [tab, setTab] = useState('live');
+  const [settingsTab, setSettingsTab] = useState<SettingsTab>('general');
+
+  const go = (next: string) => {
+    if (next === 'assignments') {
+      setSettingsTab('assignments');
+      setTab('data');
+      return;
+    }
+    setTab(next);
+  };
 
   return (
     <div className="app">
@@ -83,16 +91,15 @@ function Admin() {
 
       <main>
         {tab === 'live' && <LiveView />}
-        {tab === 'dashboard' && <Dashboard onNavigate={setTab} />}
+        {tab === 'dashboard' && <Dashboard onNavigate={go} />}
         {tab === 'master' && <MasterView />}
         {tab === 'schedule' && <ScheduleView />}
         {tab === 'swap' && <SwapView />}
         {tab === 'generate' && <GenerateView />}
-        {tab === 'assignments' && <AssignmentsView />}
         {tab === 'coverage' && <CoverageView />}
         {tab === 'exams' && <ExamsView />}
         {tab === 'reports' && <ReportsView />}
-        {tab === 'data' && <DataView />}
+        {tab === 'data' && <DataView initialTab={settingsTab} />}
         {tab === 'share' && <ShareView />}
       </main>
 
@@ -133,6 +140,7 @@ function Root() {
 }
 
 export default Root;
+
 
 
 

@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useStore } from '../store';
 import type { SchoolData, Season } from '../types';
 import { DAY_SHORT, DEFAULT_BREAKS, DEFAULT_GRADE_BREAK, seasonStart } from '../lib/model';
@@ -6,12 +6,18 @@ import { download, numberAr, sha256, uid } from '../lib/utils';
 import { Card, Field } from '../components/ui';
 import { Icon } from '../components/Icon';
 import { normalizeData } from '../lib/model';
+import { AssignmentsView } from './AssignmentsView';
 
-type Tab = 'general' | 'teachers' | 'classes' | 'subjects';
+export type SettingsTab = 'general' | 'teachers' | 'classes' | 'subjects' | 'assignments';
+type Tab = SettingsTab;
 
-export function DataView() {
+export function DataView({ initialTab }: { initialTab?: SettingsTab }) {
   const { data, update, replace, reset, toast } = useStore();
-  const [tab, setTab] = useState<Tab>('general');
+  const [tab, setTab] = useState<Tab>(initialTab ?? 'general');
+
+  useEffect(() => {
+    if (initialTab) setTab(initialTab);
+  }, [initialTab]);
   const [idInputs, setIdInputs] = useState<Record<string, string>>({});
   const fileRef = useRef<HTMLInputElement>(null);
 
@@ -62,6 +68,7 @@ export function DataView() {
                 ['teachers', 'المعلمون'],
                 ['classes', 'الفصول'],
                 ['subjects', 'المواد'],
+                ['assignments', 'الإسنادات'],
               ] as [Tab, string][]
             ).map(([id, label]) => (
               <button key={id} className="tab" data-active={tab === id} onClick={() => setTab(id)}>
@@ -404,6 +411,8 @@ export function DataView() {
           </div>
         )}
 
+        {tab === 'assignments' && <AssignmentsView />}
+
         {tab === 'subjects' && (
           <div className="grid gap-2">
             <div className="flex justify-end">
@@ -483,5 +492,6 @@ export function DataView() {
     </div>
   );
 }
+
 
 
