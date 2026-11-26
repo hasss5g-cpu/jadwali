@@ -9,9 +9,16 @@ import { numberAr } from '../lib/utils';
 export function MasterView() {
   const { data, print } = useStore();
   const [mode, setMode] = useState<MasterMode>('teacher');
-  const [query, setQuery] = useState('');
 
   const count = mode === 'teacher' ? data.teachers.length : data.classes.length;
+
+  const printSheet = (target: MasterMode) =>
+    print(masterTitle(target), <MasterSheet data={data} mode={target} />, {
+      orientation: target === 'teacher' ? 'portrait' : 'landscape',
+      size: 'A3',
+      compact: true,
+      edge: true,
+    });
 
   return (
     <div className="grid gap-4">
@@ -28,38 +35,21 @@ export function MasterView() {
                 ترتيب الفصول
               </button>
             </div>
-            <input
-              className="input w-44"
-              placeholder={mode === 'teacher' ? 'بحث باسم المعلم' : 'بحث باسم الفصل'}
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-            />
-            <button
-              className="btn btn-primary btn-sm"
-              onClick={() =>
-                print(
-                  masterTitle(mode),
-                  <MasterSheet data={data} mode={mode} query={query} />,
-                  {
-                    orientation: mode === 'teacher' ? 'portrait' : 'landscape',
-                    size: 'A3',
-                    compact: true,
-                    edge: true,
-                  },
-                )
-              }
-            >
-              <Icon name="printer" size={15} /> طباعة {mode === 'teacher' ? 'جدول المعلمين' : 'جدول الفصول'}
+            <button className="btn btn-primary btn-sm" onClick={() => printSheet('teacher')}>
+              <Icon name="printer" size={15} /> طباعة جدول المعلمين
+            </button>
+            <button className="btn btn-primary btn-sm" onClick={() => printSheet('class')}>
+              <Icon name="printer" size={15} /> طباعة جدول الفصول
             </button>
           </>
         }
         padded={false}
       >
         <div className="p-3">
-          <MasterTable data={data} mode={mode} query={query} />
+          <MasterTable data={data} mode={mode} />
           <p className="m-0 mt-2 text-[11px] text-[var(--muted)]">
             {mode === 'teacher'
-              ? 'الصفوف معلمون، والأعمدة أيام الأسبوع وحصصها. الخلية تعرض المادة والفصل. للطباعة: A3 عرضي مضغوط.'
+              ? 'الصفوف معلمون، والأعمدة أيام الأسبوع وحصصها. الخلية تعرض المادة والفصل. للطباعة: A3 طولي مضغوط.'
               : 'الصفوف فصول، والأعمدة أيام الأسبوع وحصصها. الخلية تعرض المادة والمعلم. للطباعة: A3 عرضي مضغوط.'}
           </p>
         </div>
