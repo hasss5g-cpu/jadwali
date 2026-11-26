@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import raw from '../src/data/school.json';
 import type { SchoolData } from '../src/types';
 import { lessonTeacherId, normalizeData } from '../src/lib/model';
-import { masterRows, shortClassName, shortStageName, shortSubjectName, teacherNameLines } from '../src/components/MasterTable';
+import { masterRows, shortClassName, shortStageName, shortSubjectName, shortTeacherName, teacherNameLines } from '../src/components/MasterTable';
 
 const data = normalizeData(raw as unknown as SchoolData);
 
@@ -33,6 +33,12 @@ describe('الجدول العام', () => {
     const cell = [...rows[0].cells.values()][0];
     expect(cell.subject.length).toBeGreaterThan(0);
     expect(cell.meta.length).toBeGreaterThan(0);
+  });
+
+  it('يختصر اسم المعلم إلى الاسم الأول واسم العائلة', () => {
+    expect(shortTeacherName('عبدالله فيصل الصاعدي')).toBe('عبدالله الصاعدي');
+    expect(shortTeacherName('أحمد الحربي')).toBe('أحمد الحربي');
+    expect(shortTeacherName('ضياء بكاوي')).toBe('ضياء بكاوي');
   });
 
   it('يختصر أسماء الفصول إلى رقم الفصل/الصف', () => {
@@ -67,3 +73,4 @@ describe('الجدول العام', () => {
     expect(shortSubjectName('النشاط')).toBe('نشاط');
   });
 });
+

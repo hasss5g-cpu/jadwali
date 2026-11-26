@@ -49,14 +49,15 @@ export function masterRows(data: SchoolData, mode: MasterMode, query = ''): Row[
     if (!row) continue;
     const subject = subjectById.get(assignment.subjectId) ?? '—';
     const classFull = classById.get(assignment.classId) ?? '';
+    const teacherFull = teacherById.get(lessonTeacherId(data, lesson)) ?? '';
     const meta =
       mode === 'teacher'
         ? shortStageName(classFull)
-        : teacherById.get(lessonTeacherId(data, lesson)) ?? '';
+        : shortTeacherName(teacherFull);
     row.cells.set(`${lesson.day}:${lesson.period}`, {
       subject,
       meta,
-      metaFull: mode === 'teacher' ? classFull : undefined,
+      metaFull: mode === 'teacher' ? classFull : teacherFull,
     });
   }
   return rows;
@@ -102,6 +103,13 @@ export function shortClassName(name: string): string {
   const number = name.match(/(\d+)\s*$/)?.[1];
   if (grade === null || !number) return name;
   return `${number}/${grade}`;
+}
+
+/** اسم المعلم المختصر للجدول العام: «عبدالله فيصل الصاعدي» ← «عبدالله الصاعدي». */
+export function shortTeacherName(name: string): string {
+  const parts = name.trim().split(/\s+/).filter(Boolean);
+  if (parts.length <= 2) return parts.join(' ');
+  return `${parts[0]} ${parts[parts.length - 1]}`;
 }
 
 /** اسم المعلم في سطرين: الاسم الأول، ثم بقية الاسم. */
