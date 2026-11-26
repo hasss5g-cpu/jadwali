@@ -22,6 +22,7 @@ export function AssignmentsView() {
   const [subjectId, setSubjectId] = useState(data.subjects[0]?.id ?? '');
   const [picked, setPicked] = useState<string[]>([]);
   const [count, setCount] = useState(2);
+  const [usePlan, setUsePlan] = useState(true);
 
   // مسار «بحسب المادة».
   const [subjectId2, setSubjectId2] = useState(data.subjects[0]?.id ?? '');
@@ -29,6 +30,7 @@ export function AssignmentsView() {
   const [classId2, setClassId2] = useState('');
   const [teacherId2, setTeacherId2] = useState(data.teachers[0]?.id ?? '');
   const [count2, setCount2] = useState(2);
+  const [usePlan2, setUsePlan2] = useState(true);
 
   const teacher = data.teachers.find((item) => item.id === teacherId);
   const stageClasses = useMemo(
@@ -56,6 +58,14 @@ export function AssignmentsView() {
     toast(message, 'ok');
   };
 
+  /** خطة المرحلة للمادة: عدد الحصص الأسبوعية. */
+  const planOf = (subjectIdValue: string, classIdValue: string) => {
+    const subject = data.subjects.find((item) => item.id === subjectIdValue);
+    const cls = data.classes.find((item) => item.id === classIdValue);
+    const grade = cls ? gradeOf(cls.name) : null;
+    return grade ? (subject?.stages?.[grade] ?? 0) : 0;
+  };
+
   const teacherExisting = (classId: string) =>
     data.assignments.find((assignment) => assignment.classId === classId && assignment.subjectId === subjectId);
 
@@ -65,7 +75,10 @@ export function AssignmentsView() {
       return;
     }
     apply(
-      picked.map((classId) => ({ classId, subjectId, teacherId, count })),
+      picked.map((classId) => {
+        const planned = planOf(subjectId, classId);
+        return { classId, subjectId, teacherId, count: usePlan && planned > 0 ? planned : count };
+      }),
       `أُسند ${numberAr(picked.length)} فصلًا إلى ${teacherName(data, teacherId)} — ${subjectName(data, subjectId)}.`,
     );
     setPicked([]);
@@ -79,8 +92,16 @@ export function AssignmentsView() {
     const existing = data.assignments.find(
       (assignment) => assignment.classId === selectedClassId && assignment.subjectId === subjectId2,
     );
+    const planned = planOf(subjectId2, selectedClassId);
     apply(
-      [{ classId: selectedClassId, subjectId: subjectId2, teacherId: teacherId2, count: count2 }],
+      [
+        {
+          classId: selectedClassId,
+          subjectId: subjectId2,
+          teacherId: teacherId2,
+          count: usePlan2 && planned > 0 ? planned : count2,
+        },
+      ],
       existing
         ? `نُقل إسناد ${className(data, selectedClassId)} — ${subjectName(data, subjectId2)} إلى ${teacherName(data, teacherId2)}.`
         : `أُسند ${className(data, selectedClassId)} — ${subjectName(data, subjectId2)} إلى ${teacherName(data, teacherId2)}.`,
@@ -141,6 +162,7 @@ export function AssignmentsView() {
   const existingForSubject = data.assignments.find(
     (assignment) => assignment.classId === selectedClassId && assignment.subjectId === subjectId2,
   );
+  const plan2 = planOf(subjectId2, selectedClassId);
 
   return (
     <div className="grid gap-4">
@@ -205,6 +227,7 @@ export function AssignmentsView() {
                   .map((cls) => {
                     const active = picked.includes(cls.id);
                     const existing = teacherExisting(cls.id);
+                    const planned = planOf(subjectId, cls.id);
                     return (
                       <button
                         key={cls.id}
@@ -224,6 +247,11 @@ export function AssignmentsView() {
                             ? `${teacherName(data, existing.teacherId)} — ${numberAr(existing.count)} حصة`
                             : 'غير مسند لهذه المادة'}
                         </span>
+                        {planned > 0 && (
+                          <span className="block text-[10px] font-bold text-[var(--brand)]">
+                            خطة المرحلة: {numberAr(planned)} حصص
+                          </span>
+                        )}
                       </button>
                     );
                   })}
@@ -231,12 +259,17 @@ export function AssignmentsView() {
             </div>
 
             <div className="flex flex-wrap items-end gap-2 border-t border-[var(--line)] pt-3">
+              <label className="flex items-center gap-1.5 pb-2 text-[12px] font-bold">
+                <input type="checkbox" checked={usePlan} onChange={(e) => setUsePlan(e.target.checked)} />
+                حسب خطة المرحلة
+              </label>
               <Field label="عدد الحصص لكل فصل">
                 <input
                   className="input w-24 text-center"
                   type="number"
                   min={1}
                   max={10}
+                  disabled={usePlan}
                   value={count}
                   onChange={(e) => setCount(Math.max(1, Number(e.target.value) || 1))}
                 />
@@ -245,7 +278,7 @@ export function AssignmentsView() {
                 <Icon name="check" size={15} /> إسناد {numberAr(picked.length)} فصلًا
               </button>
               <p className="m-0 pb-2 text-[11.5px] text-[var(--muted)]">
-                إن كان للفصل إسناد سابق في هذه المادة سيُنقل إلى هذا المعلم.
+                يُستخدم عدد حصص المرحلة من الإعدادات ← المواد. إن كان للفصل إسناد سابق فسيُنقل إلى هذا المعلم.
               </p>
             </div>
           </div>
@@ -300,12 +333,17 @@ export function AssignmentsView() {
             </div>
 
             <div className="flex flex-wrap items-end gap-2 border-t border-[var(--line)] pt-3">
+              <label className="flex items-center gap-1.5 pb-2 text-[12px] font-bold">
+                <input type="checkbox" checked={usePlan2} onChange={(e) => setUsePlan2(e.target.checked)} />
+                حسب خطة المرحلة{plan2 > 0 ? ` (${numberAr(plan2)})` : ''}
+              </label>
               <Field label="عدد الحصص">
                 <input
                   className="input w-24 text-center"
                   type="number"
                   min={1}
                   max={10}
+                  disabled={usePlan2}
                   value={count2}
                   onChange={(e) => setCount2(Math.max(1, Number(e.target.value) || 1))}
                 />

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useStore } from '../store';
 import type { SchoolData, Season } from '../types';
-import { DAY_SHORT, DEFAULT_BREAKS, DEFAULT_GRADE_BREAK, seasonStart } from '../lib/model';
+import { DAY_SHORT, DEFAULT_BREAKS, DEFAULT_GRADE_BREAK, gradeOf, seasonStart } from '../lib/model';
 import { download, numberAr, sha256, uid } from '../lib/utils';
 import { Card, Field } from '../components/ui';
 import { Icon } from '../components/Icon';
@@ -23,6 +23,30 @@ export function DataView({ initialTab }: { initialTab?: SettingsTab }) {
 
   const setField = <K extends keyof SchoolData>(key: K, value: SchoolData[K]) =>
     update((prev) => ({ ...prev, [key]: value }));
+
+  const applySubjectPlan = () => {
+    const plannedOf = (subjectId: string, classId: string) => {
+      const subject = data.subjects.find((item) => item.id === subjectId);
+      const cls = data.classes.find((item) => item.id === classId);
+      const grade = cls ? gradeOf(cls.name) : null;
+      return grade ? subject?.stages?.[grade] : undefined;
+    };
+    const changed = data.assignments.filter((assignment) => {
+      const planned = plannedOf(assignment.subjectId, assignment.classId);
+      return planned !== undefined && planned > 0 && planned !== assignment.count;
+    }).length;
+    update((prev) => ({
+      ...prev,
+      assignments: prev.assignments.map((assignment) => {
+        const planned = plannedOf(assignment.subjectId, assignment.classId);
+        return planned !== undefined && planned > 0 ? { ...assignment, count: planned } : assignment;
+      }),
+    }));
+    toast(
+      changed ? `حُدّثت ${numberAr(changed)} إسنادًا حسب خطة المرحلة — أعد توليد الجدول.` : 'كل الإسنادات مطابقة للخطة.',
+      'ok',
+    );
+  };
 
   /** يفعّل استعلام المعلم بسجله المدني (أو أي رمز) ويحفظ بصمة SHA-256 فقط. */
   const activateCode = async (teacherId: string) => {
@@ -415,7 +439,13 @@ export function DataView({ initialTab }: { initialTab?: SettingsTab }) {
 
         {tab === 'subjects' && (
           <div className="grid gap-2">
-            <div className="flex justify-end">
+            <p className="m-0 text-[12px] text-[var(--muted)]">
+              عدد الحصص الأسبوعية لكل مادة بحسب المرحلة — تُستخدم خطةً افتراضية عند الإسناد.
+            </p>
+            <div className="flex flex-wrap justify-end gap-2">
+              <button className="btn btn-sm" onClick={applySubjectPlan}>
+                تطبيق الخطة على الإسنادات
+              </button>
               <button
                 className="btn btn-sm"
                 onClick={() =>
@@ -428,33 +458,77 @@ export function DataView({ initialTab }: { initialTab?: SettingsTab }) {
                 <Icon name="plus" size={15} /> إضافة مادة
               </button>
             </div>
-            <div className="grid gap-2 sm:grid-cols-3">
-              {data.subjects.map((subject, index) => (
-                <div key={subject.id} className="flex items-center gap-2 rounded-xl border border-[var(--line)] p-2">
-                  <span className="h-3 w-3 rounded-full" style={{ background: '#0f766e' }} />
-                  <input
-                    className="input py-1 text-[12.5px]"
-                    value={subject.name}
-                    onChange={(e) =>
-                      update((prev) => ({
-                        ...prev,
-                        subjects: prev.subjects.map((s, i) => (i === index ? { ...s, name: e.target.value } : s)),
-                      }))
-                    }
-                  />
-                  <button
-                    className="btn btn-danger btn-sm"
-                    onClick={() =>
-                      update((prev) => ({
-                        ...prev,
-                        subjects: prev.subjects.filter((_, i) => i !== index),
-                      }))
-                    }
-                  >
-                    حذف
-                  </button>
-                </div>
-              ))}
+            <div className="scroll-x">
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th>المادة</th>
+                    <th>الأول</th>
+                    <th>الثاني</th>
+                    <th>الثالث</th>
+                    <th />
+                  </tr>
+                </thead>
+                <tbody>
+                  {data.subjects.map((subject, index) => (
+                    <tr key={subject.id}>
+                      <td>
+                        <input
+                          className="input py-1 text-[12.5px]"
+                          value={subject.name}
+                          onChange={(e) =>
+                            update((prev) => ({
+                              ...prev,
+                              subjects: prev.subjects.map((s, i) => (i === index ? { ...s, name: e.target.value } : s)),
+                            }))
+                          }
+                        />
+                      </td>
+                      {([1, 2, 3] as const).map((grade) => (
+                        <td key={grade}>
+                          <input
+                            className="input w-20 py-1 text-center text-[12.5px]"
+                            type="number"
+                            min={0}
+                            max={12}
+                            aria-label={`حصص ${subject.name} للصف ${grade}`}
+                            value={subject.stages?.[grade] ?? 0}
+                            onChange={(e) =>
+                              update((prev) => ({
+                                ...prev,
+                                subjects: prev.subjects.map((s, i) =>
+                                  i === index
+                                    ? {
+                                        ...s,
+                                        stages: {
+                                          ...(s.stages ?? { 1: 0, 2: 0, 3: 0 }),
+                                          [grade]: Math.max(0, Number(e.target.value) || 0),
+                                        },
+                                      }
+                                    : s,
+                                ),
+                              }))
+                            }
+                          />
+                        </td>
+                      ))}
+                      <td>
+                        <button
+                          className="btn btn-danger btn-sm"
+                          onClick={() =>
+                            update((prev) => ({
+                              ...prev,
+                              subjects: prev.subjects.filter((_, i) => i !== index),
+                            }))
+                          }
+                        >
+                          حذف
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
         )}
@@ -492,6 +566,7 @@ export function DataView({ initialTab }: { initialTab?: SettingsTab }) {
     </div>
   );
 }
+
 
 
 

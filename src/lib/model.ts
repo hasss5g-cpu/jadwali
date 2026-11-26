@@ -249,6 +249,18 @@ export function normalizeData(input: SchoolData): SchoolData {
   const breaks: BreakSettings = { ...DEFAULT_BREAKS, ...(input.breaks ?? {}) };
   const gradeBreak: GradeBreak = { ...DEFAULT_GRADE_BREAK, ...(input.gradeBreak ?? {}) };
   const cleanRoom = (room: string) => (room ?? '').replace(/^الغرفة الرئيسية\s*[—–-]\s*/, '').trim();
+  const gradeByClass = new Map((input.classes ?? []).map((cls) => [cls.id, gradeOf(cls.name)]));
+  const subjects = (input.subjects ?? []).map((subject) => {
+    const stages = { 1: 0, 2: 0, 3: 0, ...(subject.stages ?? {}) };
+    if (!subject.stages) {
+      for (const assignment of input.assignments ?? []) {
+        if (assignment.subjectId !== subject.id) continue;
+        const grade = gradeByClass.get(assignment.classId);
+        if (grade) stages[grade] = Math.max(stages[grade], assignment.count);
+      }
+    }
+    return { ...subject, stages };
+  });
   return {
     ...input,
     season,
@@ -257,7 +269,7 @@ export function normalizeData(input: SchoolData): SchoolData {
     start: seasonStart(season),
     days: input.days ?? 5,
     periods: input.periods ?? 7,
-    subjects: input.subjects ?? [],
+    subjects,
     teachers: input.teachers ?? [],
     classes: (input.classes ?? []).map((cls) => ({ ...cls, room: cleanRoom(cls.room) })),
     assignments: input.assignments ?? [],

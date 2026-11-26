@@ -4,6 +4,8 @@ export interface Subject {
   id: ID;
   name: string;
   color: number;
+  /** عدد الحصص الأسبوعية للمادة بحسب المرحلة (1 = الأول، 2 = الثاني، 3 = الثالث). */
+  stages?: { 1: number; 2: number; 3: number };
 }
 
 export interface Teacher {
