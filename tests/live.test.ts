@@ -86,6 +86,16 @@ describe('الجدول لايف', () => {
     expect(first.substitute).toBeNull();
   });
 
+  it('يحسب عدّاد بداية الحصة ونهايتها', () => {
+    const snapshot = liveSnapshot(fixture(), sunday(9, 0));
+    expect(snapshot.elapsedMinutes).toBe(30);
+    expect(snapshot.remainingMinutes).toBe(15);
+    expect(snapshot.elapsedMinutes! + snapshot.remainingMinutes!).toBe(45);
+    const duringBreak = liveSnapshot(fixture(), sunday(8, 35));
+    expect(duringBreak.elapsedMinutes).toBe(5);
+    expect(duringBreak.remainingMinutes).toBe(40);
+  });
+
   it('يعرض نهاية الأسبوع وبعد الدوام', () => {
     const weekend = liveSnapshot(fixture(), new Date(2026, 8, 26, 9, 0, 0));
     expect(weekend.weekend).toBe(true);

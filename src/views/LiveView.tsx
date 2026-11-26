@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import type { SchoolClass, SchoolData } from '../types';
 import { DAY_NAMES, classPeriodTimes, gradeOf, lessonTeacherId, periodStartMinutes, personName, subjectName, teacherName } from '../lib/model';
 import { formatTime12 } from '../lib/time';
-import { hijri } from '../lib/utils';
+import { hijri, numberAr } from '../lib/utils';
 import { Card } from '../components/ui';
 import { shortClassName } from '../components/MasterTable';
 import { useStore } from '../store';
@@ -20,6 +20,9 @@ export interface LiveClass {
   absent?: boolean;
   /** اسم البديل إن وُجد انتظار مسجّل لهذه الحصة. */
   substitute?: string | null;
+  /** بداية ونهاية الحصة بالدقائق من بداية الدوام (لحساب العدّاد). */
+  startRel?: number;
+  endRel?: number;
 }
 
 export interface LiveSnapshot {
@@ -35,6 +38,10 @@ export interface LiveSnapshot {
   periods: number[];
   busyTeachers: number;
   nextTime?: string;
+  /** دقائق مضت من الحصة الجارية (لأكثر الحصص شيوعًا). */
+  elapsedMinutes: number | null;
+  /** دقائق متبقية على انتهاء الحصة الجارية. */
+  remainingMinutes: number | null;
 }
 
 function startMinutes(start: string): number {
@@ -87,6 +94,8 @@ export function liveSnapshot(data: SchoolData, when: Date = new Date()): LiveSna
           teacher: lesson ? teacherName(data, lessonTeacher) : '—',
           absent: isAbsent,
           substitute: isAbsent ? (substituteId ? personName(data, substituteId) : null) : undefined,
+          startRel: from,
+          endRel: to,
         };
       }
       const nextStart = starts[index + 1];
@@ -113,6 +122,18 @@ export function liveSnapshot(data: SchoolData, when: Date = new Date()): LiveSna
     })
     .sort((a, b) => a - b)[0];
 
+  // أكثر حصة جارية شيوعًا (لأن بعض المراحل تتأخر فسحتها).
+  const periodCount = new Map<number, number>();
+  for (const item of lessons) periodCount.set(item.period!, (periodCount.get(item.period!) ?? 0) + 1);
+  const dominantPeriod = [...periodCount.entries()].sort((a, b) => b[1] - a[1])[0]?.[0];
+  const representative = lessons.find((item) => item.period === dominantPeriod) ?? lessons[0];
+  const elapsedMinutes = representative
+    ? Math.max(0, Math.floor(nowRel - (representative.startRel ?? nowRel)))
+    : null;
+  const remainingMinutes = representative
+    ? Math.max(0, Math.ceil((representative.endRel ?? nowRel) - nowRel))
+    : null;
+
   return {
     dayIndex,
     weekday: weekend ? null : DAY_NAMES[dayIndex] ?? null,
@@ -126,6 +147,8 @@ export function liveSnapshot(data: SchoolData, when: Date = new Date()): LiveSna
     periods,
     busyTeachers: busiest.size,
     nextTime: upcoming !== undefined ? formatTime12(base + upcoming) : undefined,
+    elapsedMinutes,
+    remainingMinutes,
   };
 }
 
@@ -238,6 +261,36 @@ export function LiveBoard({ data }: { data: SchoolData }) {
         <span className="ms-auto text-[11px] text-[var(--muted)]">تحديث مباشر كل ثانية</span>
       </div>
 
+      {snapshot.lessons.length > 0 && snapshot.elapsedMinutes !== null && snapshot.remainingMinutes !== null && (
+        <div className="card grid gap-3 p-4 sm:grid-cols-2">
+          <div className="rounded-xl bg-[var(--brand-soft)] px-4 py-3 text-center">
+            <p className="m-0 text-[12.5px] font-bold text-[var(--muted)]">بدأت الحصة منذ</p>
+            <p className="m-0 mt-1 text-3xl font-extrabold text-[var(--brand)]">
+              {numberAr(snapshot.elapsedMinutes)} <span className="text-lg font-bold">دقيقة</span>
+            </p>
+          </div>
+          <div className="rounded-xl bg-[#fff7ed] px-4 py-3 text-center">
+            <p className="m-0 text-[12.5px] font-bold text-[var(--muted)]">باقي على انتهاء الحصة</p>
+            <p className="m-0 mt-1 text-3xl font-extrabold text-[#b45309]">
+              {numberAr(snapshot.remainingMinutes)} <span className="text-lg font-bold">دقيقة</span>
+            </p>
+          </div>
+          <div className="h-2 overflow-hidden rounded-full bg-[#e8efec] sm:col-span-2">
+            <div
+              className="h-full rounded-full bg-[var(--brand)] transition-all duration-500"
+              style={{
+                width: `${Math.min(
+                  100,
+                  Math.round(
+                    (snapshot.elapsedMinutes / Math.max(1, snapshot.elapsedMinutes + snapshot.remainingMinutes)) * 100,
+                  ),
+                )}%`,
+              }}
+            />
+          </div>
+        </div>
+      )}
+
       <div className="grid gap-4 lg:grid-cols-3">
         {groups.map((group) => (
           <Card
@@ -276,6 +329,7 @@ export function LiveView() {
   const { data } = useStore();
   return <LiveBoard data={data} />;
 }
+
 
 
 
