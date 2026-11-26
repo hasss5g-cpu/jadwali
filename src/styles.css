@@ -229,6 +229,15 @@ body {
   max-width: none;
 }
 
+/* مسافة أكبر بين المادة واسم الفصل في ترتيب المعلمين (شاشة وطباعة). */
+.master--teacher .master-meta {
+  margin-top: 4px;
+}
+
+.master-print .master--teacher .master-meta {
+  margin-top: 3px;
+}
+
 .master-print .period-head {
   min-width: 0;
   width: auto;
@@ -760,6 +769,7 @@ body {
     font-size: 11px;
   }
 }
+
 
 
 
